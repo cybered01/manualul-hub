@@ -4,35 +4,35 @@ import '../styles/global.css';
 const { title, description } = Astro.props;
 ---
 <html lang="ro">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		
-		<title>{title} | HectarProfit.ro</title>
-		
-		<meta name="description" content={description} />
-		<meta name="robots" content="index, follow" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        
+        <title>{title} | Manualul.ro</title>
+        
+        <meta name="description" content={description} />
+        <meta name="robots" content="index, follow" />
 
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={Astro.url} />
-		<meta property="og:image" content="https://hectar-profit.vercel.app/og-image.jpg" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={Astro.url} />
+        <meta property="og:image" content="https://manualul.ro/og-image.jpg" />
 
-		<meta name="google-site-verification" content="AICI_PUI_CODUL_DE_LA_GOOGLE" />
-	</head>
-	<body class="bg-gray-50 text-gray-900 font-sans">
-		<nav class="bg-white border-b py-4 shadow-sm mb-8">
-			<div class="max-w-5xl mx-auto px-4">
-				<a href="/" class="text-2xl font-bold text-green-700">HectarProfit<span class="text-gray-400">.ro</span></a>
-			</div>
-		</nav>
-		
-		<slot />
+        <meta name="google-site-verification" content="AICI_PUI_CODUL_DE_LA_GOOGLE" />
+    </head>
+    <body class="bg-gray-50 text-gray-900 font-sans">
+        <nav class="bg-white border-b py-4 shadow-sm mb-8">
+            <div class="max-w-5xl mx-auto px-4">
+                <a href="/" class="text-2xl font-bold text-blue-700">Manualul<span class="text-gray-400">.ro</span></a>
+            </div>
+        </nav>
+        
+        <slot />
 
-		<footer class="text-center py-10 text-gray-400 text-sm border-t mt-20">
-			&copy; 2026 HectarProfit.ro
-		</footer>
-	</body>
+        <footer class="text-center py-10 text-gray-400 text-sm border-t mt-20">
+            &copy; 2026 Manualul.ro - Ghidul tău de finanțări și ajutoare
+        </footer>
+    </body>
 </html>
