@@ -1,51 +1,86 @@
 ---
-// src/pages/index.astro
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 import { readFileSync } from 'fs';
 import { parse } from 'csv-parse/sync';
 
-const fileContent = readFileSync('./src/data/agricultura.csv', 'utf-8');
-const records = parse(fileContent, { columns: true, skip_empty_lines: true });
+// Citim datele din CSV-ul de finanțări
+const fileContent = readFileSync('./src/data/finantari.csv', 'utf-8');
+const finantari = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
 
-// Grupăm datele pe județe
-const dateGrupate = records.reduce((acc, current) => {
-  if (!acc[current.Judet]) {
-    acc[current.Judet] = [];
-  }
-  acc[current.Judet].push(current);
-  return acc;
-}, {});
-
-const judete = Object.keys(dateGrupate).sort();
+// Funcție pentru a determina culoarea statusului
+const getStatusClass = (status) => {
+    switch (status.toLowerCase()) {
+        case 'deschis': return 'bg-green-100 text-green-700 border-green-200';
+        case 'în curând': return 'bg-amber-100 text-amber-700 border-amber-200';
+        default: return 'bg-gray-100 text-gray-700 border-gray-200';
+    }
+};
 ---
 
-<Layout title="Calculator Profit Agricol 2026 - Analiză pe Județe">
-	<main class="max-w-6xl mx-auto px-4 py-16">
-		<header class="text-center mb-16">
-			<h1 class="text-5xl font-black text-gray-900 mb-6 tracking-tight">
-				Cât profit faci la hectar în <span class="text-green-600">2026</span>?
-			</h1>
-			<p class="text-xl text-gray-600 max-w-2xl mx-auto">
-				Previziuni bazate pe noile subvenții APIA, costuri de producție estimate și prețurile pieței pe regiuni.
-			</p>
-		</header>
-		
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-			{judete.map((judet) => (
-				<div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-					<h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-						<span class="w-2 h-6 bg-green-500 rounded-full mr-3"></span>
-						Județul {judet}
-					</h2>
-					<div class="space-y-2">
-						{dateGrupate[judet].map((item) => (
-							<a href={`/${item.ID}`} class="block p-3 rounded-xl bg-gray-50 hover:bg-green-50 text-gray-700 hover:text-green-700 font-medium transition-colors border border-transparent hover:border-green-100">
-								Analiză profit {item.Cultura} →
-							</a>
-						))}
-					</div>
-				</div>
-			))}
-		</div>
-	</main>
+<Layout 
+    title="Ghid Finanțări IMM 2026 - Fonduri Nerambursabile"
+    description="Lista completă a programelor de finanțare pentru firme în 2026. Calculează cofinanțarea pentru Digitalizare, Start-up Nation și alte granturi europene."
+>
+    <main class="max-w-5xl mx-auto px-4 pb-12">
+        <header class="py-12 text-center">
+            <h1 class="text-4xl font-black text-gray-900 mb-4 tracking-tight">
+                Manualul Finanțărilor <span class="text-blue-700 text-3xl block md:inline">pentru IMM</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Selectează programul dorit pentru a vedea condițiile de eligibilitate și pentru a calcula cofinanțarea necesară.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {finantari.map((item) => (
+                <a href={`/finantari/${item.id}`} class="group">
+                    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full flex flex-col">
+                        <div class="p-6 flex-grow">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-blue-600 bg-blue-50 px-2 py-1 rounded">
+                                    {item.categorie}
+                                </span>
+                                <span class={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded border ${getStatusClass(item.status)}`}>
+                                    {item.status}
+                                </span>
+                            </div>
+                            
+                            <h2 class="text-xl font-bold text-gray-800 group-hover:text-blue-700 transition-colors mb-2">
+                                {item.titlu}
+                            </h2>
+                            
+                            <p class="text-gray-500 text-sm line-clamp-2 mb-6">
+                                {item.descriere}
+                            </p>
+
+                            <div class="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50">
+                                <div>
+                                    <p class="text-[10px] text-gray-400 uppercase font-bold">Grant Max.</p>
+                                    <p class="font-black text-gray-700">{item.valoare_maxima}</p>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] text-gray-400 uppercase font-bold">Cofinanțare</p>
+                                    <p class="font-black text-gray-700">{item.cofinantare}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="px-6 py-4 bg-gray-50 group-hover:bg-blue-700 transition-colors text-center">
+                            <span class="text-sm font-bold text-blue-700 group-hover:text-white transition-colors">
+                                Deschide Ghidul →
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            ))}
+        </div>
+
+        <section class="mt-20 p-8 bg-blue-700 rounded-3xl text-white text-center">
+            <h3 class="text-2xl font-bold mb-2">Nu ai găsit ce căutai?</h3>
+            <p class="opacity-80 mb-6">Actualizăm zilnic Manualul cu noi linii de finanțare din PNRR și Bugetul de Stat.</p>
+            <button class="bg-white text-blue-700 px-8 py-3 rounded-xl font-bold hover:bg-blue-50 transition-colors">
+                Abonează-te la Alerte
+            </button>
+        </section>
+    </main>
 </Layout>

@@ -1,136 +1,121 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 import { readFileSync } from 'fs';
 import { parse } from 'csv-parse/sync';
 
 export async function getStaticPaths() {
-    const fileContent = readFileSync('./src/data/agricultura.csv', 'utf-8');
+    const fileContent = readFileSync('./src/data/finantari.csv', 'utf-8');
     const records = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
-    return records.map((row) => ({ params: { id: row.ID }, props: { info: row } }));
+    return records.map((row) => ({ params: { id: row.id }, props: { info: row } }));
 }
 
 const { info } = Astro.props;
-const cursEuro = 4.97;
 
-// 1. Calcule de bază (pentru 1 hectar)
-const subvBaza = Number(info.Subventie_Baza_Euro) * cursEuro;
-const subvEco = Number(info.Subventie_Ecoschema_Euro) * cursEuro;
-const costHa = Number(info.Cost_Productie_Lei);
-const venitHa = Number(info.Productie_Medie_Tone) * Number(info.Pret_Tona_Lei);
-const profitHa = (venitHa + subvBaza + subvEco) - costHa;
-const subvTotalLei = subvBaza + subvEco;
+// Extragem procentul de cofinanțare ca număr (ex: "10%" devine 0.1)
+const cofinantareProcent = parseFloat(info.cofinantare) / 100;
+// Extragem valoarea maximă ca număr (ex: "100000 EUR" devine 100000)
+const valoareMaxGrant = parseFloat(info.valoare_maxima.replace(/[^0-9.]/g, ''));
 
-// 2. Generăm textul de analiză automată pentru SEO
-let analizaText = "";
-if (profitHa > 2000) {
-    analizaText = `Cultura de ${info.Cultura} în județul ${info.Judet} se anunță a fi una extrem de rentabilă în 2026.`;
-} else if (profitHa > 0) {
-    analizaText = `Cultura de ${info.Cultura} în județul ${info.Judet} oferă un profit stabil, fiind o opțiune sigură pentru fermierii din zonă.`;
-} else {
-    analizaText = `Cifrele estimate pentru ${info.Cultura} în ${info.Judet} indică un an provocator, unde optimizarea costurilor va fi critică.`;
-}
+const statusColor = info.status === 'Deschis' ? 'text-green-600 bg-green-50' : 'text-amber-600 bg-amber-50';
 ---
 
 <Layout 
-	title={`Profit ${info.Cultura} ${info.Judet}`}
-	description={`Calculează profitul la hectar pentru ${info.Cultura} în județul ${info.Judet}. Analiză detaliată bazată pe subvenții APIA 2026 și costuri de producție locale.`}
+    title={`Ghid Finanțare: ${info.titlu}`}
+    description={`Află condițiile pentru ${info.titlu}. Calculează cofinanțarea necesară și suma maximă nerambursabilă pentru categoria ${info.categorie}.`}
 >
-	<main class="max-w-2xl mx-auto px-4 pb-12">
-		<nav class="py-4">
-			<a href="/" class="text-sm text-green-700 hover:underline">← Înapoi la listă</a>
-		</nav>
+    <main class="max-w-2xl mx-auto px-4 pb-12">
+        <nav class="py-4">
+            <a href="/finantari" class="text-sm text-blue-700 hover:underline">← Înapoi la toate finanțările</a>
+        </nav>
 
-		<h1 class="text-3xl font-black mb-6 text-gray-800 tracking-tight text-center">
-            Calculator Profit {info.Cultura} - {info.Judet}
-        </h1>
-		
+        <header class="text-center mb-8">
+            <span class={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 ${statusColor}`}>
+                {info.status}
+            </span>
+            <h1 class="text-3xl font-black text-gray-800 tracking-tight">
+                {info.titlu}
+            </h1>
+            <p class="text-gray-500 mt-2">Program: {info.categorie}</p>
+        </header>
+        
         <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden mb-8">
-            <div class="p-8 bg-green-50 border-b border-green-100">
-                <label for="hectareInput" class="block text-sm font-bold text-green-800 uppercase tracking-wider mb-2">
-                    Introdu suprafața fermei (Ha):
+            <div class="p-8 bg-blue-50 border-b border-blue-100">
+                <label for="investitieInput" class="block text-sm font-bold text-blue-800 uppercase tracking-wider mb-2">
+                    Valoarea investiției dorite (EUR):
                 </label>
                 <input 
                     type="number" 
-                    id="hectareInput" 
-                    value="1" 
-                    min="1"
-                    class="w-full text-4xl font-black bg-white border-2 border-green-200 rounded-2xl px-6 py-4 text-green-700 focus:border-green-500 focus:outline-none transition-all shadow-inner"
+                    id="investitieInput" 
+                    value={valoareMaxGrant} 
+                    class="w-full text-4xl font-black bg-white border-2 border-blue-200 rounded-2xl px-6 py-4 text-blue-700 focus:border-blue-500 focus:outline-none transition-all shadow-inner"
                 />
+                <p class="mt-2 text-xs text-blue-600 font-medium">Suma maximă nerambursabilă prin acest program: {info.valoare_maxima}</p>
             </div>
 
             <div class="p-8">
                 <div class="mb-8">
-                    <p class="text-sm text-gray-400 uppercase font-bold tracking-widest">Profit Total Estimat</p>
-                    <p class="text-6xl font-black text-green-600 leading-tight">
-                        <span id="totalProfitDisplay">{profitHa.toLocaleString('ro-RO', {maximumFractionDigits: 0})}</span> 
-                        <span class="text-2xl font-normal text-gray-400 ml-2">Lei</span>
+                    <p class="text-sm text-gray-400 uppercase font-bold tracking-widest">Grant Nerambursabil Estimat</p>
+                    <p class="text-6xl font-black text-blue-600 leading-tight">
+                        <span id="grantDisplay">0</span> 
+                        <span class="text-2xl font-normal text-gray-400 ml-2">EUR</span>
                     </p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-gray-100">
                     <div>
-                        <p class="text-xs text-gray-400 font-bold uppercase mb-2 text-green-700">Venituri Totale</p>
-                        <ul class="space-y-2">
-                            <li class="flex justify-between text-sm">
-                                <span class="text-gray-500">Subvenții:</span>
-                                <span class="font-bold">+<span id="subvDisplay">{(subvBaza + subvEco).toLocaleString('ro-RO', {maximumFractionDigits: 0})}</span> Lei</span>
-                            </li>
-                            <li class="flex justify-between text-sm">
-                                <span class="text-gray-500">Recoltă:</span>
-                                <span class="font-bold">+<span id="recoltaDisplay">{venitHa.toLocaleString('ro-RO', {maximumFractionDigits: 0})}</span> Lei</span>
-                            </li>
-                        </ul>
+                        <p class="text-xs text-gray-400 font-bold uppercase mb-2">Contribuția Ta</p>
+                        <p class="text-2xl font-bold text-gray-800">
+                            <span id="cofinantareDisplay">0</span> EUR
+                        </p>
+                        <p class="text-xs text-gray-500">Reprezintă {info.cofinantare} cofinanțare</p>
                     </div>
                     <div>
-                        <p class="text-xs text-gray-400 font-bold uppercase mb-2 text-red-600">Cheltuieli</p>
-                        <div class="flex justify-between text-sm">
-                            <span class="text-gray-500">Costuri Producție:</span>
-                            <span class="font-bold text-red-500">-<span id="costDisplay">{costHa.toLocaleString('ro-RO', {maximumFractionDigits: 0})}</span> Lei</span>
-                        </div>
+                        <p class="text-xs text-gray-400 font-bold uppercase mb-2 text-blue-700">Status Apel</p>
+                        <p class="text-xl font-bold text-gray-800">{info.status}</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="text-center p-6 bg-gray-100 rounded-2xl mb-12">
-            <p class="text-gray-500 text-sm">
-                Analiză bazată pe o producție de <strong>{info.Productie_Medie_Tone} T/ha</strong> la prețul de <strong>{info.Pret_Tona_Lei} Lei/T</strong>.
+        <section class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Descriere și Eligibilitate</h2>
+            <p class="text-gray-600 leading-relaxed mb-6">
+                {info.descriere}
             </p>
-        </div>
-
-        <section class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm mb-12">
-            <div class="max-w-none">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Context Agronomic pentru {info.Judet}</h2>
-                <p class="text-gray-600 leading-relaxed mb-4">
-                    {analizaText} Calculul nostru ia în considerare un sprijin de bază (BISS) și ecoschemele active pentru 2026, 
-                    însumând aproximativ <strong>{Math.round(subvTotalLei).toLocaleString('ro-RO')} Lei/ha</strong>. 
-                </p>
-                <p class="text-gray-600 leading-relaxed">
-                    La o producție medie de <strong>{info.Productie_Medie_Tone} tone</strong> la hectar și un preț de vânzare estimat la 
-                    <strong>{info.Pret_Tona_Lei} Lei/tonă</strong>, veniturile din recoltă completează sprijinul financiar oferit de APIA. 
-                    Este important de menționat că profitul net final de <strong>{Math.round(profitHa).toLocaleString('ro-RO')} Lei/ha</strong> poate varia în funcție de 
-                    tehnologia aplicată, calitatea solului și fluctuațiile prețurilor la inputuri (îngrășăminte, semințe, motorină) din județul {info.Judet}.
+            <div class="bg-blue-50 rounded-2xl p-6 border border-blue-100">
+                <h3 class="font-bold text-blue-800 mb-2 italic">Notă importantă:</h3>
+                <p class="text-sm text-blue-700">
+                    Calculul de mai sus este unul estimativ. Suma nerambursabilă nu poate depăși plafonul de <strong>{info.valoare_maxima}</strong> stabilit prin ghidul solicitantului pentru programul <strong>{info.titlu}</strong>.
                 </p>
             </div>
         </section>
-	</main>
+    </main>
 
-    <script is:inline define:vars={{ profitHa, subvBaza, subvEco, venitHa, costHa }}>
-        const input = document.getElementById('hectareInput');
-        const profitDisplay = document.getElementById('totalProfitDisplay');
-        const subvDisplay = document.getElementById('subvDisplay');
-        const recoltaDisplay = document.getElementById('recoltaDisplay');
-        const costDisplay = document.getElementById('costDisplay');
+    <script is:inline define:vars={{ cofinantareProcent, valoareMaxGrant }}>
+        const input = document.getElementById('investitieInput');
+        const grantDisplay = document.getElementById('grantDisplay');
+        const cofinantareDisplay = document.getElementById('cofinantareDisplay');
 
         const formatNumber = (num) => Math.round(num).toLocaleString('ro-RO');
 
-        input.addEventListener('input', (e) => {
-            const ha = parseFloat(e.target.value) || 0;
+        const calculate = () => {
+            const investitie = parseFloat(input.value) || 0;
             
-            profitDisplay.innerText = formatNumber(profitHa * ha);
-            subvDisplay.innerText = formatNumber((subvBaza + subvEco) * ha);
-            recoltaDisplay.innerText = formatNumber(venitHa * ha);
-            costDisplay.innerText = formatNumber(costHa * ha);
-        });
+            // Grantul este investiția minus cofinanțarea, dar nu poate depăși pragul maxim
+            let grantCalculat = investitie * (1 - cofinantareProcent);
+            if (grantCalculat > valoareMaxGrant) {
+                grantCalculat = valoareMaxGrant;
+            }
+
+            // Cofinanțarea este ce rămâne de plătit din investiția totală
+            const cofinantareCalculata = investitie - grantCalculat;
+
+            grantDisplay.innerText = formatNumber(grantCalculat);
+            cofinantareDisplay.innerText = formatNumber(cofinantareCalculata);
+        };
+
+        input.addEventListener('input', calculate);
+        // Calculăm la prima încărcare
+        calculate();
     </script>
 </Layout>
