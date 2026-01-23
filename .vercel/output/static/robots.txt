@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://hectarprofit.ro/sitemap-index.xml
