@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCentralData } from '../../lib/api.js';
+import { getCentralData } from '../../lib/api';
 
 const centralData = await getCentralData();
 const goldPrice = centralData.bnr.gold;
