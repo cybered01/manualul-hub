@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { readFileSync } from 'fs';
+import { parse } from 'csv-parse/sync';
+
+const fileContent = readFileSync('./src/data/weekend.csv', 'utf-8');
+const locatii = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
+
+// Grupăm pe regiuni
+const regiuni = [...new Set(locatii.map(l => l.regiune))].sort();
+---
+
+<Layout
+    title="Weekend România - Harta Costurilor de Vacanță"
+    description="Alege destinația și calculează bugetul de weekend. Peste 50 de locații din România cu prețuri actualizate."
+>
+    <main class="max-w-6xl mx-auto px-4 pb-20">
+        <header class="py-16 text-center">
+            <h1 class="text-5xl md:text-7xl font-black text-gray-900 mb-6 tracking-tight">
+                Weekend <span class="text-orange-600">România</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Unde plecăm sâmbătă? Alege o destinație și simulează costurile de transport, cazare și masă.
+            </p>
+        </header>
+
+        <div class="space-y-20">
+            {regiuni.map(regiune => (
+                <section>
+                    <div class="flex items-center gap-4 mb-10 border-b border-orange-100 pb-4">
+                        <h2 class="text-3xl font-black text-gray-800 uppercase tracking-tighter">{regiune}</h2>
+                        <span class="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-xs font-bold">
+                            {locatii.filter(l => l.regiune === regiune).length} locații
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {locatii.filter(l => l.regiune === regiune).map(item => (
+                            <a href={`/weekend/${item.id}`} class="group">
+                                <div class="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm hover:shadow-xl transition-all h-full flex flex-col group-hover:border-orange-200">
+                                    <h3 class="text-xl font-bold text-gray-900 group-hover:text-orange-600 transition-colors mb-2">{item.destinatie}</h3>
+                                    <p class="text-sm text-gray-500 line-clamp-2 mb-6 flex-grow">{item.descriere}</p>
+
+                                    <div class="pt-4 border-t border-gray-50 flex justify-between items-center">
+                                        <div class="text-[10px] font-black uppercase text-gray-400">
+                                            Buget mediu/zi: <span class="text-gray-900 block text-sm">{parseInt(item.pret_masa) + parseInt(item.pret_cazare)/2} Lei</span>
+                                        </div>
+                                        <div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all">
+                                            →
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+            ))}
+        </div>
+    </main>
+</Layout>
