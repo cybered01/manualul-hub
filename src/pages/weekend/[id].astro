@@ -90,18 +90,18 @@ const { info } = Astro.props;
     </main>
 
 <script is:inline define:vars={{ dest: info.destinatie }}>
-    // 1. Luam elementul buton
+    // Preluăm elementul buton
     const btnWhatsapp = document.getElementById('whatsappBtn');
 
-    // 2. Definim o functie simpla care citeste un input
+    // Funcție simplă de citire valori
     function val(id) {
         const el = document.getElementById(id);
         return el ? (parseFloat(el.value) || 0) : 0;
     }
 
-    // 3. Functia Principala
+    // Funcția Principala
     function updateCalculator() {
-        // Citim datele
+        // 1. Citim datele
         const p = val('persInput');
         const n = val('noptiInput');
         const k = val('kmInput');
@@ -109,39 +109,42 @@ const { info } = Astro.props;
         const pretMancare = val('costMancareInput');
         const pretDistractie = val('costDistractieInput');
 
-        // Calcule
+        // 2. Calcule
         const totalCazare = n * pretCazare;
         const totalMasa = (n + 1) * p * (pretMancare + pretDistractie);
         const totalBenzina = (k / 100) * 8 * 7.5;
         const total = Math.round(totalCazare + totalMasa + totalBenzina);
 
-        // Actualizam ecranul
-        document.getElementById('cazareSum').innerText = Math.round(totalCazare).toLocaleString() + " Lei";
-        document.getElementById('masaSum').innerText = Math.round(totalMasa).toLocaleString() + " Lei";
-        document.getElementById('benzinaSum').innerText = Math.round(totalBenzina).toLocaleString() + " Lei";
-        document.getElementById('totalDisplay').innerText = total.toLocaleString() + " Lei";
+        // 3. Actualizam ecranul
+        const dispCazare = document.getElementById('cazareSum');
+        const dispMasa = document.getElementById('masaSum');
+        const dispBenzina = document.getElementById('benzinaSum');
+        const dispTotal = document.getElementById('totalDisplay');
 
-        // 4. ACTUALIZAM LINK-UL BUTONULUI
+        if(dispCazare) dispCazare.innerText = Math.round(totalCazare).toLocaleString() + " Lei";
+        if(dispMasa) dispMasa.innerText = Math.round(totalMasa).toLocaleString() + " Lei";
+        if(dispBenzina) dispBenzina.innerText = Math.round(totalBenzina).toLocaleString() + " Lei";
+        if(dispTotal) dispTotal.innerText = total.toLocaleString() + " Lei";
+
+        // 4. ACTUALIZARE LINK WHATSAPP (Fix pentru Mobil)
         if (btnWhatsapp) {
             const mesaj = `Am calculat bugetul pentru ${dest} pe Manualul.ro! 🚗\n\n💰 Cost Total: ${total.toLocaleString()} Lei\n(pentru ${p} persoane, ${n} nopți)`;
-            // Folosim URL-ul curent al paginii
             const myUrl = window.location.href;
             
-            // Construim link-ul final
-            const finalLink = `https://wa.me/?text=${encodeURIComponent(mesaj + "\n\nVezi aici: " + myUrl)}`;
+            // FOLOSIM api.whatsapp.com/send - Este formatul cel mai sigur pentru mobil
+            const finalLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj + "\n\nVezi aici: " + myUrl)}`;
             
-            // Aplicam link-ul pe buton
             btnWhatsapp.href = finalLink;
         }
     }
 
-    // 5. Pornim ascultatorii pe toate inputurile
+    // 5. Pornim ascultatorii
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => {
         input.addEventListener('input', updateCalculator);
     });
 
-    // 6. Rulam o data la inceput
+    // 6. Rulam imediat
     updateCalculator();
 </script>
 <a 
