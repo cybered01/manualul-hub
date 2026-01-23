@@ -89,59 +89,69 @@ const { info } = Astro.props;
         </div>
     </main>
 
-    <script is:inline define:vars={{ dest: info.destinatie }}>
-        const inputs = {
-            pers: document.getElementById('persInput'),
-            nopti: document.getElementById('noptiInput'),
-            km: document.getElementById('kmInput'),
-            cazare: document.getElementById('costCazareInput'),
-            mancare: document.getElementById('costMancareInput'),
-            distractie: document.getElementById('costDistractieInput')
-        };
+<script is:inline define:vars={{ dest: info.destinatie }}>
+    // Funcție sigură pentru a prelua valoarea unui input
+    const getVal = (id) => {
+        const el = document.getElementById(id);
+        return el ? (parseFloat(el.value) || 0) : 0;
+    };
 
-        const displays = {
-            cazare: document.getElementById('cazareSum'),
-            masa: document.getElementById('masaSum'),
-            benzina: document.getElementById('benzinaSum'),
-            total: document.getElementById('totalDisplay')
-        };
+    // Referințe la elementele de afișare
+    const displayCazare = document.getElementById('cazareSum');
+    const displayMasa = document.getElementById('masaSum');
+    const displayBenzina = document.getElementById('benzinaSum');
+    const displayTotal = document.getElementById('totalDisplay');
+    const btnWhatsapp = document.getElementById('whatsappBtn');
+
+    function calculate() {
+        const p = getVal('persInput');
+        const n = getVal('noptiInput');
+        const k = getVal('kmInput');
         
-        // Elementul buton WhatsApp
-        const whatsappBtn = document.getElementById('whatsappBtn');
+        const pretCazare = getVal('costCazareInput');
+        const pretMancare = getVal('costMancareInput');
+        const pretDistractie = getVal('costDistractieInput');
 
-        function calculate() {
-            const p = parseInt(inputs.pers.value) || 0;
-            const n = parseInt(inputs.nopti.value) || 0;
-            const k = parseInt(inputs.km.value) || 0;
-            const prC = parseFloat(inputs.cazare.value) || 0;
-            const prM = parseFloat(inputs.mancare.value) || 0;
-            const prD = parseFloat(inputs.distractie.value) || 0;
+        // Calcule
+        const totalCazare = n * pretCazare;
+        const totalMasa = (n + 1) * p * (pretMancare + pretDistractie);
+        const totalBenzina = (k / 100) * 8 * 7.5;
+        const totalGeneral = Math.round(totalCazare + totalMasa + totalBenzina);
 
-            const totalCazare = n * prC;
-            const totalMasa = (n + 1) * p * (prM + prD);
-            const totalBenzina = (k / 100) * 8 * 7.5;
-            const totalGeneral = Math.round(totalCazare + totalMasa + totalBenzina);
+        // Actualizare UI
+        if(displayCazare) displayCazare.innerText = Math.round(totalCazare).toLocaleString() + " Lei";
+        if(displayMasa) displayMasa.innerText = Math.round(totalMasa).toLocaleString() + " Lei";
+        if(displayBenzina) displayBenzina.innerText = Math.round(totalBenzina).toLocaleString() + " Lei";
+        if(displayTotal) displayTotal.innerText = totalGeneral.toLocaleString() + " Lei";
 
-            // Actualizare afișaj site
-            displays.cazare.innerText = Math.round(totalCazare).toLocaleString() + " Lei";
-            displays.masa.innerText = Math.round(totalMasa).toLocaleString() + " Lei";
-            displays.benzina.innerText = Math.round(totalBenzina).toLocaleString() + " Lei";
-            displays.total.innerText = totalGeneral.toLocaleString() + " Lei";
+        return { totalGeneral, p, n };
+    }
 
-            // ---------------------------------------------------------
-            // ACTUALIZARE LINK WHATSAPP
-            // ---------------------------------------------------------
-            const textMesaj = `Tocmai am calculat bugetul pentru ${dest} pe Manualul.ro! 🚗\n\n💰 Cost Total: ${totalGeneral.toLocaleString()} Lei\n(pentru ${p} persoane, ${n} nopți)\n\nConfigurează și tu aici: ${window.location.href}`;
+    // Ascultăm CLICK-ul pe butonul de WhatsApp
+    if (btnWhatsapp) {
+        btnWhatsapp.addEventListener('click', (e) => {
+            e.preventDefault(); // Previne comportamentul default (săritura sus în pagină)
             
-            whatsappBtn.href = `https://wa.me/?text=${encodeURIComponent(textMesaj)}`;
-        }
+            const results = calculate(); // Recalculăm pe loc pentru a fi siguri
+            const currentUrl = window.location.href;
 
-        Object.values(inputs).forEach(input => {
-            input.addEventListener('input', calculate);
+            const text = `Tocmai am calculat bugetul pentru ${dest} pe Manualul.ro! 🚗\n\n💰 Cost Total: ${results.totalGeneral.toLocaleString()} Lei\n(pentru ${results.p} persoane, ${results.n} nopți)\n\nConfigurează și tu aici: ${currentUrl}`;
+            
+            // Deschidem WhatsApp într-un tab nou
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
         });
+    }
 
-        calculate();
-    </script>
+    // Ascultăm schimbările pe input-uri pentru a actualiza cifrele de pe ecran
+    const inputIds = ['persInput', 'noptiInput', 'kmInput', 'costCazareInput', 'costMancareInput', 'costDistractieInput'];
+    inputIds.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.addEventListener('input', calculate);
+    });
+
+    // Calcul inițial la încărcare
+    calculate();
+</script>
     <a 
     id="whatsappBtn" 
     href="#" 
