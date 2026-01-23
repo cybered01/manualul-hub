@@ -89,6 +89,18 @@ const { info } = Astro.props;
         </div>
     </main>
 
+<div class="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-orange-100 p-4 shadow-[0_-10px_25px_rgba(0,0,0,0.1)] md:hidden z-40" id="stickyBar">
+    <div class="flex justify-between items-center">
+        <div>
+            <p class="text-[10px] font-black uppercase text-gray-400 leading-none mb-1">Total Estimat</p>
+            <p class="text-2xl font-black text-orange-600 leading-none" id="stickyTotal">0 Lei</p>
+        </div>
+        <button onclick="window.scrollTo({top: 200, behavior: 'smooth'})" class="bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold">
+            Ajustează ↑
+        </button>
+    </div>
+</div>
+
     <a 
     id="whatsappBtn" 
     href="https://wa.me/" 
@@ -129,6 +141,8 @@ const { info } = Astro.props;
         const totalMasa = (n + 1) * p * (pretMancare + pretDistractie);
         const totalBenzina = (k / 100) * 8 * 7.5;
         const total = Math.round(totalCazare + totalMasa + totalBenzina);
+        const dispStickyTotal = document.getElementById('stickyTotal');
+if(dispStickyTotal) dispStickyTotal.innerText = total.toLocaleString() + " Lei";
 
         // 3. Actualizam ecranul
         const dispCazare = document.getElementById('cazareSum');
