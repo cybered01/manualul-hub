@@ -1,0 +1,194 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { readFileSync } from 'fs';
+import { parse } from 'csv-parse/sync';
+
+export async function getStaticPaths() {
+    const fileContent = readFileSync('./src/data/carbon.csv', 'utf-8');
+    const records = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
+    return records.map((row) => ({ params: { id: row.id }, props: { info: row } }));
+}
+
+const { info } = Astro.props;
+
+// Extragem valorile numerice din CSV
+const absorbtieFactor = parseFloat(info.absorbtie_t_ha);
+const pretCredit = parseFloat(info.pret_credit.replace(/[^\d]/g, ''));
+
+const renderList = (text) => text.split('<br>').filter(Boolean);
+---
+
+<Layout 
+    title={`Simulator Credite Carbon: ${info.titlu}`} 
+    description={`Calculează venitul pasiv generat de ${info.titlu} prin sechestrarea carbonului. Află câte tone de CO2 poți vinde pe piața voluntară.`}
+>
+    <main class="max-w-4xl mx-auto px-4 pb-12">
+        <nav class="py-4">
+            <a href="/carbon" class="text-sm text-emerald-700 hover:underline flex items-center gap-1 font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Înapoi la tipurile de teren
+            </a>
+        </nav>
+
+        <header class="text-center mb-10">
+            <span class="inline-block px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-emerald-100 bg-emerald-50 text-emerald-700 mb-4">
+                Piața Voluntară de Carbon
+            </span>
+            <h1 class="text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-4">
+                {info.titlu}
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">{info.descriere}</p>
+        </header>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden sticky top-8">
+                    <div class="p-8 bg-emerald-800 text-white">
+                        <h2 class="text-xl font-bold flex items-center gap-2 mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                            Simulator Venit Pasiv
+                        </h2>
+                        <label for="suprafataInput" class="block text-xs font-bold text-emerald-100 uppercase tracking-widest mb-3">
+                            Suprafața deținută (Hectare):
+                        </label>
+                        <div class="relative">
+                            <input 
+                                type="number" 
+                                id="suprafataInput" 
+                                value="10" 
+                                class="w-full text-4xl font-black bg-white/10 border-2 border-white/20 rounded-2xl px-6 py-5 text-white focus:bg-white/20 focus:outline-none transition-all shadow-inner"
+                            />
+                            <div class="absolute right-6 top-1/2 -translate-y-1/2 text-emerald-200 font-black text-2xl pointer-events-none">HA</div>
+                        </div>
+                    </div>
+
+                    <div class="p-8 bg-white">
+                        <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-8 gap-8 border-b border-gray-100 pb-8">
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase font-black tracking-widest mb-1">Venit Anual Estimat</p>
+                                <div class="flex items-baseline">
+                                    <span id="venitDisplay" class="text-5xl font-black text-emerald-600 tabular-nums">0</span>
+                                    <span class="text-xl font-bold text-gray-400 ml-2">EUR</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-gray-400 uppercase font-black tracking-widest mb-1">Impact Ecologic</p>
+                                <div class="flex items-baseline justify-end">
+                                    <span id="carbonDisplay" class="text-3xl font-black text-gray-800 tabular-nums">0</span>
+                                    <span class="text-lg font-bold text-gray-400 ml-2">t CO2/an</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
+                            <h3 class="text-emerald-800 font-bold mb-2">Echivalentul tău verde:</h3>
+                            <p class="text-emerald-700 text-sm italic">
+                                Prin gestionarea acestei suprafețe, elimini anual dioxidul de carbon echivalent cu emisiile a <strong id="masiniDisplay">0</strong> mașini.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+                    <h3 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <span class="w-6 h-6 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-xs">ℹ️</span>
+                        Cine este eligibil?
+                    </h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        {info.eligibilitate}
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+                    <h3 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <span class="w-6 h-6 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-xs">📂</span>
+                        Acte Necesare
+                    </h3>
+                    <ul class="space-y-3">
+                        {renderList(info.acte_necesare).map((act) => (
+                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                <span class="text-amber-500 mt-0.5">•</span>
+                                <span>{act}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <section class="max-w-none bg-white rounded-3xl p-8 md:p-12 border border-gray-100 shadow-sm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-lg font-bold text-emerald-700 mb-6 uppercase tracking-widest border-b border-gray-100 pb-2">Beneficii Ecosistemice</h3>
+                    <ul class="space-y-4">
+                        {renderList(info.beneficii).map((item) => (
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0 font-bold text-sm">✓</div>
+                                <span class="text-gray-700 font-medium">{item}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-50 rounded-2xl p-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Cum funcționează procesul?</h3>
+                    <div class="space-y-6">
+                        <div class="flex gap-4 relative">
+                            <div class="absolute left-[11px] top-2 bottom-0 w-0.5 bg-gray-200"></div>
+                            <div class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold z-10">1</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm">Înrolarea Terenului</h4>
+                                <p class="text-xs text-gray-500 mt-1">Se stabilește linia de bază (baseline) a carbonului existent în sol și biomasă.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 relative">
+                            <div class="absolute left-[11px] top-2 bottom-0 w-0.5 bg-gray-200"></div>
+                            <div class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold z-10">2</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm">Monitorizare & Audit</h4>
+                                <p class="text-xs text-gray-500 mt-1">Un auditor independent verifică anual cantitatea de carbon sechestrată.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 relative">
+                            <div class="w-6 h-6 rounded-full bg-emerald-800 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold z-10">3</div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 text-sm">Vânzarea Certificatelor</h4>
+                                <p class="text-xs text-gray-500 mt-1">Companiile care vor să își compenseze emisiile cumpără creditele tale.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script is:inline define:vars={{ absorbtieFactor, pretCredit }}>
+        const input = document.getElementById('suprafataInput');
+        const venitDisplay = document.getElementById('venitDisplay');
+        const carbonDisplay = document.getElementById('carbonDisplay');
+        const masiniDisplay = document.getElementById('masiniDisplay');
+
+        const formatNumber = (num) => Math.round(num).toLocaleString('ro-RO');
+
+        const calculate = () => {
+            const ha = parseFloat(input.value) || 0;
+            
+            const toneCarbon = ha * absorbtieFactor;
+            const venitTotal = toneCarbon * pretCredit;
+            
+            // O mașină medie emite aprox 4.6 tone CO2 pe an
+            const masiniEchivalent = Math.round(toneCarbon / 4.6);
+
+            venitDisplay.innerText = formatNumber(venitTotal);
+            carbonDisplay.innerText = formatNumber(toneCarbon);
+            masiniDisplay.innerText = masiniEchivalent;
+        };
+
+        input.addEventListener('input', calculate);
+        calculate();
+    </script>
+</Layout>
