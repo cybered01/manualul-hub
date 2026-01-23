@@ -5,6 +5,19 @@ let cachedData = null;
 let lastFetchTime = 0;
 const CACHE_DURATION = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
 
+async function fetchWithTimeout(url, timeout = 5000) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    try {
+        const response = await fetch(url, { signal: controller.signal });
+        clearTimeout(id);
+        return response;
+    } catch (e) {
+        clearTimeout(id);
+        throw e;
+    }
+}
+
 export async function getCentralData() {
     const now = Date.now();
 
@@ -27,27 +40,38 @@ export async function getCentralData() {
     try {
         // Fetch BNR Rates
         try {
-            const bnrResponse = await fetch('https://www.bnr.ro/nbrfxrates.xml');
+            const bnrResponse = await fetchWithTimeout('https://www.bnr.ro/nbrfxrates.xml', 4000);
             if (bnrResponse.ok) {
                 const bnrXml = await bnrResponse.text();
                 const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "" });
                 const jsonObj = parser.parse(bnrXml);
 
-                const rates = jsonObj.DataSet.Body.Cube.Rate;
-                const eurEntry = rates.find(r => r.currency === 'EUR');
-                const goldEntry = rates.find(r => r.currency === 'XAU');
+                const rates = jsonObj?.DataSet?.Body?.Cube?.Rate;
 
-                if (eurEntry) result.bnr.eur = parseFloat(eurEntry['#text']) || fallbacks.bnr.eur;
-                if (goldEntry) result.bnr.gold = parseFloat(goldEntry['#text']) || fallbacks.bnr.gold;
-                result.isLive = true;
+                if (Array.isArray(rates)) {
+                    const eurEntry = rates.find(r => r.currency === 'EUR');
+                    const goldEntry = rates.find(r => r.currency === 'XAU');
+
+                    if (eurEntry) {
+                        result.bnr.eur = parseFloat(eurEntry['#text']) || fallbacks.bnr.eur;
+                    }
+                    if (goldEntry) {
+                        result.bnr.gold = parseFloat(goldEntry['#text']) || fallbacks.bnr.gold;
+                    }
+                    result.isLive = true;
+                } else if (rates && rates.currency) {
+                    if (rates.currency === 'EUR') result.bnr.eur = parseFloat(rates['#text']) || fallbacks.bnr.eur;
+                    if (rates.currency === 'XAU') result.bnr.gold = parseFloat(rates['#text']) || fallbacks.bnr.gold;
+                    result.isLive = true;
+                }
             }
         } catch (e) {
-            console.error("Error fetching BNR data:", e);
+            console.error("Error fetching BNR data:", e.message);
         }
 
         // Fetch Fuel Prices (Scraping)
         try {
-            const fuelResponse = await fetch('https://www.peco-online.ro/istoric.php');
+            const fuelResponse = await fetchWithTimeout('https://www.peco-online.ro/istoric.php', 4000);
             if (fuelResponse.ok) {
                 const fuelHtml = await fuelResponse.text();
                 // Match the first row of the table for 2026 or 2025
@@ -61,7 +85,7 @@ export async function getCentralData() {
                 }
             }
         } catch (e) {
-            console.error("Error fetching fuel data:", e);
+            console.error("Error fetching fuel data:", e.message);
         }
 
         // Update cache if we got at least some live data
