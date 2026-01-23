@@ -1,23 +1,15 @@
 ---
 // src/layouts/Layout.astro
 import '../styles/global.css';
+import CookieConsent from '../components/CookieConsent.astro'; // 1. Importăm Bannerul
+
 const { title, description } = Astro.props;
 
-// Link pentru generarea imaginii dinamice (Social Media)
+// Link pentru generarea imaginii dinamice
 const ogImage = `https://og-image.vercel.app/${encodeURIComponent(title)}.png?theme=light&md=1&fontSize=100px&images=https%3A%2F%2Femojicdn.elk.sh%2F%F0%9F%93%98`;
 ---
 <html lang="ro">
     <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-F58T7Y0Y8K"></script>
-        
-        <script is:inline>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-F58T7Y0Y8K');
-        </script>
-
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -41,8 +33,9 @@ const ogImage = `https://og-image.vercel.app/${encodeURIComponent(title)}.png?th
         <meta property="twitter:description" content={description} />
         <meta property="twitter:image" content={ogImage} />
 
-        <meta name="google-site-verification" content="AICI_PUI_CODUL_DE_LA_GOOGLE_SEARCH_CONSOLE" />
-    </head>
+        <meta name="google-site-verification" content="CODUL_TAU_DE_LA_SEARCH_CONSOLE" />
+        
+        </head>
     
     <body class="bg-gray-50 text-gray-900 font-sans flex flex-col min-h-screen">
         <nav class="bg-white border-b py-4 shadow-sm mb-8">
@@ -58,5 +51,7 @@ const ogImage = `https://og-image.vercel.app/${encodeURIComponent(title)}.png?th
         <footer class="text-center py-10 text-gray-400 text-sm border-t mt-20 bg-white">
             <p>&copy; 2026 Manualul.ro - Decizii informate, bazate pe cifre.</p>
         </footer>
+
+        <CookieConsent />
     </body>
 </html>
