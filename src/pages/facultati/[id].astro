@@ -10,87 +10,100 @@ export async function getStaticPaths() {
 }
 
 const { info } = Astro.props;
-const aniStudiu = parseInt(info.durata_ani);
-const taxaAnuala = parseFloat(info.taxa_anuala_lei);
-const salariuNet = parseFloat(info.salariu_debutant_net);
 const renderList = (text) => text ? text.split('<br>').filter(Boolean) : [];
+const renderBullet = (text) => text ? text.split(',').filter(Boolean) : [];
 ---
 
-<Layout 
-    title={`Rentabilitate ${info.specializare} - ${info.universitate}`}
-    description={`Vezi în câți ani îți recuperezi investiția în facultatea de ${info.specializare}. Simulator profitabilitate carieră 2026.`}
->
-    <main class="max-w-4xl mx-auto px-4 pb-16">
-        <nav class="py-6">
-            <a href="/facultati" class="text-sm font-bold text-indigo-700 hover:text-indigo-900 flex items-center gap-2">
-                ← Înapoi la listă
-            </a>
-        </nav>
+<Layout title={`Rentabilitate ${info.specializare} - Manualul.ro`}>
+    <main class="max-w-5xl mx-auto px-4 pb-20">
+        <nav class="py-6"><a href="/facultati" class="text-indigo-600 font-bold">← Înapoi la listă</a></nav>
 
-        <header class="mb-12 text-center">
-            <h1 class="text-4xl font-black text-gray-900 mb-2">{info.specializare}</h1>
-            <p class="text-indigo-600 font-bold uppercase tracking-widest text-sm">{info.universitate}</p>
+        <header class="mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 leading-tight mb-4">{info.specializare}</h1>
+            <div class="flex flex-wrap gap-4 items-center">
+                <span class="px-4 py-1 bg-indigo-900 text-white rounded-full text-xs font-bold">{info.universitate}</span>
+                <span class="px-4 py-1 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold border border-indigo-200">{info.status}</span>
+            </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-            <div class="lg:col-span-2 bg-indigo-900 rounded-[40px] p-8 text-white shadow-2xl shadow-indigo-200">
-                <h2 class="text-2xl font-bold mb-8">Simulator Recuperare Investiție</h2>
-                
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-xs font-bold uppercase opacity-60 mb-2">Costuri lunare de trai (Chirie + Masă):</label>
-                        <input type="range" id="traiInput" min="1500" max="5000" step="100" value="2500" class="w-full h-2 bg-indigo-700 rounded-lg appearance-none cursor-pointer accent-white">
-                        <div class="flex justify-between mt-2 text-sm font-bold">
-                            <span>1.500 Lei</span>
-                            <span id="traiValue" class="text-indigo-300">2.500 Lei</span>
-                            <span>5.000 Lei</span>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-16">
+            <div class="lg:col-span-2 space-y-8">
+                <div class="bg-indigo-950 rounded-[48px] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <h2 class="text-2xl font-bold mb-8 flex items-center gap-3">
+                            <span class="p-2 bg-indigo-500 rounded-xl">📊</span> Simulator ROI (Return on Investment)
+                        </h2>
+                        
+                        <div class="space-y-10">
+                            <div>
+                                <div class="flex justify-between mb-4">
+                                    <label class="text-xs font-black uppercase opacity-60 tracking-widest">Costuri lunare de trai (Chirie + Masă)</label>
+                                    <span id="traiValue" class="text-indigo-400 font-bold">2.500 Lei</span>
+                                </div>
+                                <input type="range" id="traiInput" min="1500" max="6000" step="100" value="2500" class="w-full h-3 bg-indigo-800 rounded-lg appearance-none cursor-pointer accent-white">
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10 border-t border-white/10">
+                                <div>
+                                    <p class="text-[10px] opacity-50 uppercase font-black mb-1">Investiție Totală în Educație</p>
+                                    <p class="text-4xl font-black tabular-nums" id="costTotalDisplay">0 Lei</p>
+                                    <p class="text-[10px] mt-2 text-indigo-300 italic">*Include taxele pe {info.durata_ani} ani + trai</p>
+                                </div>
+                                <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
+                                    <p class="text-[10px] opacity-50 uppercase font-black mb-1">Recuperare Investiție</p>
+                                    <p class="text-4xl font-black text-indigo-400 tabular-nums" id="roiDisplay">0 Luni</p>
+                                    <p class="text-[10px] mt-2 opacity-60">După angajare, vei fi "pe profit" în această perioadă.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-indigo-800">
+                <div class="bg-white rounded-[40px] p-8 md:p-12 border border-gray-100 shadow-sm">
+                    <h3 class="text-2xl font-black text-gray-900 mb-8">Perspective de Carieră 2026</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
-                            <p class="text-xs opacity-60 uppercase font-bold mb-1">Investiție Totală (Taxă + Trai)</p>
-                            <p class="text-3xl font-black" id="costTotalDisplay">0 Lei</p>
+                            <h4 class="text-indigo-600 font-black text-xs uppercase tracking-widest mb-4">Joburi Recomandate</h4>
+                            <ul class="space-y-3">
+                                {renderBullet(info.perspective_cariera).map((job) => (
+                                    <li class="flex items-center gap-3 font-bold text-gray-700">
+                                        <span class="w-2 h-2 bg-indigo-500 rounded-full"></span> {job}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        <div class="text-right">
-                            <p class="text-xs opacity-60 uppercase font-bold mb-1">Timp Recuperare (Luni)</p>
-                            <p class="text-3xl font-black text-indigo-300" id="roiDisplay">0 Luni</p>
+                        <div class="bg-gray-50 p-6 rounded-3xl">
+                            <h4 class="font-bold text-gray-900 mb-2">Pulsul Pieței</h4>
+                            <p class="text-sm text-gray-600 leading-relaxed">{info.piata_muncii}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="space-y-6">
-                <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                    <p class="text-[10px] font-black uppercase text-gray-400 mb-1">Salariu Debutant Estimativ</p>
-                    <p class="text-2xl font-black text-indigo-600">{info.salariu_debutant_net} Lei</p>
+            <div class="space-y-8">
+                <div class="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm">
+                    <h3 class="font-bold text-gray-900 mb-6 flex items-center gap-2">📂 Admitere</h3>
+                    <ul class="space-y-4">
+                        {renderList(info.acte_admitere).map((act) => (
+                            <li class="text-sm text-gray-600 flex items-start gap-2 italic">
+                                <span>-</span> {act}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-                <div class="bg-indigo-50 p-6 rounded-3xl border border-indigo-100">
-                    <p class="text-[10px] font-black uppercase text-indigo-700 mb-1">Durată Studii</p>
-                    <p class="text-2xl font-black text-indigo-900">{info.durata_ani} Ani</p>
+
+                <div class="bg-amber-50 p-8 rounded-[32px] border border-amber-100">
+                    <h3 class="font-bold text-amber-900 mb-4 flex items-center gap-2">⚠️ Atenție la Costuri</h3>
+                    <p class="text-xs text-amber-800 leading-relaxed font-medium">
+                        Pe lângă taxe, va trebui să bugetezi separat pentru: <br/>
+                        <strong class="block mt-2">{info.costuri_ascunse}</strong>
+                    </p>
                 </div>
             </div>
         </div>
-
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="bg-white p-8 rounded-3xl border border-gray-100">
-                <h3 class="font-bold text-xl mb-4">Piața Muncii în 2026</h3>
-                <p class="text-gray-600 leading-relaxed">{info.piata_muncii}</p>
-            </div>
-            <div class="bg-white p-8 rounded-3xl border border-gray-100">
-                <h3 class="font-bold text-xl mb-4">Acte Admitere</h3>
-                <ul class="space-y-3">
-                    {renderList(info.acte_admitere).map((act) => (
-                        <li class="flex items-center gap-2 text-gray-600 text-sm">
-                            <span class="text-indigo-500 font-bold">•</span> {act}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </section>
     </main>
 
-    <script is:inline define:vars={{ aniStudiu, taxaAnuala, salariuNet }}>
+    <script is:inline define:vars={{ aniStudiu: parseInt(info.durata_ani), taxaAnuala: parseFloat(info.taxa_anuala_lei), salariuNet: parseFloat(info.salariu_debutant_net) }}>
         const traiInput = document.getElementById('traiInput');
         const traiValue = document.getElementById('traiValue');
         const costTotalDisplay = document.getElementById('costTotalDisplay');
@@ -101,12 +114,13 @@ const renderList = (text) => text ? text.split('<br>').filter(Boolean) : [];
             traiValue.innerText = costTraiLunar.toLocaleString() + " Lei";
 
             const costStudiuTotal = (taxaAnuala * aniStudiu) + (costTraiLunar * 12 * aniStudiu);
+            // Calculăm "Profitul" lunar al absolventului: ce rămâne după cheltuielile de subzistență
             const profitLunarDupaAbsolvire = salariuNet - costTraiLunar;
 
-            let luniRecuperare = costStudiuTotal / profitLunarDupaAbsolvire;
+            let luniRecuperare = costStudiuTotal / (profitLunarDupaAbsolvire > 0 ? profitLunarDupaAbsolvire : 1);
             
             costTotalDisplay.innerText = Math.round(costStudiuTotal).toLocaleString() + " Lei";
-            roiDisplay.innerText = profitLunarDupaAbsolvire > 0 ? Math.round(luniRecuperare) : "∞";
+            roiDisplay.innerText = profitLunarDupaAbsolvire > 0 ? Math.round(luniRecuperare) : "N/A (Salariu prea mic)";
         };
 
         traiInput.addEventListener('input', calculate);
