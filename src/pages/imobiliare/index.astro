@@ -1,0 +1,136 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// SEO & AI Data
+const pageTitle = "Chirie vs. Rată: Ce alegi în 2026?";
+const pageDesc = "Simulator complex imobiliar. Compară costul unei rate bancare cu cel al chiriei și află care este decizia financiară corectă pentru tine.";
+---
+
+<script type="application/ld+json" is:inline>
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calculator Chirie vs Rată Manualul.ro",
+  "url": "https://manualul.ro/imobiliare",
+  "description": "Calculator financiar pentru compararea achiziției unui imobil prin credit versus închiriere și investiția diferenței.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any"
+}
+</script>
+
+<Layout title={pageTitle} description={pageDesc}>
+    <main class="max-w-5xl mx-auto px-4 pb-32">
+        <nav class="py-6">
+            <a href="/" class="text-sm font-bold text-indigo-600 hover:underline flex items-center gap-2">
+                ← Înapoi la hub
+            </a>
+        </nav>
+
+        <header class="mb-12 text-center">
+            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-indigo-200 mb-4 inline-block">
+                Ghid Imobiliar 2026
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Chirie vs. Rată
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Nu e vorba doar de rată, ci de costul de oportunitate. Află cine câștigă pe termen lung.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-1 space-y-6 bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm">
+                <div>
+                    <label class="block text-xs font-black uppercase text-gray-400 mb-2">Preț Apartament (EUR)</label>
+                    <input type="number" id="pretApartament" value="100000" class="w-full bg-gray-50 border-2 border-gray-100 rounded-xl p-3 font-bold focus:border-indigo-500 outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-black uppercase text-gray-400 mb-2">Chirie Lunară (EUR)</label>
+                    <input type="number" id="chirieLuna" value="500" class="w-full bg-gray-50 border-2 border-gray-100 rounded-xl p-3 font-bold focus:border-indigo-500 outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-black uppercase text-gray-400 mb-2">Dobândă Credit (%)</label>
+                    <input type="number" id="dobandaAn" value="5.5" step="0.1" class="w-full bg-gray-50 border-2 border-gray-100 rounded-xl p-3 font-bold focus:border-indigo-500 outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-black uppercase text-gray-400 mb-2">Perioadă (Ani)</label>
+                    <input type="number" id="aniSimulare" value="20" class="w-full bg-gray-50 border-2 border-gray-100 rounded-xl p-3 font-bold focus:border-indigo-500 outline-none transition-all">
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-indigo-900 text-white p-8 rounded-[40px] shadow-2xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <h2 class="text-xl font-bold mb-8">Verdictul la finalul perioadei:</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="bg-white/10 p-6 rounded-2xl border border-white/10">
+                                <p class="text-xs uppercase opacity-60 mb-1">Dacă Cumperi (Rată)</p>
+                                <p id="totalRata" class="text-3xl font-black">0 EUR</p>
+                                <p class="text-[10px] opacity-60 mt-2">Valoarea apartamentului (estimat +2%/an)</p>
+                            </div>
+                            <div class="bg-white/10 p-6 rounded-2xl border border-white/10">
+                                <p class="text-xs uppercase opacity-60 mb-1">Dacă Stai în Chirie</p>
+                                <p id="totalChirie" class="text-3xl font-black text-indigo-300">0 EUR</p>
+                                <p class="text-[10px] opacity-60 mt-2">Investiția avansului + diferenței (8%/an)</p>
+                            </div>
+                        </div>
+
+                        <div id="verdictBox" class="mt-8 p-6 rounded-3xl bg-indigo-500 text-center font-black text-xl">
+                            Analizăm datele...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-[32px] border border-gray-100 text-sm text-gray-500 italic">
+                    *Calculul presupune un avans de 15% și faptul că în varianta de chirie, investești avansul și diferența dintre rată și chirie într-un portofoliu cu randament de 8% anual.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline>
+        function calculate() {
+            const pret = parseFloat(document.getElementById('pretApartament').value) || 0;
+            const chirie = parseFloat(document.getElementById('chirieLuna').value) || 0;
+            const dobanda = (parseFloat(document.getElementById('dobandaAn').value) || 0) / 100 / 12;
+            const ani = parseInt(document.getElementById('aniSimulare').value) || 1;
+            const luni = ani * 12;
+
+            const avans = pret * 0.15;
+            const sumaCredit = pret - avans;
+
+            // Calcul Rată (Anuitate)
+            const rata = (dobanda === 0) ? sumaCredit / luni : sumaCredit * (dobanda * Math.pow(1 + dobanda, luni)) / (Math.pow(1 + dobanda, luni) - 1);
+            
+            // Varianta Cumpărare: Valoarea casei după X ani (apreciere 2%/an)
+            const valoareCasaFinala = pret * Math.pow(1 + 0.02, ani);
+
+            // Varianta Chirie: Investiția avansului + diferenței de rată (8%/an = 0.66%/lună)
+            const rInv = 0.08 / 12;
+            let totalInvestit = avans * Math.pow(1 + rInv, luni);
+            const diferentaLunara = rata - chirie;
+
+            if (diferentaLunara > 0) {
+                totalInvestit += diferentaLunara * (Math.pow(1 + rInv, luni) - 1) / rInv;
+            }
+
+            // Update UI
+            document.getElementById('totalRata').innerText = Math.round(valoareCasaFinala).toLocaleString() + " EUR";
+            document.getElementById('totalChirie').innerText = Math.round(totalInvestit).toLocaleString() + " EUR";
+
+            const vBox = document.getElementById('verdictBox');
+            if (valoareCasaFinala > totalInvestit) {
+                vBox.innerText = "🏆 Rata câștigă: Vei avea un activ mai valoros.";
+                vBox.className = "mt-8 p-6 rounded-3xl bg-green-500 text-white text-center font-black text-xl shadow-lg";
+            } else {
+                vBox.innerText = "🏆 Chiria câștigă: Investițiile tale vor depăși valoarea casei.";
+                vBox.className = "mt-8 p-6 rounded-3xl bg-blue-500 text-white text-center font-black text-xl shadow-lg";
+            }
+        }
+
+        const inputs = ['pretApartament', 'chirieLuna', 'dobandaAn', 'aniSimulare'];
+        inputs.forEach(id => document.getElementById(id).addEventListener('input', calculate));
+        calculate();
+    </script>
+</Layout>
