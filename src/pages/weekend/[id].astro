@@ -2,14 +2,19 @@
 import Layout from '../../layouts/Layout.astro';
 import { readFileSync } from 'fs';
 import { parse } from 'csv-parse/sync';
+import { getCentralData } from '../../lib/api.js';
 
-export async function getStaticPaths() {
-    const fileContent = readFileSync('./src/data/weekend.csv', 'utf-8');
-    const records = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
-    return records.map((row) => ({ params: { id: row.id }, props: { info: row } }));
+const { id } = Astro.params;
+const fileContent = readFileSync('./src/data/weekend.csv', 'utf-8');
+const records = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
+const info = records.find(r => r.id === id);
+
+if (!info) {
+    return Astro.redirect('/404');
 }
 
-const { info } = Astro.props;
+const centralData = await getCentralData();
+const gasolinePrice = centralData.fuel.gasoline;
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify({
@@ -146,7 +151,7 @@ const { info } = Astro.props;
     </div>
 </a>
 
-<script is:inline define:vars={{ dest: info.destinatie }}>
+<script is:inline define:vars={{ dest: info.destinatie, gasolinePrice }}>
     // Preluăm elementul buton
     const btnWhatsapp = document.getElementById('whatsappBtn');
 
@@ -169,7 +174,7 @@ const { info } = Astro.props;
         // 2. Calcule
         const totalCazare = n * pretCazare;
         const totalMasa = (n + 1) * p * (pretMancare + pretDistractie);
-        const totalBenzina = (k / 100) * 8 * 7.5;
+        const totalBenzina = (k / 100) * 8 * gasolinePrice;
         const total = Math.round(totalCazare + totalMasa + totalBenzina);
         const dispStickyTotal = document.getElementById('stickyTotal');
 if(dispStickyTotal) dispStickyTotal.innerText = total.toLocaleString() + " Lei";

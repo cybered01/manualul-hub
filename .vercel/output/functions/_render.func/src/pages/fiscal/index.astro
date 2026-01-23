@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCentralData } from '../../lib/api';
+import { getCentralData } from '../../lib/api.js';
 
 const centralData = await getCentralData();
 const eurRate = centralData.bnr.eur;
@@ -146,11 +146,6 @@ const eurRate = centralData.bnr.eur;
                 </div>
             </div>
         </div>
-
-        <footer class="mt-12 mb-8 flex items-center justify-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            Date live: EUR: {eurRate.toFixed(4)} RON | Actualizat la: {centralData.updated}
-        </footer>
     </main>
 
     <div id="stickyBar" class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-slate-200 p-4 shadow-[0_-10px_25px_rgba(0,0,0,0.1)] md:hidden z-40">
@@ -164,6 +159,11 @@ const eurRate = centralData.bnr.eur;
             </button>
         </div>
     </div>
+
+    <footer class="mt-12 mb-8 flex items-center justify-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+        Date live: EUR: {centralData.bnr.eur.toFixed(4)} RON | Actualizat la: {centralData.updated}
+    </footer>
 
     <a
         id="whatsappBtn"
