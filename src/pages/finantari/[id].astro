@@ -10,28 +10,23 @@ export async function getStaticPaths() {
 }
 
 const { info } = Astro.props;
-
-// Extragem procentul de cofinanțare ca număr (ex: "10%" devine 0.1)
 const cofinantareProcent = parseFloat(info.cofinantare) / 100;
-
-// Curățăm valoarea maximă de orice simbol (EUR, puncte, spații) pentru a avea un număr pur
 const valoareMaxGrant = parseFloat(info.valoare_maxima.replace(/[^\d]/g, ''));
-
 const isOpen = info.status.toLowerCase() === 'deschis';
 const statusColor = isOpen ? 'text-green-600 bg-green-50 border-green-100' : 'text-amber-600 bg-amber-50 border-amber-100';
 ---
 
 <Layout 
-    title={`${info.titlu} - Ghid Finanțare 2026`}
-    description={`Calcul cofinanțare și condiții de eligibilitate pentru ${info.titlu}. Suma maximă: ${info.valoare_maxima} pentru categoria ${info.categorie}.`}
+    title={`Simulator ${info.titlu} - Verifică dacă ești eligibil`} 
+    description={`Calculator de cofinanțare și ghid pas-cu-pas pentru ${info.titlu}. Vezi câți bani poți obține în 2026.`}
 >
-    <main class="max-w-2xl mx-auto px-4 pb-12">
+    <main class="max-w-3xl mx-auto px-4 pb-12">
         <nav class="py-4">
             <a href="/finantari" class="text-sm text-blue-700 hover:underline flex items-center gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
-                Înapoi la listă
+                Înapoi la lista de programe
             </a>
         </nav>
 
@@ -39,34 +34,31 @@ const statusColor = isOpen ? 'text-green-600 bg-green-50 border-green-100' : 'te
             <span class={`inline-block px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border mb-4 ${statusColor}`}>
                 {info.status}
             </span>
-            <h1 class="text-4xl font-black text-gray-900 tracking-tight mb-2">
-                {info.titlu}
+            <h1 class="text-3xl md:text-4xl font-black text-gray-900 tracking-tight mb-2">
+                Simulator Finanțare: {info.titlu}
             </h1>
-            <p class="text-gray-500 font-medium italic">{info.categorie}</p>
+            <p class="text-gray-500 font-medium">Verifică sumele și cofinanțarea necesară</p>
         </header>
         
-        <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden mb-10">
+        <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden mb-12 relative z-10">
             <div class="p-8 bg-gradient-to-br from-blue-50 to-white border-b border-blue-100">
                 <label for="investitieInput" class="block text-xs font-black text-blue-800 uppercase tracking-widest mb-3">
-                    Valoarea investiției propuse (EUR):
+                    Ce investiție totală estimezi? (EUR):
                 </label>
                 <div class="relative">
                     <input 
                         type="number" 
                         id="investitieInput" 
                         value={valoareMaxGrant} 
-                        class="w-full text-4xl font-black bg-white border-2 border-blue-100 rounded-2xl px-6 py-5 text-blue-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-50 focus:outline-none transition-all shadow-sm"
+                        class="w-full text-4xl font-black bg-white border-2 border-blue-100 rounded-2xl px-6 py-5 text-blue-700 focus:border-blue-500 focus:outline-none transition-all shadow-sm"
                     />
                     <div class="absolute right-6 top-1/2 -translate-y-1/2 text-blue-200 font-black text-2xl pointer-events-none">EUR</div>
                 </div>
-                <p class="mt-4 text-sm text-blue-600">
-                    Suma maximă nerambursabilă: <strong>{info.valoare_maxima}</strong>
-                </p>
             </div>
 
             <div class="p-8 bg-white">
                 <div class="mb-10 text-center md:text-left">
-                    <p class="text-xs text-gray-400 uppercase font-black tracking-widest mb-1">Grantul pe care îl primești</p>
+                    <p class="text-xs text-gray-400 uppercase font-black tracking-widest mb-1">Grant Nerambursabil (Bani de la Stat)</p>
                     <div class="flex items-baseline justify-center md:justify-start">
                         <span id="grantDisplay" class="text-6xl font-black text-blue-600 tabular-nums">0</span>
                         <span class="text-2xl font-bold text-blue-300 ml-3">EUR</span>
@@ -75,83 +67,98 @@ const statusColor = isOpen ? 'text-green-600 bg-green-50 border-green-100' : 'te
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-gray-50">
                     <div class="bg-gray-50 p-5 rounded-2xl">
-                        <p class="text-[10px] text-gray-400 font-black uppercase mb-2">Efortul tău financiar</p>
+                        <p class="text-[10px] text-gray-400 font-black uppercase mb-2">Contribuția Ta Proprie</p>
                         <p class="text-2xl font-black text-gray-800">
                             <span id="cofinantareDisplay" class="tabular-nums">0</span> <span class="text-gray-400">EUR</span>
                         </p>
-                        <p class="text-xs text-blue-600 mt-1">Cota de participare: {info.cofinantare}</p>
+                        <p class="text-xs text-blue-600 mt-1">Cota obligatorie: {info.cofinantare}</p>
                     </div>
-                    <div class="bg-blue-700 p-5 rounded-2xl text-white">
-                        <p class="text-[10px] opacity-70 font-black uppercase mb-2">Verdict Eligibilitate</p>
-                        <p class="text-xl font-bold">Program Activ</p>
-                        <p class="text-[10px] opacity-70 mt-1">Sesiunea 2026</p>
+                    <div class="bg-blue-600 p-5 rounded-2xl text-white flex flex-col justify-center">
+                        <p class="text-[10px] opacity-70 font-black uppercase mb-1">Verdictul Simulatorului</p>
+                        <p class="text-lg font-bold leading-tight">
+                            Investiția este posibilă. <br/>
+                            <span class="text-blue-200 text-sm font-normal">Nu depășești plafonul maxim.</span>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <section class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-6">
-            <div>
-                <h2 class="text-2xl font-black text-gray-800 mb-4 flex items-center gap-2">
-                    <span class="w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center text-sm">i</span>
-                    Descriere Program
-                </h2>
-                <p class="text-gray-600 leading-relaxed italic">
-                    {info.descriere}
-                </p>
-            </div>
+        <section class="max-w-none mb-12">
+            <h2 class="text-2xl font-black text-gray-900 mb-8 flex items-center gap-3">
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700 text-sm">1</span>
+                Cum obții acești bani? (Foaia de Parcurs)
+            </h2>
+            
+            <div class="space-y-0">
+                <div class="flex gap-4 pb-8 border-l-2 border-blue-100 pl-8 relative">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                    <div>
+                        <h3 class="font-bold text-gray-800 text-lg mb-2">Verificarea firmei (Eligibilitate)</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Primul pas este să te asiguri că firma ta (sau viitoarea firmă) se încadrează în categoria <strong>{info.categorie}</strong>. 
+                            {info.descriere}
+                        </p>
+                    </div>
+                </div>
 
-            <div class="pt-6 border-t border-gray-50">
-                <h3 class="font-bold text-gray-800 mb-3">Criterii de bază:</h3>
-                <ul class="space-y-3 text-sm text-gray-600">
-                    <li class="flex items-start gap-2">
-                        <span class="text-blue-500 font-bold">✓</span>
-                        Microîntreprinderi și IMM-uri cu sediul în România.
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="text-blue-500 font-bold">✓</span>
-                        Cofinanțare proprie de minim {info.cofinantare} din valoarea proiectului.
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <span class="text-blue-500 font-bold">✓</span>
-                        Menținerea locurilor de muncă sau a investiției minim 3 ani.
-                    </li>
-                </ul>
-            </div>
+                <div class="flex gap-4 pb-8 border-l-2 border-blue-100 pl-8 relative">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-200 border-4 border-white"></div>
+                    <div>
+                        <h3 class="font-bold text-gray-800 text-lg mb-2">Pregătirea Ofertelor</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Nu poți cere bani fără să știi pe ce îi cheltui. Trebuie să ceri oferte de la furnizori pentru echipamentele sau software-ul dorit. 
+                            Asigură-te că valoarea totală a ofertelor este aproape de <strong><span id="investitieText">investiția calculată mai sus</span></strong>.
+                        </p>
+                    </div>
+                </div>
 
-            <div class="bg-amber-50 rounded-2xl p-6 border border-amber-100 mt-8">
-                <p class="text-xs text-amber-800 leading-relaxed font-medium">
-                    <strong>Atenție:</strong> Calculul generat de Manualul.ro este pur informativ și se bazează pe grilele standard. Consultă Ghidul Solicitantului oficial înainte de a depune documentația.
-                </p>
+                <div class="flex gap-4 border-l-2 border-transparent pl-8 relative">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-200 border-4 border-white"></div>
+                    <div>
+                        <h3 class="font-bold text-gray-800 text-lg mb-2">Depunerea Proiectului</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            Dacă statusul este <span class="font-bold text-green-600">Deschis</span>, poți depune cererea pe platforma oficială (MySMIS sau platforma dedicată Ministerului). 
+                            Ai nevoie de semnătură electronică și de CUI-ul firmei.
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
+
+        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+            <p class="text-xs text-gray-500 text-center">
+                <strong>Notă:</strong> Manualul.ro este un instrument independent de informare. Rezultatele simulatorului nu reprezintă o garanție a finanțării. Consultă întotdeauna Ghidul Solicitantului oficial.
+            </p>
+        </div>
     </main>
 
     <script is:inline define:vars={{ cofinantareProcent, valoareMaxGrant }}>
         const input = document.getElementById('investitieInput');
         const grantDisplay = document.getElementById('grantDisplay');
         const cofinantareDisplay = document.getElementById('cofinantareDisplay');
+        const investitieText = document.getElementById('investitieText');
 
         const formatNumber = (num) => Math.round(num).toLocaleString('ro-RO');
 
         const calculate = () => {
             const investitie = parseFloat(input.value) || 0;
             
-            // Logica: Grantul este restul până la 100%, dar plafonat
             let grantCalculat = investitie * (1 - cofinantareProcent);
-            
             if (grantCalculat > valoareMaxGrant) {
                 grantCalculat = valoareMaxGrant;
             }
 
-            // Tot ce depășește grantul plafonat devine cofinanțare
             const cofinantareCalculata = investitie - grantCalculat;
 
             grantDisplay.innerText = formatNumber(grantCalculat);
             cofinantareDisplay.innerText = formatNumber(cofinantareCalculata);
+            
+            // Actualizăm și textul din ghid
+            if(investitieText) investitieText.innerText = formatNumber(investitie) + " EUR";
         };
 
         input.addEventListener('input', calculate);
-        calculate(); // Calcul inițial
+        calculate();
     </script>
 </Layout>
