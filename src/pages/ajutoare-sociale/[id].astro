@@ -10,154 +10,97 @@ export async function getStaticPaths() {
 }
 
 const { info } = Astro.props;
-
-// Curățăm datele
-const plafonMaxim = parseFloat(info.plafon_venit.replace(/[^\d]/g, ''));
-const isOpen = info.status.toLowerCase() === 'deschis';
-const statusColor = isOpen ? 'text-green-600 bg-green-50 border-green-100' : 'text-amber-600 bg-amber-50 border-amber-100';
-
-// Funcție pentru a transforma textul cu <br> în liste
-const renderList = (text) => text.split('<br>').filter(Boolean);
+const renderList = (text) => text ? text.split('<br>').filter(Boolean) : [];
 ---
 
 <Layout 
-    title={`Ghid ${info.titlu} 2026 - Verificare Eligibilitate`}
-    description={`Calculator de venit pentru ${info.titlu}. Vezi lista actelor necesare, ce poți cumpăra cu suma de ${info.valoare_ajutor} și cum depui cererea.`}
+    title={`Ghid Complet: ${info.titlu}`}
+    description={`Procedura oficială pentru ${info.titlu}: acte necesare, instituții responsabile și pași de urmat.`}
 >
-    <main class="max-w-4xl mx-auto px-4 pb-12">
-        <nav class="py-4">
-            <a href="/ajutoare-sociale" class="text-sm text-green-700 hover:underline flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-                Înapoi la lista de beneficii
+    <main class="max-w-4xl mx-auto px-4 pb-16">
+        <nav class="py-6">
+            <a href="/ajutoare-sociale" class="text-sm font-bold text-green-700 hover:text-green-900 flex items-center gap-2">
+                ← Înapoi la listă
             </a>
         </nav>
 
-        <header class="text-center mb-10">
-            <span class={`inline-block px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border mb-4 ${statusColor}`}>
-                {info.status}
-            </span>
-            <h1 class="text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-4">
-                {info.titlu}
-            </h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">{info.descriere}</p>
-        </header>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden sticky top-8">
-                    <div class="p-8 bg-green-600 text-white">
-                        <h2 class="text-xl font-bold flex items-center gap-2 mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            Verificator Eligibilitate
-                        </h2>
-                        <label for="venitInput" class="block text-xs font-bold text-green-100 uppercase tracking-widest mb-2">
-                            Venitul net lunar (per membru):
-                        </label>
-                        <div class="relative">
-                            <input 
-                                type="number" 
-                                id="venitInput" 
-                                placeholder="0"
-                                class="w-full text-4xl font-black bg-white/10 border-2 border-white/20 rounded-2xl px-6 py-4 text-white focus:bg-white/20 focus:outline-none transition-all shadow-inner placeholder-green-200/50"
-                            />
-                            <div class="absolute right-6 top-1/2 -translate-y-1/2 text-green-200 font-bold text-xl pointer-events-none">LEI</div>
-                        </div>
-                        <p class="mt-4 text-sm text-green-100 font-medium opacity-90">
-                            Plafonul maxim admis: <strong>{info.plafon_venit} Lei</strong>
-                        </p>
-                    </div>
-
-                    <div class="p-8 bg-white text-center min-h-[200px] flex flex-col justify-center items-center">
-                        <div id="mesajDefault" class="text-gray-400 animate-pulse">
-                            <p class="text-sm">Introdu venitul tău mai sus pentru a vedea rezultatul.</p>
-                        </div>
-
-                        <div id="rezultatBox" class="hidden w-full">
-                            <div id="iconRezultat" class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-sm"></div>
-                            
-                            <p id="mesajRezultat" class="text-3xl font-black mb-2 tracking-tight"></p>
-                            
-                            <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 mt-4 text-left w-full">
-                                <p id="detaliiRezultat" class="text-gray-600 text-sm leading-relaxed"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <header class="mb-12 border-b border-gray-100 pb-10">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-green-200">
+                    {info.status}
+                </span>
+                <span class="text-gray-400 text-xs font-bold uppercase">{info.categorie}</span>
             </div>
+            <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4">{info.titlu}</h1>
+            <p class="text-xl text-gray-500 leading-relaxed">{info.descriere}</p>
+        </header>
 
-            <div class="space-y-6">
-                <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                    <h3 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <span class="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xs">ℹ️</span>
-                        Cine primește ajutorul?
-                    </h3>
-                    <div class="text-sm text-gray-600 leading-relaxed space-y-2">
-                         {renderList(info.eligibilitate_extinsa).map((item) => (
-                            <p class="border-l-2 border-green-200 pl-3">{item}</p>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div class="lg:col-span-2 space-y-12">
+                
+                <section>
+                    <h2 class="text-2xl font-black text-gray-900 mb-6 flex items-center gap-3">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-green-600 text-white text-sm">1</span>
+                        Cine are dreptul? (Criterii)
+                    </h2>
+                    <div class="grid grid-cols-1 gap-4">
+                        {renderList(info.criterii_eligibilitate).map((criteriu) => (
+                            <div class="p-4 bg-white border border-gray-100 rounded-2xl shadow-sm flex items-start gap-3">
+                                <span class="text-green-600 font-bold">✓</span>
+                                <span class="text-gray-700 font-medium">{criteriu}</span>
+                            </div>
                         ))}
                     </div>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black text-gray-900 mb-6 flex items-center gap-3">
+                        <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-green-600 text-white text-sm">2</span>
+                        Ce trebuie să faci? (Procedura)
+                    </h2>
+                    <div class="space-y-6">
+                        {renderList(info.pasi_procedura).map((pas, index) => (
+                            <div class="flex gap-6 relative">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold z-10">
+                                    {index + 1}
+                                </div>
+                                <div class="pt-2">
+                                    <p class="text-gray-700 leading-relaxed font-medium">{pas}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            </div>
+
+            <div class="space-y-8">
+                <div class="bg-gray-900 text-white p-6 rounded-3xl shadow-xl">
+                    <p class="text-[10px] font-black uppercase tracking-widest opacity-60 mb-2">Instituția Responsabilă</p>
+                    <h3 class="text-lg font-bold mb-4">{info.institutie}</h3>
+                    <div class="text-xs bg-white/10 p-4 rounded-xl border border-white/10 italic text-blue-100">
+                        Sfat: Mergi la sediul local (Primărie sau Poștă) pentru a solicita formularele tipizate.
+                    </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
                     <h3 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <span class="w-6 h-6 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-xs">📂</span>
-                        Acte Necesare (Dosar)
+                        <span class="text-lg">📂</span> Acte necesare
                     </h3>
-                    <ul class="space-y-3">
+                    <ul class="space-y-4">
                         {renderList(info.acte_necesare).map((act) => (
-                            <li class="flex items-start gap-2 text-sm text-gray-600">
-                                <span class="text-amber-500 mt-0.5">•</span>
-                                <span>{act}</span>
+                            <li class="flex items-start gap-2 text-sm text-gray-600 border-b border-gray-50 pb-2 last:border-0">
+                                <span class="text-green-600 font-bold">•</span>
+                                {act}
                             </li>
                         ))}
                     </ul>
+                </div>
+
+                <div class="bg-green-50 p-6 rounded-3xl border border-green-100">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-green-700 mb-1">Cuantum Ajutor</p>
+                    <p class="text-3xl font-black text-green-900">{info.valoare_ajutor}</p>
                 </div>
             </div>
         </div>
-
-        <section class="max-w-none bg-white rounded-3xl p-8 md:p-12 border border-gray-100 shadow-sm">
-            <h2 class="text-3xl font-black text-gray-900 mb-8">Ce poți face cu banii?</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-lg font-bold text-green-700 mb-4 uppercase tracking-widest border-b border-gray-100 pb-2">Produse & Servicii Eligibile</h3>
-                    <ul class="space-y-4">
-                        {renderList(info.beneficii).map((item) => (
-                            <li class="flex items-start gap-3">
-                                <div class="w-6 h-6 rounded-full bg-green-50 text-green-600 flex items-center justify-center flex-shrink-0 font-bold text-sm">✓</div>
-                                <span class="text-gray-700 font-medium">{item}</span>
-                            </li>
-                        ))}
-                    </ul>
-                    <div class="mt-6 p-4 bg-green-50 rounded-xl border border-green-100">
-                        <p class="text-sm text-green-800 font-bold">Valoare totală ajutor: {info.valoare_ajutor}</p>
-                    </div>
-                </div>
-                
-                <div class="bg-gray-50 rounded-2xl p-8">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Cum obții cardul/tichetele?</h3>
-                    <div class="space-y-6">
-                        <div class="flex gap-4 relative">
-                            <div class="absolute left-[11px] top-2 bottom-0 w-0.5 bg-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-gray-900 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold z-10">1</div>
-                            <div>
-                                <h4 class="font-bold text-gray-900 text-sm">Verificare Automată (De obicei)</h4>
-                                <p class="text-xs text-gray-500 mt-1">
-                                    Majoritatea beneficiarilor (pensionari, handicap) sunt identificați automat în baza de date ANAF/CNPP.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 relative">
-                            <div class="absolute left-[11px] top-2 bottom-0 w-0.5 bg-gray-200"></div>
-                            <div class="w-6 h-6 rounded-full bg-gray-900 text-white flex items-center justify-center flex-shrink-0 text-xs font-bold z-10">2</div>
-                            <div>
-                                <h4 class="font-bold text-gray-900 text-sm">Depunere Cerere (Cazuri Speciale)</h4>
-                                <p class="text-xs text-gray-500 mt-1">
-                                    Dacă nu primești automat, dar te încadrezi, trebuie să depui dosarul la Primărie (Asistență Socială).
-                                </p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 relative">
-                            <div class="w-
+    </main>
+</Layout>
