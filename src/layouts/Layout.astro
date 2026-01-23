@@ -3,11 +3,21 @@
 import '../styles/global.css';
 const { title, description } = Astro.props;
 
-// Link pentru generarea imaginii dinamice (Titlu + Emoji Carte 📘)
+// Link pentru generarea imaginii dinamice
 const ogImage = `https://og-image.vercel.app/${encodeURIComponent(title)}.png?theme=light&md=1&fontSize=100px&images=https%3A%2F%2Femojicdn.elk.sh%2F%F0%9F%93%98`;
 ---
 <html lang="ro">
     <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-F58T7Y0Y8K"></script>
+        <script is:inline>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            // AICI PUI DIN NOU CODUL TĂU:
+            gtag('config', 'G-F58T7Y0Y8K');
+        </script>
+
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -23,7 +33,6 @@ const ogImage = `https://og-image.vercel.app/${encodeURIComponent(title)}.png?th
         <meta property="og:url" content={Astro.url} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        
         <meta property="og:image" content={ogImage} />
 
         <meta property="twitter:card" content="summary_large_image" />
@@ -32,8 +41,9 @@ const ogImage = `https://og-image.vercel.app/${encodeURIComponent(title)}.png?th
         <meta property="twitter:description" content={description} />
         <meta property="twitter:image" content={ogImage} />
 
-      <meta name="google-site-verification" content="op_t_BzcR9YSS0VpApE8QNCp9deDzPrLaerm8yMLT4Y" />
+        <meta name="google-site-verification" content="CODUL_TAU_DE_LA_SEARCH_CONSOLE" />
     </head>
+    
     <body class="bg-gray-50 text-gray-900 font-sans flex flex-col min-h-screen">
         <nav class="bg-white border-b py-4 shadow-sm mb-8">
             <div class="max-w-5xl mx-auto px-4">
