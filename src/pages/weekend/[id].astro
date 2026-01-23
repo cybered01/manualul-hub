@@ -1,0 +1,130 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { readFileSync } from 'fs';
+import { parse } from 'csv-parse/sync';
+
+export async function getStaticPaths() {
+    const fileContent = readFileSync('./src/data/weekend.csv', 'utf-8');
+    const records = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
+    return records.map((row) => ({ params: { id: row.id }, props: { info: row } }));
+}
+
+const { info } = Astro.props;
+---
+
+<Layout 
+    title={`Calculator Buget Weekend: ${info.destinatie}`}
+    description={`Vezi cât costă un weekend în ${info.destinatie}. Simulator de costuri pentru cazare, masă și transport în 2026.`}
+>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <nav class="py-6">
+            <a href="/weekend" class="text-sm font-bold text-orange-700 hover:underline flex items-center gap-2">
+                ← Înapoi la lista de destinații
+            </a>
+        </nav>
+
+        <header class="mb-10 text-center">
+            <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-orange-200 mb-4 inline-block">
+                {info.regiune}
+            </span>
+            <h1 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">{info.destinatie}</h1>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 bg-white rounded-[40px] shadow-2xl border border-orange-100 overflow-hidden">
+                <div class="p-8 md:p-12 bg-orange-600 text-white">
+                    <h2 class="text-2xl font-bold mb-8 flex items-center gap-3">
+                        <span>📊</span> Configurează Bugetul
+                    </h2>
+                    
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block text-[10px] font-black uppercase mb-2 opacity-80">Număr Persoane</label>
+                            <input type="number" id="persInput" value="2" min="1" class="w-full bg-white/10 border-2 border-white/20 rounded-2xl p-4 text-white font-black outline-none focus:bg-white/20 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black uppercase mb-2 opacity-80">Nopți Cazare</label>
+                            <input type="number" id="noptiInput" value="2" min="1" class="w-full bg-white/10 border-2 border-white/20 rounded-2xl p-4 text-white font-black outline-none focus:bg-white/20 transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-black uppercase mb-2 opacity-80">Distanță Dus-Întors (KM)</label>
+                        <input type="number" id="kmInput" value={info.distanta_ref * 2} class="w-full bg-white/10 border-2 border-white/20 rounded-2xl p-4 text-white font-black outline-none focus:bg-white/20 transition-all">
+                        <p class="text-[10px] mt-2 opacity-70 italic">*Calculat automat din București. Ajustează dacă pleci din alt oraș.</p>
+                    </div>
+                </div>
+
+                <div class="p-8 md:p-12">
+                    <div class="space-y-4 mb-10 pb-8 border-b border-gray-100">
+                        <div class="flex justify-between items-center text-gray-500">
+                            <span class="text-sm font-medium italic">Cazare ({info.pret_cazare} lei/noapte)</span>
+                            <span id="cazareSum" class="font-bold text-gray-900">0 Lei</span>
+                        </div>
+                        <div class="flex justify-between items-center text-gray-500">
+                            <span class="text-sm font-medium italic">Mâncare & Distracție ({info.pret_masa} lei/pers/zi)</span>
+                            <span id="masaSum" class="font-bold text-gray-900">0 Lei</span>
+                        </div>
+                        <div class="flex justify-between items-center text-gray-500">
+                            <span class="text-sm font-medium italic">Transport (Carburant)</span>
+                            <span id="benzinaSum" class="font-bold text-gray-900">0 Lei</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <p class="text-xs font-black uppercase text-gray-400 tracking-widest">Total Estimat Excursie</p>
+                        <p class="text-5xl font-black text-orange-600 tracking-tight" id="totalDisplay">0 Lei</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-gray-50 p-8 rounded-[32px] border border-gray-100 shadow-sm">
+                    <h3 class="font-black text-gray-900 uppercase text-xs tracking-widest mb-6 border-b pb-2">De neratat</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed font-medium italic mb-4">"{info.atractii}"</p>
+                    <div class="bg-white p-4 rounded-2xl border border-gray-100 text-xs text-orange-700 font-bold">
+                        💡 {info.tips}
+                    </div>
+                </div>
+
+                <div class="bg-orange-50 p-8 rounded-[32px] border border-orange-100">
+                    <h3 class="font-bold text-orange-900 mb-4">Despre Destinație</h3>
+                    <p class="text-sm text-orange-800 leading-relaxed opacity-80">{info.descriere}</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline define:vars={{ pretCazare: parseFloat(info.pret_cazare), pretMasa: parseFloat(info.pret_masa) }}>
+        const persInput = document.getElementById('persInput');
+        const noptiInput = document.getElementById('noptiInput');
+        const kmInput = document.getElementById('kmInput');
+        
+        const cazareSum = document.getElementById('cazareSum');
+        const masaSum = document.getElementById('masaSum');
+        const benzinaSum = document.getElementById('benzinaSum');
+        const totalDisplay = document.getElementById('totalDisplay');
+
+        const calculate = () => {
+            const pers = parseInt(persInput.value) || 0;
+            const nopti = parseInt(noptiInput.value) || 0;
+            const km = parseInt(kmInput.value) || 0;
+
+            const totalCazare = nopti * pretCazare;
+            // Mâncarea se socotește pentru zile (nopti + 1)
+            const totalMasa = (nopti + 1) * pers * pretMasa;
+            // Carburant estimat: 8L/100km la 7.5 Lei/L
+            const totalBenzina = (km / 100) * 8 * 7.5;
+
+            const totalGeneral = totalCazare + totalMasa + totalBenzina;
+
+            cazareSum.innerText = Math.round(totalCazare).toLocaleString() + " Lei";
+            masaSum.innerText = Math.round(totalMasa).toLocaleString() + " Lei";
+            benzinaSum.innerText = Math.round(totalBenzina).toLocaleString() + " Lei";
+            totalDisplay.innerText = Math.round(totalGeneral).toLocaleString() + " Lei";
+        };
+
+        [persInput, noptiInput, kmInput].forEach(el => el.addEventListener('input', calculate));
+        calculate();
+    </script>
+</Layout>
