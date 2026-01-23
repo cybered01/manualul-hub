@@ -1,0 +1,98 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { readFileSync } from 'fs';
+import { parse } from 'csv-parse/sync';
+
+// Citim datele din CSV-ul de ajutoare
+const fileContent = readFileSync('./src/data/ajutoare.csv', 'utf-8');
+const ajutoare = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
+
+// Funcție pentru a determina culoarea statusului
+const getStatusClass = (status) => {
+    switch (status.toLowerCase()) {
+        case 'deschis': return 'bg-green-100 text-green-700 border-green-200';
+        case 'în curând': return 'bg-amber-100 text-amber-700 border-amber-200';
+        default: return 'bg-gray-100 text-gray-700 border-gray-200';
+    }
+};
+---
+
+<Layout 
+    title="Manualul Ajutoarelor Sociale 2026 - Vouchere și Beneficii"
+    description="Lista completă a ajutoarelor de stat pentru persoane fizice în 2026. Verifică eligibilitatea pentru carduri de alimente, vouchere de energie și altele."
+>
+    <main class="max-w-5xl mx-auto px-4 pb-12">
+        <nav class="py-4 mb-4">
+            <a href="/" class="text-sm text-gray-500 hover:text-green-700 flex items-center gap-1 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Înapoi la meniul principal
+            </a>
+        </nav>
+
+        <header class="py-8 text-center mb-8">
+            <h1 class="text-4xl font-black text-gray-900 mb-4 tracking-tight">
+                Sprijin pentru tine și <span class="text-green-600 block md:inline">familia ta</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                Selectează tipul de ajutor pentru a verifica dacă te încadrezi în plafonul de venit și pentru a afla cum poți depune cererea.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {ajutoare.map((item) => (
+                <a href={`/ajutoare-sociale/${item.id}`} class="group">
+                    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full flex flex-col">
+                        
+                        <div class="p-6 flex-grow">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-green-600 bg-green-50 px-2 py-1 rounded">
+                                    {item.categorie}
+                                </span>
+                                <span class={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded border ${getStatusClass(item.status)}`}>
+                                    {item.status}
+                                </span>
+                            </div>
+                            
+                            <h2 class="text-xl font-bold text-gray-800 group-hover:text-green-600 transition-colors mb-2">
+                                {item.titlu}
+                            </h2>
+                            
+                            <p class="text-gray-500 text-sm line-clamp-2 mb-6 h-10">
+                                {item.descriere}
+                            </p>
+
+                            <div class="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50 bg-gray-50/50 -mx-6 px-6 pb-2 mt-auto">
+                                <div class="py-2">
+                                    <p class="text-[10px] text-gray-400 uppercase font-black">Valoare</p>
+                                    <p class="font-bold text-green-700 text-sm">{item.valoare_ajutor}</p>
+                                </div>
+                                <div class="py-2 border-l border-gray-200 pl-4">
+                                    <p class="text-[10px] text-gray-400 uppercase font-black">Plafon Venit</p>
+                                    <p class="font-bold text-gray-800 text-sm">{item.plafon_venit} Lei</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="px-6 py-4 bg-green-50 group-hover:bg-green-600 transition-colors text-center border-t border-green-100">
+                            <span class="text-sm font-bold text-green-700 group-hover:text-white transition-colors flex items-center justify-center gap-2">
+                                Verifică Eligibilitatea
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            ))}
+        </div>
+
+        <section class="mt-20 p-8 bg-green-50 rounded-3xl border border-green-100 text-center">
+            <h3 class="text-lg font-bold text-green-800 mb-2">Nu știi ce să alegi?</h3>
+            <p class="text-gray-600 mb-0 max-w-xl mx-auto text-sm">
+                Plafoanele de venit se pot schimba trimestrial. Manualul.ro actualizează datele imediat ce apar în Monitorul Oficial.
+            </p>
+        </section>
+    </main>
+</Layout>
