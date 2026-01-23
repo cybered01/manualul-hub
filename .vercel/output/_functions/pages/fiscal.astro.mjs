@@ -1,0 +1,287 @@
+import { f as createComponent, r as renderTemplate, k as renderComponent, m as maybeRenderHead, l as defineScriptVars } from '../chunks/astro/server_B-dP9hC8.mjs';
+import 'piccolore';
+import { $ as $$Layout } from '../chunks/Layout_Dxlj8ZoZ.mjs';
+import { g as getCentralData } from '../chunks/api_C94zg6yx.mjs';
+export { renderers } from '../renderers.mjs';
+
+var __freeze = Object.freeze;
+var __defProp = Object.defineProperty;
+var __template = (cooked, raw) => __freeze(__defProp(cooked, "raw", { value: __freeze(raw || cooked.slice()) }));
+var _a, _b;
+const $$Index = createComponent(async ($$result, $$props, $$slots) => {
+  const centralData = await getCentralData();
+  const eurRate = centralData.bnr.eur;
+  return renderTemplate(_b || (_b = __template(['<script type="application/ld+json">\n{\n  "@context": "https://schema.org",\n  "@type": "WebApplication",\n  "name": "Calculator Fiscal 2026: SRL vs PFA",\n  "url": "https://manualul.ro/fiscal",\n  "description": "Simulator taxe 2026 pentru antreprenori. Compar\u0103 impozitul Micro\xEEntreprindere (1% sau 3%) cu PFA Sistem Real (10%) \u0219i afl\u0103 venitul net.",\n  "applicationCategory": "FinanceApplication",\n  "operatingSystem": "Any",\n  "offers": {\n    "@type": "Offer",\n    "price": "0",\n    "priceCurrency": "RON"\n  },\n  "featureList": "Calcul CASS, Calcul CAS, Impozit pe venit, Impozit dividende"\n}\n<\/script> ', ""])), renderComponent($$result, "Layout", $$Layout, { "title": "Calculator Fiscal 2026: SRL vs PFA", "description": "Simulator taxe \u0219i impozite 2026. Afl\u0103 ce form\u0103 juridic\u0103 este mai profitabil\u0103 pentru tine: Micro\xEEntreprindere sau PFA." }, { "default": async ($$result2) => renderTemplate(_a || (_a = __template([" ", '<main class="max-w-5xl mx-auto px-4 pb-32"> <nav class="py-6"> <a href="/" class="text-sm font-bold text-slate-600 hover:underline flex items-center gap-2">\n\u2190 \xCEnapoi la meniul principal\n</a> </nav> <header class="mb-12 text-center"> <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-slate-200 mb-4 inline-block">\nFiscalitate 2026\n</span> <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">\nSRL sau PFA?\n</h1> <p class="text-xl text-gray-600 max-w-2xl mx-auto">\nIntrodu venitul estimat \u0219i afl\u0103 instantaneu c\xE2\u021Bi bani \xEE\u021Bi r\u0103m\xE2n "\xEEn m\xE2n\u0103" dup\u0103 plata tuturor taxelor la stat.\n</p> <div class="mt-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">\nCurs BNR: 1 EUR = ', ' RON\n</div> </header> <div class="bg-white rounded-[40px] p-8 md:p-12 shadow-xl border border-slate-100 mb-12"> <div class="grid grid-cols-1 md:grid-cols-3 gap-8"> <div> <label class="block text-xs font-black uppercase text-slate-500 mb-3 tracking-widest">Facturare Lunar\u0103 (Medie)</label> <div class="relative"> <input type="number" id="venitLunar" value="15000" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 text-2xl font-black text-slate-900 focus:bg-white focus:border-slate-500 outline-none transition-all"> <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">RON</span> </div> </div> <div> <label class="block text-xs font-black uppercase text-slate-500 mb-3 tracking-widest">Cheltuieli Lunare (Firm\u0103)</label> <div class="relative"> <input type="number" id="cheltuieliLunare" value="500" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 text-2xl font-black text-slate-900 focus:bg-white focus:border-slate-500 outline-none transition-all"> <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">RON</span> </div> <p class="text-[10px] text-slate-400 mt-2 ml-1">Ex: Contabil, Software, Echipamente</p> </div> <div class="flex items-center justify-center md:justify-end"> <div class="text-center md:text-right"> <p class="text-xs font-bold text-slate-400 uppercase mb-1">C\xE2\u0219tig\u0103torul este:</p> <div id="castigatorBadge" class="inline-block bg-green-100 text-green-700 px-6 py-2 rounded-xl font-black text-xl border border-green-200">\nCalcul...\n</div> </div> </div> </div> </div> <div class="mb-12 p-6 bg-slate-50 rounded-3xl border border-slate-100 text-sm text-slate-500 italic"> <p><strong>Not\u0103:</strong> Pragul oficial de 60.000 EUR pentru micro\xEEntreprinderi se calculeaz\u0103 la cursul BNR de la \xEEnchiderea anului precedent. Simulatorul folose\u0219te cursul de azi pentru o estimare actualizat\u0103.</p> </div> <div class="grid grid-cols-1 md:grid-cols-2 gap-8"> <div class="bg-slate-900 text-white rounded-[32px] p-8 relative overflow-hidden group"> <div class="absolute top-0 right-0 p-32 bg-blue-500 rounded-full blur-[100px] opacity-20 pointer-events-none group-hover:opacity-30 transition-opacity"></div> <div class="flex justify-between items-center mb-8 relative z-10"> <h2 class="text-2xl font-black">Micro SRL <span class="text-xs font-normal opacity-60 block mt-1">(1% sau 3% Impozit)</span></h2> <span class="text-3xl">\u{1F3E2}</span> </div> <div class="space-y-4 mb-8 text-sm opacity-80 relative z-10"> <div class="flex justify-between"> <span>Venit Brut Anual:</span> <span id="srlBrut" class="font-bold">0 Lei</span> </div> <div class="flex justify-between text-red-300"> <span>Taxe Firm\u0103 (1% + Contabil):</span> <span id="srlTaxeFirma">-0 Lei</span> </div> <div class="flex justify-between text-red-300"> <span>Taxe Dividende (8% + CASS):</span> <span id="srlTaxePers">-0 Lei</span> </div> </div> <div class="pt-6 border-t border-white/10 relative z-10"> <p class="text-xs uppercase font-bold opacity-50 mb-1">Net \xEEn M\xE2n\u0103 (Lunar)</p> <p id="srlNet" class="text-4xl font-black text-blue-400">0 Lei</p> </div> </div> <div class="bg-white border border-slate-200 rounded-[32px] p-8 relative overflow-hidden shadow-lg group"> <div class="flex justify-between items-center mb-8"> <h2 class="text-2xl font-black text-slate-800">PFA Sistem Real <span class="text-xs font-normal text-slate-500 block mt-1">(10% Impozit + Contribu\u021Bii)</span></h2> <span class="text-3xl">\u{1F464}</span> </div> <div class="space-y-4 mb-8 text-sm text-slate-600"> <div class="flex justify-between"> <span>Venit Brut Anual:</span> <span id="pfaBrut" class="font-bold text-slate-900">0 Lei</span> </div> <div class="flex justify-between text-red-500"> <span>CAS (Pensie 25%):</span> <span id="pfaCas">-0 Lei</span> </div> <div class="flex justify-between text-red-500"> <span>CASS (S\u0103n\u0103tate 10%):</span> <span id="pfaCass">-0 Lei</span> </div> <div class="flex justify-between text-red-500"> <span>Impozit Venit (10%):</span> <span id="pfaImp">-0 Lei</span> </div> </div> <div class="pt-6 border-t border-slate-100"> <p class="text-xs uppercase font-bold text-slate-400 mb-1">Net \xEEn M\xE2n\u0103 (Lunar)</p> <p id="pfaNet" class="text-4xl font-black text-slate-800">0 Lei</p> </div> </div> </div> <footer class="mt-12 mb-8 flex items-center justify-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest"> <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>\nDate live: EUR: ', " RON | Actualizat la: ", ` </footer> </main> <div id="stickyBar" class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-slate-200 p-4 shadow-[0_-10px_25px_rgba(0,0,0,0.1)] md:hidden z-40"> <div class="flex justify-between items-center"> <div> <p class="text-[10px] font-black uppercase text-slate-400 leading-none mb-1">Recomandare</p> <p id="stickyWinner" class="text-xl font-black text-slate-800 leading-none">...</p> </div> <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold active:scale-95 transition-transform">
+Modific\u0103 \u2191
+</button> </div> </div> <a id="whatsappBtn" href="https://wa.me/" target="_blank" class="fixed bottom-24 md:bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 hover:-translate-y-1 transition-all duration-300 z-50 group flex items-center gap-3 pr-6 cursor-pointer"> <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path> </svg> <div class="flex flex-col text-left"> <span class="text-[10px] uppercase font-bold opacity-80 leading-none">Trimite rezultatul</span> <span class="font-bold leading-none mt-1">pe WhatsApp</span> </div> </a> <script>(function(){`, `
+        const inVenit = document.getElementById('venitLunar');
+        const inCheltuieli = document.getElementById('cheltuieliLunare');
+        const btnWhatsapp = document.getElementById('whatsappBtn');
+
+        // Elementele de afi\u0219are SRL
+        const srlBrut = document.getElementById('srlBrut');
+        const srlTaxeF = document.getElementById('srlTaxeFirma');
+        const srlTaxeP = document.getElementById('srlTaxePers');
+        const srlNet = document.getElementById('srlNet');
+
+        // Elementele de afi\u0219are PFA
+        const pfaBrut = document.getElementById('pfaBrut');
+        const pfaCas = document.getElementById('pfaCas');
+        const pfaCass = document.getElementById('pfaCass');
+        const pfaImp = document.getElementById('pfaImp');
+        const pfaNet = document.getElementById('pfaNet');
+
+        const winnerBadge = document.getElementById('castigatorBadge');
+        const stickyWinner = document.getElementById('stickyWinner');
+
+        function calculate() {
+            const venitLunar = parseFloat(inVenit.value) || 0;
+            const cheltuieliLunare = parseFloat(inCheltuieli.value) || 0;
+            const luni = 12;
+
+            // --- CALCUL PFA (Sistem Real) ---
+            const venitAnual = venitLunar * luni;
+            const cheltuieliAnuale = cheltuieliLunare * luni;
+            const venitNetAnual = venitAnual - cheltuieliAnuale;
+
+            // Plafoane 2026 (Estimate: Salariu Minim 4050 Lei)
+            const salariuMinim = 4050;
+            const plafon6 = salariuMinim * 6;
+            const plafon12 = salariuMinim * 12;
+            const plafon24 = salariuMinim * 24;
+            const plafon60 = salariuMinim * 60;
+
+            // CAS PFA (Pensie) - Plafoane 12/24 salarii
+            let bazaCasPfa = 0;
+            if (venitNetAnual >= plafon24) bazaCasPfa = plafon24;
+            else if (venitNetAnual >= plafon12) bazaCasPfa = plafon12;
+            const valCasPfa = bazaCasPfa * 0.25;
+
+            // CASS PFA (San\u0103tate) - Plafonat la 60 salarii
+            let bazaCassPfa = venitNetAnual;
+            if (venitNetAnual > plafon60) bazaCassPfa = plafon60;
+            if (venitNetAnual < plafon6) bazaCassPfa = plafon6; // Minim 6 salarii daca ai venituri
+            const valCassPfa = bazaCassPfa * 0.10;
+
+            // Impozit PFA (10% din ce ramane dupa contributii)
+            const venitImpozabilPfa = venitNetAnual - valCasPfa - valCassPfa;
+            const valImpPfa = venitImpozabilPfa > 0 ? venitImpozabilPfa * 0.10 : 0;
+
+            const netAnualPfa = venitAnual - cheltuieliAnuale - valCasPfa - valCassPfa - valImpPfa;
+            const netLunarPfa = netAnualPfa / 12;
+
+            // --- CALCUL SRL (Micro) ---
+            // Prag Micro: 60.000 EUR. Peste acest prag, impozitul este 3%.
+            const pragMicroRon = 60000 * eurRate;
+            const taxaMicro = venitAnual > pragMicroRon ? 0.03 : 0.01;
+
+            const impMicro = venitAnual * taxaMicro;
+            // Cost contabil obligatoriu la SRL (adaugam 300 lei/luna extra fata de PFA daca nu e pus in cheltuieli)
+            // Dar folosim cheltuielile introduse de user ca baza
+
+            const profitBrutSrl = venitAnual - cheltuieliAnuale - impMicro;
+
+            // Taxe Dividende (8% Impozit + CASS plafonat la 24 salarii)
+            let cassDividende = 0;
+            if (profitBrutSrl >= plafon24) cassDividende = plafon24 * 0.10;
+            else if (profitBrutSrl >= plafon12) cassDividende = plafon12 * 0.10;
+            else if (profitBrutSrl >= plafon6) cassDividende = plafon6 * 0.10;
+
+            const profitDupaCass = profitBrutSrl - cassDividende;
+            const impDividende = profitDupaCass * 0.08; // 8%
+
+            const netAnualSrl = profitBrutSrl - cassDividende - impDividende;
+            const netLunarSrl = netAnualSrl / 12;
+
+            // --- AFISARE ---
+
+            // SRL
+            srlBrut.innerText = Math.round(venitAnual).toLocaleString() + " Lei";
+            srlTaxeF.innerText = "-" + Math.round(impMicro + cheltuieliAnuale).toLocaleString() + " Lei";
+            srlTaxeP.innerText = "-" + Math.round(cassDividende + impDividende).toLocaleString() + " Lei";
+            srlNet.innerText = Math.round(netLunarSrl).toLocaleString() + " Lei";
+
+            // PFA
+            pfaBrut.innerText = Math.round(venitAnual).toLocaleString() + " Lei";
+            pfaCas.innerText = "-" + Math.round(valCasPfa).toLocaleString() + " Lei";
+            pfaCass.innerText = "-" + Math.round(valCasPfa).toLocaleString() + " Lei";
+            pfaImp.innerText = "-" + Math.round(valImpPfa).toLocaleString() + " Lei";
+            pfaNet.innerText = Math.round(netLunarPfa).toLocaleString() + " Lei";
+
+            // WINNER
+            const diff = Math.abs(netLunarSrl - netLunarPfa);
+            let textCastigator = "";
+            let culoare = "";
+
+            if (netLunarSrl > netLunarPfa) {
+                textCastigator = \`SRL e mai profitabil (+\${Math.round(diff)} Lei)\`;
+                winnerBadge.innerText = textCastigator;
+                winnerBadge.className = "inline-block bg-blue-100 text-blue-800 px-6 py-2 rounded-xl font-black text-xl border border-blue-200";
+                stickyWinner.innerText = \`Alege SRL (+\${Math.round(diff)} lei)\`;
+                stickyWinner.className = "text-xl font-black text-blue-600 leading-none";
+            } else {
+                textCastigator = \`PFA e mai profitabil (+\${Math.round(diff)} Lei)\`;
+                winnerBadge.innerText = textCastigator;
+                winnerBadge.className = "inline-block bg-slate-100 text-slate-800 px-6 py-2 rounded-xl font-black text-xl border border-slate-200";
+                stickyWinner.innerText = \`Alege PFA (+\${Math.round(diff)} lei)\`;
+                stickyWinner.className = "text-xl font-black text-slate-700 leading-none";
+            }
+
+            // Update WhatsApp
+            if (btnWhatsapp) {
+                const mesaj = \`Am comparat SRL vs PFA pe Manualul.ro! \u{1F4BC}\\n\\nPentru \${venitLunar} Lei/lun\u0103:\\n\u{1F3E2} SRL Net: \${Math.round(netLunarSrl)} Lei\\n\u{1F464} PFA Net: \${Math.round(netLunarPfa)} Lei\\n\\n\u{1F449} \${textCastigator}\`;
+                const link = \`https://api.whatsapp.com/send?text=\${encodeURIComponent(mesaj + "\\n\\nVezi calculatorul aici: " + window.location.href)}\`;
+                btnWhatsapp.href = link;
+            }
+        }
+
+        inVenit.addEventListener('input', calculate);
+        inCheltuieli.addEventListener('input', calculate);
+
+        // Initial
+        calculate();
+    })();<\/script> `], [" ", '<main class="max-w-5xl mx-auto px-4 pb-32"> <nav class="py-6"> <a href="/" class="text-sm font-bold text-slate-600 hover:underline flex items-center gap-2">\n\u2190 \xCEnapoi la meniul principal\n</a> </nav> <header class="mb-12 text-center"> <span class="px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-slate-200 mb-4 inline-block">\nFiscalitate 2026\n</span> <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">\nSRL sau PFA?\n</h1> <p class="text-xl text-gray-600 max-w-2xl mx-auto">\nIntrodu venitul estimat \u0219i afl\u0103 instantaneu c\xE2\u021Bi bani \xEE\u021Bi r\u0103m\xE2n "\xEEn m\xE2n\u0103" dup\u0103 plata tuturor taxelor la stat.\n</p> <div class="mt-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">\nCurs BNR: 1 EUR = ', ' RON\n</div> </header> <div class="bg-white rounded-[40px] p-8 md:p-12 shadow-xl border border-slate-100 mb-12"> <div class="grid grid-cols-1 md:grid-cols-3 gap-8"> <div> <label class="block text-xs font-black uppercase text-slate-500 mb-3 tracking-widest">Facturare Lunar\u0103 (Medie)</label> <div class="relative"> <input type="number" id="venitLunar" value="15000" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 text-2xl font-black text-slate-900 focus:bg-white focus:border-slate-500 outline-none transition-all"> <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">RON</span> </div> </div> <div> <label class="block text-xs font-black uppercase text-slate-500 mb-3 tracking-widest">Cheltuieli Lunare (Firm\u0103)</label> <div class="relative"> <input type="number" id="cheltuieliLunare" value="500" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 text-2xl font-black text-slate-900 focus:bg-white focus:border-slate-500 outline-none transition-all"> <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">RON</span> </div> <p class="text-[10px] text-slate-400 mt-2 ml-1">Ex: Contabil, Software, Echipamente</p> </div> <div class="flex items-center justify-center md:justify-end"> <div class="text-center md:text-right"> <p class="text-xs font-bold text-slate-400 uppercase mb-1">C\xE2\u0219tig\u0103torul este:</p> <div id="castigatorBadge" class="inline-block bg-green-100 text-green-700 px-6 py-2 rounded-xl font-black text-xl border border-green-200">\nCalcul...\n</div> </div> </div> </div> </div> <div class="mb-12 p-6 bg-slate-50 rounded-3xl border border-slate-100 text-sm text-slate-500 italic"> <p><strong>Not\u0103:</strong> Pragul oficial de 60.000 EUR pentru micro\xEEntreprinderi se calculeaz\u0103 la cursul BNR de la \xEEnchiderea anului precedent. Simulatorul folose\u0219te cursul de azi pentru o estimare actualizat\u0103.</p> </div> <div class="grid grid-cols-1 md:grid-cols-2 gap-8"> <div class="bg-slate-900 text-white rounded-[32px] p-8 relative overflow-hidden group"> <div class="absolute top-0 right-0 p-32 bg-blue-500 rounded-full blur-[100px] opacity-20 pointer-events-none group-hover:opacity-30 transition-opacity"></div> <div class="flex justify-between items-center mb-8 relative z-10"> <h2 class="text-2xl font-black">Micro SRL <span class="text-xs font-normal opacity-60 block mt-1">(1% sau 3% Impozit)</span></h2> <span class="text-3xl">\u{1F3E2}</span> </div> <div class="space-y-4 mb-8 text-sm opacity-80 relative z-10"> <div class="flex justify-between"> <span>Venit Brut Anual:</span> <span id="srlBrut" class="font-bold">0 Lei</span> </div> <div class="flex justify-between text-red-300"> <span>Taxe Firm\u0103 (1% + Contabil):</span> <span id="srlTaxeFirma">-0 Lei</span> </div> <div class="flex justify-between text-red-300"> <span>Taxe Dividende (8% + CASS):</span> <span id="srlTaxePers">-0 Lei</span> </div> </div> <div class="pt-6 border-t border-white/10 relative z-10"> <p class="text-xs uppercase font-bold opacity-50 mb-1">Net \xEEn M\xE2n\u0103 (Lunar)</p> <p id="srlNet" class="text-4xl font-black text-blue-400">0 Lei</p> </div> </div> <div class="bg-white border border-slate-200 rounded-[32px] p-8 relative overflow-hidden shadow-lg group"> <div class="flex justify-between items-center mb-8"> <h2 class="text-2xl font-black text-slate-800">PFA Sistem Real <span class="text-xs font-normal text-slate-500 block mt-1">(10% Impozit + Contribu\u021Bii)</span></h2> <span class="text-3xl">\u{1F464}</span> </div> <div class="space-y-4 mb-8 text-sm text-slate-600"> <div class="flex justify-between"> <span>Venit Brut Anual:</span> <span id="pfaBrut" class="font-bold text-slate-900">0 Lei</span> </div> <div class="flex justify-between text-red-500"> <span>CAS (Pensie 25%):</span> <span id="pfaCas">-0 Lei</span> </div> <div class="flex justify-between text-red-500"> <span>CASS (S\u0103n\u0103tate 10%):</span> <span id="pfaCass">-0 Lei</span> </div> <div class="flex justify-between text-red-500"> <span>Impozit Venit (10%):</span> <span id="pfaImp">-0 Lei</span> </div> </div> <div class="pt-6 border-t border-slate-100"> <p class="text-xs uppercase font-bold text-slate-400 mb-1">Net \xEEn M\xE2n\u0103 (Lunar)</p> <p id="pfaNet" class="text-4xl font-black text-slate-800">0 Lei</p> </div> </div> </div> <footer class="mt-12 mb-8 flex items-center justify-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest"> <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>\nDate live: EUR: ', " RON | Actualizat la: ", ` </footer> </main> <div id="stickyBar" class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-slate-200 p-4 shadow-[0_-10px_25px_rgba(0,0,0,0.1)] md:hidden z-40"> <div class="flex justify-between items-center"> <div> <p class="text-[10px] font-black uppercase text-slate-400 leading-none mb-1">Recomandare</p> <p id="stickyWinner" class="text-xl font-black text-slate-800 leading-none">...</p> </div> <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold active:scale-95 transition-transform">
+Modific\u0103 \u2191
+</button> </div> </div> <a id="whatsappBtn" href="https://wa.me/" target="_blank" class="fixed bottom-24 md:bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 hover:-translate-y-1 transition-all duration-300 z-50 group flex items-center gap-3 pr-6 cursor-pointer"> <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path> </svg> <div class="flex flex-col text-left"> <span class="text-[10px] uppercase font-bold opacity-80 leading-none">Trimite rezultatul</span> <span class="font-bold leading-none mt-1">pe WhatsApp</span> </div> </a> <script>(function(){`, `
+        const inVenit = document.getElementById('venitLunar');
+        const inCheltuieli = document.getElementById('cheltuieliLunare');
+        const btnWhatsapp = document.getElementById('whatsappBtn');
+
+        // Elementele de afi\u0219are SRL
+        const srlBrut = document.getElementById('srlBrut');
+        const srlTaxeF = document.getElementById('srlTaxeFirma');
+        const srlTaxeP = document.getElementById('srlTaxePers');
+        const srlNet = document.getElementById('srlNet');
+
+        // Elementele de afi\u0219are PFA
+        const pfaBrut = document.getElementById('pfaBrut');
+        const pfaCas = document.getElementById('pfaCas');
+        const pfaCass = document.getElementById('pfaCass');
+        const pfaImp = document.getElementById('pfaImp');
+        const pfaNet = document.getElementById('pfaNet');
+
+        const winnerBadge = document.getElementById('castigatorBadge');
+        const stickyWinner = document.getElementById('stickyWinner');
+
+        function calculate() {
+            const venitLunar = parseFloat(inVenit.value) || 0;
+            const cheltuieliLunare = parseFloat(inCheltuieli.value) || 0;
+            const luni = 12;
+
+            // --- CALCUL PFA (Sistem Real) ---
+            const venitAnual = venitLunar * luni;
+            const cheltuieliAnuale = cheltuieliLunare * luni;
+            const venitNetAnual = venitAnual - cheltuieliAnuale;
+
+            // Plafoane 2026 (Estimate: Salariu Minim 4050 Lei)
+            const salariuMinim = 4050;
+            const plafon6 = salariuMinim * 6;
+            const plafon12 = salariuMinim * 12;
+            const plafon24 = salariuMinim * 24;
+            const plafon60 = salariuMinim * 60;
+
+            // CAS PFA (Pensie) - Plafoane 12/24 salarii
+            let bazaCasPfa = 0;
+            if (venitNetAnual >= plafon24) bazaCasPfa = plafon24;
+            else if (venitNetAnual >= plafon12) bazaCasPfa = plafon12;
+            const valCasPfa = bazaCasPfa * 0.25;
+
+            // CASS PFA (San\u0103tate) - Plafonat la 60 salarii
+            let bazaCassPfa = venitNetAnual;
+            if (venitNetAnual > plafon60) bazaCassPfa = plafon60;
+            if (venitNetAnual < plafon6) bazaCassPfa = plafon6; // Minim 6 salarii daca ai venituri
+            const valCassPfa = bazaCassPfa * 0.10;
+
+            // Impozit PFA (10% din ce ramane dupa contributii)
+            const venitImpozabilPfa = venitNetAnual - valCasPfa - valCassPfa;
+            const valImpPfa = venitImpozabilPfa > 0 ? venitImpozabilPfa * 0.10 : 0;
+
+            const netAnualPfa = venitAnual - cheltuieliAnuale - valCasPfa - valCassPfa - valImpPfa;
+            const netLunarPfa = netAnualPfa / 12;
+
+            // --- CALCUL SRL (Micro) ---
+            // Prag Micro: 60.000 EUR. Peste acest prag, impozitul este 3%.
+            const pragMicroRon = 60000 * eurRate;
+            const taxaMicro = venitAnual > pragMicroRon ? 0.03 : 0.01;
+
+            const impMicro = venitAnual * taxaMicro;
+            // Cost contabil obligatoriu la SRL (adaugam 300 lei/luna extra fata de PFA daca nu e pus in cheltuieli)
+            // Dar folosim cheltuielile introduse de user ca baza
+
+            const profitBrutSrl = venitAnual - cheltuieliAnuale - impMicro;
+
+            // Taxe Dividende (8% Impozit + CASS plafonat la 24 salarii)
+            let cassDividende = 0;
+            if (profitBrutSrl >= plafon24) cassDividende = plafon24 * 0.10;
+            else if (profitBrutSrl >= plafon12) cassDividende = plafon12 * 0.10;
+            else if (profitBrutSrl >= plafon6) cassDividende = plafon6 * 0.10;
+
+            const profitDupaCass = profitBrutSrl - cassDividende;
+            const impDividende = profitDupaCass * 0.08; // 8%
+
+            const netAnualSrl = profitBrutSrl - cassDividende - impDividende;
+            const netLunarSrl = netAnualSrl / 12;
+
+            // --- AFISARE ---
+
+            // SRL
+            srlBrut.innerText = Math.round(venitAnual).toLocaleString() + " Lei";
+            srlTaxeF.innerText = "-" + Math.round(impMicro + cheltuieliAnuale).toLocaleString() + " Lei";
+            srlTaxeP.innerText = "-" + Math.round(cassDividende + impDividende).toLocaleString() + " Lei";
+            srlNet.innerText = Math.round(netLunarSrl).toLocaleString() + " Lei";
+
+            // PFA
+            pfaBrut.innerText = Math.round(venitAnual).toLocaleString() + " Lei";
+            pfaCas.innerText = "-" + Math.round(valCasPfa).toLocaleString() + " Lei";
+            pfaCass.innerText = "-" + Math.round(valCasPfa).toLocaleString() + " Lei";
+            pfaImp.innerText = "-" + Math.round(valImpPfa).toLocaleString() + " Lei";
+            pfaNet.innerText = Math.round(netLunarPfa).toLocaleString() + " Lei";
+
+            // WINNER
+            const diff = Math.abs(netLunarSrl - netLunarPfa);
+            let textCastigator = "";
+            let culoare = "";
+
+            if (netLunarSrl > netLunarPfa) {
+                textCastigator = \\\`SRL e mai profitabil (+\\\${Math.round(diff)} Lei)\\\`;
+                winnerBadge.innerText = textCastigator;
+                winnerBadge.className = "inline-block bg-blue-100 text-blue-800 px-6 py-2 rounded-xl font-black text-xl border border-blue-200";
+                stickyWinner.innerText = \\\`Alege SRL (+\\\${Math.round(diff)} lei)\\\`;
+                stickyWinner.className = "text-xl font-black text-blue-600 leading-none";
+            } else {
+                textCastigator = \\\`PFA e mai profitabil (+\\\${Math.round(diff)} Lei)\\\`;
+                winnerBadge.innerText = textCastigator;
+                winnerBadge.className = "inline-block bg-slate-100 text-slate-800 px-6 py-2 rounded-xl font-black text-xl border border-slate-200";
+                stickyWinner.innerText = \\\`Alege PFA (+\\\${Math.round(diff)} lei)\\\`;
+                stickyWinner.className = "text-xl font-black text-slate-700 leading-none";
+            }
+
+            // Update WhatsApp
+            if (btnWhatsapp) {
+                const mesaj = \\\`Am comparat SRL vs PFA pe Manualul.ro! \u{1F4BC}\\\\n\\\\nPentru \\\${venitLunar} Lei/lun\u0103:\\\\n\u{1F3E2} SRL Net: \\\${Math.round(netLunarSrl)} Lei\\\\n\u{1F464} PFA Net: \\\${Math.round(netLunarPfa)} Lei\\\\n\\\\n\u{1F449} \\\${textCastigator}\\\`;
+                const link = \\\`https://api.whatsapp.com/send?text=\\\${encodeURIComponent(mesaj + "\\\\n\\\\nVezi calculatorul aici: " + window.location.href)}\\\`;
+                btnWhatsapp.href = link;
+            }
+        }
+
+        inVenit.addEventListener('input', calculate);
+        inCheltuieli.addEventListener('input', calculate);
+
+        // Initial
+        calculate();
+    })();<\/script> `])), maybeRenderHead(), eurRate.toFixed(4), eurRate.toFixed(4), centralData.updated, defineScriptVars({ eurRate })) }));
+}, "/app/src/pages/fiscal/index.astro", void 0);
+
+const $$file = "/app/src/pages/fiscal/index.astro";
+const $$url = "/fiscal";
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: $$Index,
+  file: $$file,
+  url: $$url
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };
