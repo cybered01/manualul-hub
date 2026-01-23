@@ -12,6 +12,27 @@ export async function getStaticPaths() {
 const { info } = Astro.props;
 ---
 
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "BioScan: " + info.produs,
+  "url": "https://manualul.ro/bioscan/" + info.id,
+  "description": "Analiză comparativă de preț și calitate (Bio vs Convențional) pentru " + info.produs + ". Află costul real al sănătății.",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any",
+  "about": {
+    "@type": "Product",
+    "name": info.produs,
+    "category": info.categorie
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RON"
+  }
+})}>
+</script>
+
 <Layout 
     title={`BioScan: ${info.produs} - Merită diferența?`}
     description={`Calculator de preț Bio vs Convențional pentru ${info.produs}. Vezi cât te costă sănătatea pe an.`}

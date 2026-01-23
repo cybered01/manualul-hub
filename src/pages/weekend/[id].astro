@@ -12,6 +12,31 @@ export async function getStaticPaths() {
 const { info } = Astro.props;
 ---
 
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Buget Weekend " + info.destinatie,
+  "url": "https://manualul.ro/weekend/" + info.id,
+  "description": "Calculator de costuri turistice pentru " + info.destinatie + ". Include prețuri medii la cazare, mâncare și transport.",
+  "applicationCategory": "TravelApplication",
+  "operatingSystem": "Any",
+  "contentLocation": {
+    "@type": "Place",
+    "name": info.destinatie,
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "RO",
+      "addressRegion": info.regiune
+    }
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RON"
+  }
+})}>
+</script>
+
 <Layout 
     title={`Buget Weekend: ${info.destinatie}`}
     description={`Calculator personalizat pentru ${info.destinatie}. Ajustează costurile și află bugetul total.`}
