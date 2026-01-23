@@ -51,13 +51,16 @@ import Layout from '../layouts/Layout.astro';
                 </span>
             </a>
 
-            <div class="p-8 bg-gray-50 rounded-3xl border border-dashed border-gray-200 text-left opacity-50">
-                <div class="w-12 h-12 bg-gray-200 text-gray-400 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">
-                    🎓
-                </div>
-                <h2 class="text-2xl font-bold text-gray-400 mb-2">Facultate Profit</h2>
-                <p class="text-gray-400 mb-6">Simulator ROI pentru studii. În curând.</p>
-            </div>
+            <a href="/facultati" class="group p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col border-b-4 border-b-indigo-500">
+    <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">
+        🎓
+    </div>
+    <h2 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-indigo-600 transition-colors">Facultate Profit</h2>
+    <p class="text-gray-500 mb-6 flex-grow">Află în cât timp îți recuperezi banii investiți în facultate bazat pe salariile de debut.</p>
+    <span class="text-indigo-600 font-bold flex items-center gap-2">
+        Simulează ROI →
+    </span>
+</a>
 
         </div>
     </main>
