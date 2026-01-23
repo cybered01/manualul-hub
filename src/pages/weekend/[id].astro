@@ -90,13 +90,13 @@ const { info } = Astro.props;
     </main>
 
 <script is:inline define:vars={{ dest: info.destinatie }}>
-    // Funcție sigură pentru a prelua valoarea unui input
+    // Funcție utilitară pentru a citi valori sigure
     const getVal = (id) => {
         const el = document.getElementById(id);
         return el ? (parseFloat(el.value) || 0) : 0;
     };
 
-    // Referințe la elementele de afișare
+    // Elementele din pagină
     const displayCazare = document.getElementById('cazareSum');
     const displayMasa = document.getElementById('masaSum');
     const displayBenzina = document.getElementById('benzinaSum');
@@ -104,6 +104,7 @@ const { info } = Astro.props;
     const btnWhatsapp = document.getElementById('whatsappBtn');
 
     function calculate() {
+        // 1. Culegem datele introduse
         const p = getVal('persInput');
         const n = getVal('noptiInput');
         const k = getVal('kmInput');
@@ -112,44 +113,37 @@ const { info } = Astro.props;
         const pretMancare = getVal('costMancareInput');
         const pretDistractie = getVal('costDistractieInput');
 
-        // Calcule
+        // 2. Facem calculele matematice
         const totalCazare = n * pretCazare;
         const totalMasa = (n + 1) * p * (pretMancare + pretDistractie);
         const totalBenzina = (k / 100) * 8 * 7.5;
         const totalGeneral = Math.round(totalCazare + totalMasa + totalBenzina);
 
-        // Actualizare UI
+        // 3. Actualizăm cifrele de pe ecran
         if(displayCazare) displayCazare.innerText = Math.round(totalCazare).toLocaleString() + " Lei";
         if(displayMasa) displayMasa.innerText = Math.round(totalMasa).toLocaleString() + " Lei";
         if(displayBenzina) displayBenzina.innerText = Math.round(totalBenzina).toLocaleString() + " Lei";
         if(displayTotal) displayTotal.innerText = totalGeneral.toLocaleString() + " Lei";
 
-        return { totalGeneral, p, n };
-    }
-
-    // Ascultăm CLICK-ul pe butonul de WhatsApp
-    if (btnWhatsapp) {
-        btnWhatsapp.addEventListener('click', (e) => {
-            e.preventDefault(); // Previne comportamentul default (săritura sus în pagină)
-            
-            const results = calculate(); // Recalculăm pe loc pentru a fi siguri
+        // 4. ACTUALIZĂM LINK-UL DE WHATSAPP ÎN TIMP REAL
+        // Aceasta este partea care rezolvă problema "clipocitului"
+        if (btnWhatsapp) {
             const currentUrl = window.location.href;
-
-            const text = `Tocmai am calculat bugetul pentru ${dest} pe Manualul.ro! 🚗\n\n💰 Cost Total: ${results.totalGeneral.toLocaleString()} Lei\n(pentru ${results.p} persoane, ${results.n} nopți)\n\nConfigurează și tu aici: ${currentUrl}`;
+            const textMesaj = `Tocmai am calculat bugetul pentru ${dest} pe Manualul.ro! 🚗\n\n💰 Cost Total: ${totalGeneral.toLocaleString()} Lei\n(pentru ${p} persoane, ${n} nopți)\n\nConfigurează și tu aici: ${currentUrl}`;
             
-            // Deschidem WhatsApp într-un tab nou
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
-        });
+            // Setăm link-ul direct pe buton. Când userul dă click, browserul îl tratează ca pe un link normal.
+            btnWhatsapp.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(textMesaj)}`;
+        }
     }
 
-    // Ascultăm schimbările pe input-uri pentru a actualiza cifrele de pe ecran
+    // Ascultăm orice modificare în căsuțe
     const inputIds = ['persInput', 'noptiInput', 'kmInput', 'costCazareInput', 'costMancareInput', 'costDistractieInput'];
     inputIds.forEach(id => {
         const el = document.getElementById(id);
         if(el) el.addEventListener('input', calculate);
     });
 
-    // Calcul inițial la încărcare
+    // Calculăm o dată la încărcarea paginii
     calculate();
 </script>
     <a 
