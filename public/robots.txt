@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hectar-profit.vercel.app/sitemap-index.xml
+Sitemap: https://hectarprofit.ro/sitemap-index.xml
