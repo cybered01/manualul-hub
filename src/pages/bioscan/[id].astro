@@ -1,0 +1,154 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { readFileSync } from 'fs';
+import { parse } from 'csv-parse/sync';
+
+export async function getStaticPaths() {
+    const fileContent = readFileSync('./src/data/bioscan.csv', 'utf-8');
+    const records = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
+    return records.map((row) => ({ params: { id: row.id }, props: { info: row } }));
+}
+
+const { info } = Astro.props;
+---
+
+<Layout 
+    title={`BioScan: ${info.produs} - Merită diferența?`}
+    description={`Calculator de preț Bio vs Convențional pentru ${info.produs}. Vezi cât te costă sănătatea pe an.`}
+>
+    <main class="max-w-4xl mx-auto px-4 pb-24">
+        <nav class="py-6">
+            <a href="/bioscan" class="text-sm font-bold text-lime-700 hover:underline flex items-center gap-2">
+                ← Înapoi la raft
+            </a>
+        </nav>
+
+        <header class="mb-10 text-center">
+            <span class="px-3 py-1 bg-lime-100 text-lime-800 rounded-full text-[10px] font-black uppercase tracking-widest border border-lime-200 mb-4 inline-block">
+                {info.categorie}
+            </span>
+            <h1 class="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">{info.produs}</h1>
+            <p class="text-gray-500 mt-2 font-medium">{info.unitate}</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            
+            <div class="bg-gray-900 rounded-[40px] p-8 md:p-10 text-white shadow-2xl relative overflow-hidden">
+                <div class="relative z-10">
+                    <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        🧮 Calculator Impact Anual
+                    </h2>
+                    
+                    <div class="mb-8">
+                        <label class="block text-[10px] font-black uppercase mb-3 opacity-60 tracking-widest">
+                            Câte unități consumi pe săptămână?
+                        </label>
+                        <div class="flex items-center gap-4">
+                            <input type="number" id="qtyInput" value="2" min="1" class="w-full bg-white/10 border-2 border-white/20 rounded-2xl p-4 text-3xl font-black text-lime-400 focus:bg-white/20 outline-none transition-all text-center">
+                            <span class="text-sm font-bold opacity-50 whitespace-nowrap">x {info.unitate}</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 border-t border-white/10 space-y-6">
+                        <div class="flex justify-between items-center opacity-60">
+                            <span class="text-sm">Cost anual standard:</span>
+                            <span id="stdCost" class="font-bold line-through decoration-red-500">0 Lei</span>
+                        </div>
+                        <div class="flex justify-between items-center text-lime-300">
+                            <span class="text-sm font-bold">Cost anual BIO:</span>
+                            <span id="bioCost" class="font-bold">0 Lei</span>
+                        </div>
+                        
+                        <div class="bg-lime-600/20 p-6 rounded-3xl border border-lime-500/30 text-center mt-4">
+                            <p class="text-[10px] uppercase font-black text-lime-400 mb-1">Diferența (Investiția în sănătate)</p>
+                            <p class="text-4xl font-black text-white" id="diffCost">0 Lei</p>
+                            <p class="text-[10px] opacity-60 mt-2">pe an / de persoană</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="absolute top-0 right-0 w-64 h-64 bg-lime-500 rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-8 rounded-[32px] border-l-8 border-gray-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-4 right-4 text-4xl opacity-10 grayscale">🏭</div>
+                    <h3 class="font-black text-gray-400 uppercase text-xs tracking-widest mb-4">Convențional (Riscuri)</h3>
+                    <p class="text-gray-600 font-medium leading-relaxed">
+                        "{info.riscuri_conventional}"
+                    </p>
+                </div>
+
+                <div class="bg-lime-50 p-8 rounded-[32px] border-l-8 border-lime-500 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-4 right-4 text-4xl opacity-20">🌿</div>
+                    <h3 class="font-black text-lime-700 uppercase text-xs tracking-widest mb-4">Certificat Ecologic (Beneficii)</h3>
+                    <p class="text-lime-900 font-bold leading-relaxed">
+                        "{info.beneficii_bio}"
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-gray-100 text-xs text-gray-500 italic text-center">
+                    "{info.descriere}"
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <a 
+        id="whatsappBtn" 
+        href="https://wa.me/" 
+        target="_blank" 
+        class="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 hover:-translate-y-1 transition-all duration-300 z-50 group flex items-center gap-3 pr-6 cursor-pointer"
+    >
+        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+        <div class="flex flex-col text-left">
+            <span class="text-[10px] uppercase font-bold opacity-80 leading-none">Share</span>
+            <span class="font-bold leading-none mt-1">pe WhatsApp</span>
+        </div>
+    </a>
+
+    <script is:inline define:vars={{ pretStd: info.pret_standard, pretBio: info.pret_bio, produs: info.produs }}>
+        const btnWhatsapp = document.getElementById('whatsappBtn');
+        const qtyInput = document.getElementById('qtyInput');
+        
+        const dispStd = document.getElementById('stdCost');
+        const dispBio = document.getElementById('bioCost');
+        const dispDiff = document.getElementById('diffCost');
+
+        function calculate() {
+            const qty = parseFloat(qtyInput.value) || 0;
+            const weeks = 52;
+
+            // Calcule Anuale
+            const annualStd = qty * pretStd * weeks;
+            const annualBio = qty * pretBio * weeks;
+            const diff = annualBio - annualStd;
+
+            // Update UI
+            if(dispStd) dispStd.innerText = Math.round(annualStd).toLocaleString() + " Lei";
+            if(dispBio) dispBio.innerText = Math.round(annualBio).toLocaleString() + " Lei";
+            
+            // Formatare Diferență
+            if(dispDiff) {
+                dispDiff.innerText = "+" + Math.round(diff).toLocaleString() + " Lei";
+            }
+
+            // Update Buton WhatsApp
+            if (btnWhatsapp) {
+                const mesaj = `Am făcut calculul BioScan pentru ${produs}! 🍎\n\nDacă trec pe Bio, investiția mea în sănătate este de doar ${Math.round(diff)} Lei pe an.\n(pentru un consum de ${qty} unități/săptămână)`;
+                const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj + "\n\nVezi detaliile aici: " + window.location.href)}`;
+                btnWhatsapp.href = link;
+            }
+        }
+
+        // Ascultători
+        if(qtyInput) {
+            qtyInput.addEventListener('input', calculate);
+        }
+
+        // Run
+        calculate();
+    </script>
+</Layout>
