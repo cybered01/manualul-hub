@@ -4,64 +4,49 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout 
     title="Manualul.ro - Hub-ul tău de Calculatoare și Ghiduri 2026"
-    description="Portalul tău de referință pentru granturi IMM, ajutoare de stat și simulatoare de profit ecologic."
+    description="Portalul tău de referință pentru granturi IMM, ajutoare de stat, simulatoare de profit și bugete de vacanță."
 >
     <main class="max-w-6xl mx-auto px-4 py-16 text-center">
         <header class="mb-16">
-            <h1 class="text-5xl md:text-6xl font-black text-gray-900 mb-6 tracking-tight">
+            <h1 class="text-5xl md:text-7xl font-black text-gray-900 mb-6 tracking-tight">
                 Decizii informate, <br class="hidden md:block"/> <span class="text-blue-700">bazate pe cifre.</span>
             </h1>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                Alege un simulator din categoriile de mai jos pentru a vedea eligibilitatea și potențialul tău de profit sau ajutor.
+                De la afaceri și studii, până la ajutor social și vacanțe. Simulatoarele noastre îți arată realitatea financiară în câteva secunde.
             </p>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
-            <a href="/finantari" class="group p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col">
-                <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">
-                    🏢
-                </div>
+            <a href="/finantari" class="group p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col border-b-4 border-b-blue-500">
+                <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">🏢</div>
                 <h2 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors">Manualul Finanțărilor</h2>
                 <p class="text-gray-500 mb-6 flex-grow">Granturi digitalizare, Start-up Nation și PNRR pentru firme.</p>
-                <span class="text-blue-700 font-bold flex items-center gap-2">
-                    Vezi programele →
-                </span>
+                <span class="text-blue-700 font-bold flex items-center gap-2">Vezi programele →</span>
             </a>
 
-            <a href="/ajutoare-sociale" class="group p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col">
-                <div class="w-12 h-12 bg-green-100 text-green-700 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">
-                    🤝
-                </div>
+            <a href="/ajutoare-sociale" class="group p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col border-b-4 border-b-green-500">
+                <div class="w-12 h-12 bg-green-100 text-green-700 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">🤝</div>
                 <h2 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-green-600 transition-colors">Ajutoare Sociale</h2>
-                <p class="text-gray-500 mb-6 flex-grow">Vouchere energie, carduri alimente și beneficii pentru persoane fizice.</p>
-                <span class="text-green-600 font-bold flex items-center gap-2">
-                    Verifică eligibilitatea →
-                </span>
+                <p class="text-gray-500 mb-6 flex-grow">Ghiduri procedurale: carduri alimente, vouchere energie și indemnizații.</p>
+                <span class="text-green-600 font-bold flex items-center gap-2">Verifică drepturile →</span>
             </a>
 
-            <a href="/carbon" class="group p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col border-b-4 border-b-emerald-500">
-                <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">
-                    🌿
-                </div>
-                <h2 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-emerald-600 transition-colors">Simulator Credite Carbon</h2>
-                <p class="text-gray-500 mb-6 flex-grow">Calculează venitul pasiv generat de pământul tău prin sechestrarea de CO2.</p>
-                <span class="text-emerald-600 font-bold flex items-center gap-2">
-                    Calculează profitul →
-                </span>
+            <a href="/weekend" class="group p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col border-b-4 border-b-orange-500">
+                <div class="w-12 h-12 bg-orange-100 text-orange-700 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">🚗</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-orange-600 transition-colors">Weekend România</h2>
+                <p class="text-gray-500 mb-6 flex-grow">Simulator de buget: cazare, transport și masă pentru 50+ destinații.</p>
+                <span class="text-orange-600 font-bold flex items-center gap-2">Calculează excursia →</span>
             </a>
 
             <a href="/facultati" class="group p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col border-b-4 border-b-indigo-500">
-    <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">
-        🎓
-    </div>
-    <h2 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-indigo-600 transition-colors">Facultate Profit</h2>
-    <p class="text-gray-500 mb-6 flex-grow">Află în cât timp îți recuperezi banii investiți în facultate bazat pe salariile de debut.</p>
-    <span class="text-indigo-600 font-bold flex items-center gap-2">
-        Simulează ROI →
-    </span>
-</a>
+                <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">🎓</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-indigo-600 transition-colors">Facultate Profit</h2>
+                <p class="text-gray-500 mb-6 flex-grow">Simulează în cât timp îți recuperezi banii investiți în studii.</p>
+                <span class="text-indigo-600 font-bold flex items-center gap-2">Vezi ROI-ul →</span>
+            </a>
 
-        </div>
-    </main>
-</Layout>
+            <a href="/carbon" class="group p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col border-b-4 border-b-emerald-500">
+                <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center mb-6 font-bold text-xl">🌿</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-emerald-600 transition-colors">Credite Carbon</h2>
+                <p class="text-gray-500 mb-6 flex-grow">Transformă terenul în profit prin
