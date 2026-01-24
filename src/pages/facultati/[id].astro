@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import Layout from '../../layouts/Layout.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
 import records from '../../data/facultati.json';
 
 export async function getStaticPaths() {
@@ -57,6 +58,8 @@ const esteOrasScump = info.universitate.includes('Cluj') || info.universitate.in
                                     <p class="text-4xl font-black text-indigo-400 tabular-nums" id="roiDisplay">0 Luni</p>
                                 </div>
                             </div>
+
+                            <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" class="mt-8" />
                         </div>
                     </div>
                 </div>
@@ -115,11 +118,13 @@ const esteOrasScump = info.universitate.includes('Cluj') || info.universitate.in
         </div>
     </main>
 
-    <script is:inline define:vars={{ aniStudiu: parseInt(info.durata_ani), taxaAnuala: parseFloat(info.taxa_anuala_lei), salariuNet: parseFloat(info.salariu_debutant_net) }}>
+    <script is:inline define:vars={{ aniStudiu: parseInt(info.durata_ani), taxaAnuala: parseFloat(info.taxa_anuala_lei), salariuNet: parseFloat(info.salariu_debutant_net), specializare: info.specializare }}>
         const traiInput = document.getElementById('traiInput');
         const traiValue = document.getElementById('traiValue');
         const costTotalDisplay = document.getElementById('costTotalDisplay');
         const roiDisplay = document.getElementById('roiDisplay');
+        const btnWhatsapp = document.getElementById('whatsappBtn');
+        const btnWhatsappFloating = document.getElementById('whatsappBtnFloating');
 
         const calculate = () => {
             const costTraiLunar = parseInt(traiInput.value);
@@ -139,6 +144,14 @@ const esteOrasScump = info.universitate.includes('Cluj') || info.universitate.in
                 roiDisplay.innerText = Math.round(luniRecuperare) + " Luni";
                 roiDisplay.className = "text-4xl font-black text-indigo-400";
             }
+
+            // WhatsApp Update
+            const luniText = profitRealLunar > 0 ? Math.round(luniRecuperare) : 'N/A';
+            const mesaj = `Am simulat rentabilitatea studiilor la ${specializare} pe Manualul.ro 🎓\nÎmi recuperez investiția în ${luniText} luni. Vezi și tu: ${window.location.href}`;
+            const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnWhatsapp) btnWhatsapp.href = link;
+            if (btnWhatsappFloating) btnWhatsappFloating.href = link;
         };
 
         traiInput.addEventListener('input', calculate);

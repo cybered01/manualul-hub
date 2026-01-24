@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
 import { getCentralData } from '../../lib/api';
 
 const centralData = await getCentralData();
@@ -61,14 +62,7 @@ const goldPrice = centralData.bnr.gold;
                     <p class="text-sm font-bold text-gray-400 uppercase mb-2 relative z-10" id="labelRezultat">Valoarea în RON</p>
                     <p id="outRezultat" class="text-5xl md:text-6xl font-black text-yellow-400 mb-4 relative z-10">0 Lei</p>
 
-                    <a
-                        id="whatsappBtn"
-                        href="https://wa.me/"
-                        target="_blank"
-                        class="mt-4 bg-[#25D366] text-white px-6 py-3 rounded-xl font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2 relative z-10 text-sm"
-                    >
-                        Trimite pe WhatsApp
-                    </a>
+                    <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" class="scale-90" />
                 </div>
             </div>
         </div>
@@ -85,6 +79,7 @@ const goldPrice = centralData.bnr.gold;
         const outRezultat = document.getElementById('outRezultat');
         const labelRezultat = document.getElementById('labelRezultat');
         const btnWhatsapp = document.getElementById('whatsappBtn');
+        const btnWhatsappFloating = document.getElementById('whatsappBtnFloating');
 
         function updateFromGrame() {
             const grame = parseFloat(inGrame.value) || 0;
@@ -109,15 +104,16 @@ const goldPrice = centralData.bnr.gold;
         }
 
         function updateWhatsapp(grame, ron, isGramsToRon) {
-            if (btnWhatsapp) {
-                let mesaj = "";
-                if (isGramsToRon) {
-                    mesaj = `Cotație Aur pe Manualul.ro 🏆\n\nPreț: ${goldPrice.toFixed(2)} Lei/gram\nCantitate: ${grame}g\nValoare totală: ${Math.round(ron).toLocaleString()} Lei`;
-                } else {
-                    mesaj = `Cotație Aur pe Manualul.ro 🏆\n\nPreț: ${goldPrice.toFixed(2)} Lei/gram\nCu ${Math.round(ron).toLocaleString()} Lei poți cumpăra: ${grame.toFixed(2)}g de Aur`;
-                }
-                btnWhatsapp.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj + "\n\nVezi aici: " + window.location.href)}`;
+            let mesaj = "";
+            if (isGramsToRon) {
+                mesaj = `Am calculat valoarea aurului meu pe Manualul.ro. La o cotație de ${goldPrice.toFixed(2)} RON/g, cele ${grame}g ale mele valorează ${Math.round(ron).toLocaleString()} RON. Vezi și tu: ${window.location.href}`;
+            } else {
+                mesaj = `Am verificat prețul aurului pe Manualul.ro. Cu ${Math.round(ron).toLocaleString()} RON poți cumpăra acum ${grame.toFixed(2)}g de aur de 24K. Vezi și tu: ${window.location.href}`;
             }
+            const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnWhatsapp) btnWhatsapp.href = link;
+            if (btnWhatsappFloating) btnWhatsappFloating.href = link;
         }
 
         inGrame.addEventListener('input', updateFromGrame);
