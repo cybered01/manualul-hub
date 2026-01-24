@@ -84,19 +84,6 @@ import WhatsAppButton from '../../components/WhatsAppButton.astro';
             </div>
         </div>
 
-        <div id="stickyBar" class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-red-100 p-4 shadow-[0_-10px_25px_rgba(0,0,0,0.1)] md:hidden z-40">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-[10px] font-black uppercase text-gray-400 leading-none mb-1">Echivalent Azi</p>
-                    <p id="stickyTotal" class="text-2xl font-black text-red-600 leading-none">0 Lei</p>
-                </div>
-                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold active:scale-95 transition-transform">
-                    Schimbă ↑
-                </button>
-            </div>
-        </div>
-
-
     </main>
 
     <script is:inline>
@@ -119,7 +106,6 @@ import WhatsAppButton from '../../components/WhatsAppButton.astro';
         const txtSumaNoua = document.getElementById('textSumaNoua');
         const btnWhatsapp = document.getElementById('whatsappBtn');
         const btnWhatsappFloating = document.getElementById('whatsappBtnFloating');
-        const stickyTotal = document.getElementById('stickyTotal');
 
         // Populare Select An
         const startYear = 2000;
@@ -156,8 +142,6 @@ import WhatsAppButton from '../../components/WhatsAppButton.astro';
             txtSumaVeche.innerText = suma;
             txtSumaNoua.innerText = Math.round(sumaAzi);
             
-            if(stickyTotal) stickyTotal.innerText = Math.round(sumaAzi).toLocaleString() + " Lei";
-
             // WhatsApp Update
             const mesaj = `Am aflat că banii mei au pierdut ${Math.round(sumaAzi - suma).toLocaleString()} RON din putere de cumpărare în ultimii ani. Verifică-ți și tu economiile pe Manualul.ro: ${window.location.href}`;
             const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;

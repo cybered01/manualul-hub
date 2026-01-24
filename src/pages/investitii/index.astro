@@ -42,6 +42,10 @@ import WhatsAppButton from '../../components/WhatsAppButton.astro';
             <p class="text-xl text-gray-600 max-w-2xl mx-auto">
                 "A opta minune a lumii". Vezi cum sume mici, investite constant, se transformă în averi uriașe datorită timpului.
             </p>
+            <div class="mt-8 flex justify-center gap-4">
+                <a href="/investitii" class="px-6 py-2 bg-yellow-400 text-gray-900 font-bold rounded-xl shadow-md">Dobândă Compusă</a>
+                <a href="/investitii/aur" class="px-6 py-2 bg-white text-gray-900 font-bold rounded-xl shadow-sm border border-yellow-200 hover:bg-yellow-50 transition">Cotație Aur</a>
+            </div>
         </header>
 
         <div class="bg-white rounded-[40px] p-8 md:p-12 shadow-2xl border-b-8 border-yellow-400 mb-12">
@@ -111,18 +115,6 @@ import WhatsAppButton from '../../components/WhatsAppButton.astro';
             </div>
         </div>
 
-        <div id="stickyBar" class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-yellow-200 p-4 shadow-[0_-10px_25px_rgba(0,0,0,0.1)] md:hidden z-40">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-[10px] font-black uppercase text-gray-400 leading-none mb-1">Avere Totală</p>
-                    <p id="stickyTotal" class="text-2xl font-black text-yellow-600 leading-none">0 Lei</p>
-                </div>
-                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold active:scale-95 transition-transform">
-                    Recalculează ↑
-                </button>
-            </div>
-        </div>
-
     </main>
 
     <script is:inline>
@@ -140,7 +132,6 @@ import WhatsAppButton from '../../components/WhatsAppButton.astro';
         const outDobanda = document.getElementById('rezultatDobanda');
         const barDepus = document.getElementById('barDepus');
         const barDobanda = document.getElementById('barDobanda');
-        const stickyTotal = document.getElementById('stickyTotal');
 
         function calculate() {
             const start = parseFloat(inStart.value) || 0;
@@ -168,8 +159,6 @@ import WhatsAppButton from '../../components/WhatsAppButton.astro';
             outDepus.innerText = Math.round(totalDepus).toLocaleString() + " Lei";
             outDobanda.innerText = "+" + Math.round(totalDobanda).toLocaleString() + " Lei";
             
-            if(stickyTotal) stickyTotal.innerText = Math.round(total).toLocaleString() + " Lei";
-
             // Actualizare Bare Grafice
             const percentDepus = (totalDepus / total) * 100;
             const percentDobanda = (totalDobanda / total) * 100;
