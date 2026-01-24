@@ -1,0 +1,241 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import renovareData from '../data/renovare.json';
+
+// Culoarea temei: Portocaliu Cărămidă
+const themeColor = "#d35400";
+---
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Calculator Renovare Apartament 2026",
+  "url": "https://manualul.ro/renovare",
+  "description": "Estimează bugetul necesar pentru renovarea apartamentului tău în 2026. Include manoperă, materiale, instalații și fond de rezervă.",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  }
+}
+</script>
+
+<Layout
+    title="Calculator Renovare Apartament 2026"
+    description="Află cât costă să renovezi un apartament în 2026. Deviz estimativ pentru manoperă, materiale și neprevăzute."
+>
+    <main class="max-w-5xl mx-auto px-4 pb-32">
+        <nav class="py-6">
+            <a href="/" class="text-sm font-bold text-orange-800 hover:underline flex items-center gap-2">
+                ← Înapoi la meniul principal
+            </a>
+        </nav>
+
+        <header class="mb-12 text-center">
+            <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-[10px] font-black uppercase tracking-widest border border-orange-200 mb-4 inline-block">
+                Amenajări & Construcții
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Deviz Renovare
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Planifică-ți bugetul de renovare cu cifre realiste pentru 2026. Include manoperă, materiale și fondul de siguranță.
+            </p>
+        </header>
+
+        <div class="bg-white rounded-[40px] p-8 md:p-12 shadow-2xl border-b-8 border-orange-700 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+                <div class="space-y-8">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Suprafață (mp)</label>
+                            <input type="number" id="inSuprafata" value="50" class="w-full bg-orange-50/30 border-2 border-orange-100 rounded-2xl p-4 text-2xl font-black text-gray-900 focus:bg-white focus:border-orange-500 outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Camere</label>
+                            <input type="number" id="inCamere" value="2" class="w-full bg-orange-50/30 border-2 border-orange-100 rounded-2xl p-4 text-2xl font-black text-gray-900 focus:bg-white focus:border-orange-500 outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Tip Imobil</label>
+                        <select id="inTipImobil" class="w-full bg-orange-50/30 border-2 border-orange-100 rounded-2xl p-4 text-lg font-bold text-gray-900 focus:bg-white focus:border-orange-500 outline-none transition-all appearance-none cursor-pointer">
+                            <option value="nou">Nou (La gri / construcție nouă)</option>
+                            <option value="vechi">Vechi (Necesită decopertare)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Calitate Finisaje</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button data-val="budget" class="quality-btn p-3 rounded-xl border-2 border-orange-100 font-bold text-sm hover:border-orange-300 transition-all">Budget</button>
+                            <button data-val="standard" class="quality-btn p-3 rounded-xl border-2 border-orange-500 bg-orange-500 text-white font-bold text-sm transition-all">Standard</button>
+                            <button data-val="premium" class="quality-btn p-3 rounded-xl border-2 border-orange-100 font-bold text-sm hover:border-orange-300 transition-all">Premium</button>
+                        </div>
+                        <input type="hidden" id="inCalitate" value="standard">
+                    </div>
+
+                    <div class="space-y-3 pt-4 border-t border-orange-100">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" id="checkElectrica" class="w-6 h-6 rounded-lg border-2 border-orange-200 text-orange-600 focus:ring-orange-500">
+                            <span class="font-bold text-gray-700 group-hover:text-orange-700 transition-colors">Schimb instalația electrică</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" id="checkSanitara" class="w-6 h-6 rounded-lg border-2 border-orange-200 text-orange-600 focus:ring-orange-500">
+                            <span class="font-bold text-gray-700 group-hover:text-orange-700 transition-colors">Schimb instalația sanitară</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" id="checkUsi" class="w-6 h-6 rounded-lg border-2 border-orange-200 text-orange-600 focus:ring-orange-500">
+                            <span class="font-bold text-gray-700 group-hover:text-orange-700 transition-colors">Schimb ușile interioare</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" id="checkMobila" class="w-6 h-6 rounded-lg border-2 border-orange-200 text-orange-600 focus:ring-orange-500">
+                            <span class="font-bold text-gray-700 group-hover:text-orange-700 transition-colors">Include mobilă bucătărie</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 text-white rounded-[32px] p-8 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-orange-600 rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+
+                    <div>
+                        <p class="text-sm font-bold text-orange-400 uppercase mb-2 relative z-10">Total Estimat Renovare</p>
+                        <p id="outTotal" class="text-5xl md:text-7xl font-black text-white mb-2 relative z-10">0 €</p>
+                        <p class="text-xs text-gray-400 italic mb-8 relative z-10">*Include fond de urgență 15%</p>
+
+                        <div class="space-y-4 relative z-10 border-t border-white/10 pt-8">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm font-bold uppercase">Manoperă</span>
+                                <span id="outManopera" class="font-black text-xl">0 €</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm font-bold uppercase">Materiale</span>
+                                <span id="outMateriale" class="font-black text-xl">0 €</span>
+                            </div>
+                            <div class="flex justify-between items-center text-orange-400">
+                                <span class="text-sm font-bold uppercase">Fond Rezervă</span>
+                                <span id="outRezerva" class="font-black text-xl">0 €</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 relative z-10">
+                        <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" class="w-full" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-500 italic">
+            <div class="bg-white p-6 rounded-3xl border border-gray-100">
+                <strong>Manoperă:</strong> Include glet, lavabilă, parchet, gresie, faianță și montaj obiecte sanitare/electrice de bază.
+            </div>
+            <div class="bg-white p-6 rounded-3xl border border-gray-100">
+                <strong>Materiale:</strong> De la saci de adeziv până la finisaje (vopsea, parchet, gresie). Prețurile variază în funcție de calitate.
+            </div>
+            <div class="bg-white p-6 rounded-3xl border border-gray-100">
+                <strong>Fond Urgență:</strong> Obligatoriu în orice renovare. Acoperă vicii ascunse, scumpiri de ultim moment sau modificări.
+            </div>
+        </div>
+    </main>
+
+    <script is:inline define:vars={{ renovareData }}>
+        // Inputs
+        const inSuprafata = document.getElementById('inSuprafata');
+        const inCamere = document.getElementById('inCamere');
+        const inTipImobil = document.getElementById('inTipImobil');
+        const inCalitate = document.getElementById('inCalitate');
+
+        const checkElectrica = document.getElementById('checkElectrica');
+        const checkSanitara = document.getElementById('checkSanitara');
+        const checkUsi = document.getElementById('checkUsi');
+        const checkMobila = document.getElementById('checkMobila');
+
+        // Outputs
+        const outTotal = document.getElementById('outTotal');
+        const outManopera = document.getElementById('outManopera');
+        const outMateriale = document.getElementById('outMateriale');
+        const outRezerva = document.getElementById('outRezerva');
+        const btnWhatsapp = document.getElementById('whatsappBtn');
+        const btnWhatsappFloating = document.getElementById('whatsappBtnFloating');
+
+        // Quality Buttons
+        const qualityBtns = document.querySelectorAll('.quality-btn');
+        qualityBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                qualityBtns.forEach(b => {
+                    b.classList.remove('bg-orange-500', 'text-white', 'border-orange-500');
+                    b.classList.add('border-orange-100');
+                });
+                btn.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
+                btn.classList.remove('border-orange-100');
+                inCalitate.value = btn.getAttribute('data-val');
+                calculate();
+            });
+        });
+
+        function calculate() {
+            const s = parseFloat(inSuprafata.value) || 0;
+            const c = parseInt(inCamere.value) || 0;
+            const tip = inTipImobil.value;
+            const calitate = inCalitate.value;
+
+            // 1. Manoperă și Decopertare
+            let costManoperaTotal = s * renovareData.manopera_generala;
+            if (tip === 'vechi') {
+                costManoperaTotal += s * renovareData.decopertare;
+            }
+
+            // 2. Materiale
+            const costMaterialeUnitat = renovareData.materiale[calitate];
+            let costMaterialeTotal = s * costMaterialeUnitat;
+
+            // 3. Extra-uri
+            if (checkElectrica.checked) {
+                costManoperaTotal += s * (renovareData.extra.electrica * 0.4); // 40% manopera
+                costMaterialeTotal += s * (renovareData.extra.electrica * 0.6); // 60% materiale
+            }
+            if (checkSanitara.checked) {
+                costMaterialeTotal += renovareData.extra.sanitara;
+            }
+            if (checkUsi.checked) {
+                const nrUsi = c + 1; // Camere + 1 Baie
+                costMaterialeTotal += nrUsi * renovareData.extra.usa;
+            }
+            if (checkMobila.checked) {
+                costMaterialeTotal += renovareData.extra.mobila_bucatarie;
+            }
+
+            // 4. Fond de Urgență
+            const subtotal = costManoperaTotal + costMaterialeTotal;
+            const fondRezerva = subtotal * 0.15;
+            const total = subtotal + fondRezerva;
+
+            // UI Update
+            outTotal.innerText = Math.round(total).toLocaleString() + " €";
+            outManopera.innerText = Math.round(costManoperaTotal).toLocaleString() + " €";
+            outMateriale.innerText = Math.round(costMaterialeTotal).toLocaleString() + " €";
+            outRezerva.innerText = Math.round(fondRezerva).toLocaleString() + " €";
+
+            // WhatsApp Update
+            const mesaj = `Am calculat că renovarea apartamentului meu mă costă aproximativ ${Math.round(total).toLocaleString()} € pe Manualul.ro 🛠️\nSuprafață: ${s}mp, Finisaje: ${calitate.toUpperCase()}. Vezi devizul complet: ${window.location.href}`;
+            const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnWhatsapp) btnWhatsapp.href = link;
+            if (btnWhatsappFloating) btnWhatsappFloating.href = link;
+        }
+
+        // Listeners
+        [inSuprafata, inCamere, inTipImobil, checkElectrica, checkSanitara, checkUsi, checkMobila].forEach(el => {
+            el.addEventListener('input', calculate);
+        });
+
+        // Initial
+        calculate();
+    </script>
+</Layout>
