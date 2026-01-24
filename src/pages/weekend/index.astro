@@ -1,10 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { readFileSync } from 'fs';
-import { parse } from 'csv-parse/sync';
-
-const fileContent = readFileSync('./src/data/weekend.csv', 'utf-8');
-const locatii = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
+import locatii from '../../data/weekend.json';
 
 // Grupăm pe regiuni
 const regiuni = [...new Set(locatii.map(l => l.regiune))].sort();

@@ -1,0 +1,134 @@
+[
+  {
+    "id": "oua-gaina",
+    "produs": "Ouă (10 buc)",
+    "categorie": "Proteine",
+    "pret_standard": "12",
+    "pret_bio": "28",
+    "unitate": "carton 10 buc",
+    "riscuri_conventional": "Găini crescute în baterii, risc de salmonella, hrană modificată genetic.",
+    "beneficii_bio": "Găini crescute la sol/libere, hrană naturală, profil nutrițional superior (Omega 3).",
+    "descriere": "Diferența majoră este la condițiile de viață ale păsărilor și calitatea gălbenușului."
+  },
+  {
+    "id": "lapte-vaca",
+    "produs": "Lapte Proaspăt",
+    "categorie": "Lactate",
+    "pret_standard": "7",
+    "pret_bio": "16",
+    "unitate": "1 litru",
+    "riscuri_conventional": "Posibile urme de antibiotice și hormoni de creștere. Procesare UHT intensă.",
+    "beneficii_bio": "Vaci hrănite cu iarbă (Grass-fed), fără antibiotice preventive.",
+    "descriere": "Laptele bio are adesea un conținut mai mare de acid linoleic conjugat (CLA)."
+  },
+  {
+    "id": "pui-intreg",
+    "produs": "Carne de Pui",
+    "categorie": "Carne",
+    "pret_standard": "22",
+    "pret_bio": "65",
+    "unitate": "1 kg",
+    "riscuri_conventional": "Creștere forțată în 30 de zile, utilizare de antibiotice, densitate mare.",
+    "beneficii_bio": "Creștere lentă (80+ zile), acces la aer liber, carne mai fermă și gustoasă.",
+    "descriere": "Puiul industrial este 'umflat' cu apă și saramură; cel bio scade mult mai puțin la gătit."
+  },
+  {
+    "id": "mere-romanesti",
+    "produs": "Mere",
+    "categorie": "Fructe",
+    "pret_standard": "6",
+    "pret_bio": "14",
+    "unitate": "1 kg",
+    "riscuri_conventional": "Tratate cu fungicide și ceară artificială pentru a rezista luni de zile.",
+    "beneficii_bio": "Fără pesticide de sinteză, coajă comestibilă 100% sigură.",
+    "descriere": "Merele convenționale sunt în topul 'Dirty Dozen' al fructelor cu cele mai multe pesticide."
+  },
+  {
+    "id": "paine-integrala",
+    "produs": "Pâine Integrală",
+    "categorie": "Brutărie",
+    "pret_standard": "8",
+    "pret_bio": "18",
+    "unitate": "500g",
+    "riscuri_conventional": "Făină albită chimic, conservanți, afânători și potențiatori de aromă.",
+    "beneficii_bio": "Făină integrală reală, maia naturală, fără E-uri.",
+    "descriere": "Pâinea bio cu maia are un indice glicemic mai mic și este mai ușor de digerat."
+  },
+  {
+    "id": "rosii-cherry",
+    "produs": "Roșii Cherry",
+    "categorie": "Legume",
+    "pret_standard": "15",
+    "pret_bio": "35",
+    "unitate": "500g",
+    "riscuri_conventional": "Crescute pe vată minerală (hidroponic), gust fad, coapte forțat cu etilenă.",
+    "beneficii_bio": "Crescute în sol, coapte la soare, gust intens și conținut ridicat de licopen.",
+    "descriere": "Roșiile bio au, în medie, cu 30% mai mulți antioxidanți."
+  },
+  {
+    "id": "ulei-masline",
+    "produs": "Ulei de Măsline",
+    "categorie": "Băcănie",
+    "pret_standard": "45",
+    "pret_bio": "90",
+    "unitate": "750ml",
+    "riscuri_conventional": "Adesea amestecat cu uleiuri inferioare, procesat termic, aciditate mare.",
+    "beneficii_bio": "Presat la rece mecanic, măsline netratate, trasabilitate controlată.",
+    "descriere": "Uleiul bio este esențial pentru dieta anti-inflamatorie."
+  },
+  {
+    "id": "cartofi-albi",
+    "produs": "Cartofi",
+    "categorie": "Legume",
+    "pret_standard": "4",
+    "pret_bio": "10",
+    "unitate": "1 kg",
+    "riscuri_conventional": "Tratați cu substanțe anti-germinare (clorprofam) pentru a nu încolți iarna.",
+    "beneficii_bio": "Fără tratamente post-recoltare, păstrați în condiții naturale.",
+    "descriere": "Coaja cartofilor convenționali absoarbe multe pesticide din sol."
+  },
+  {
+    "id": "miere-poliflora",
+    "produs": "Miere Polifloră",
+    "categorie": "Dulciuri",
+    "pret_standard": "30",
+    "pret_bio": "65",
+    "unitate": "borcan 400g",
+    "riscuri_conventional": "Posibil adaos de sirop de glucoză, antibiotice pentru albine, procesare termică.",
+    "beneficii_bio": "Miere crudă nepasteurizată, stupi plasați în zone nepoluate.",
+    "descriere": "Mierea bio păstrează enzimele active care ajută imunitatea."
+  },
+  {
+    "id": "carne-vita",
+    "produs": "Carne de Vită",
+    "categorie": "Carne",
+    "pret_standard": "50",
+    "pret_bio": "120",
+    "unitate": "1 kg",
+    "riscuri_conventional": "Hrană bazată pe soia/cereale, risc de antibiotice, impact mare de mediu.",
+    "beneficii_bio": "Vaci crescute pe pășune, carne mai slabă și bogată în nutrienți.",
+    "descriere": "Vito bio are un raport Omega-3/Omega-6 mult mai sănătos."
+  },
+  {
+    "id": "cafea-boabe",
+    "produs": "Cafea Boabe",
+    "categorie": "Băuturi",
+    "pret_standard": "60",
+    "pret_bio": "110",
+    "unitate": "500g",
+    "riscuri_conventional": "Culturi tratate intensiv cu pesticide, impact negativ asupra solului.",
+    "beneficii_bio": "Cultivată la umbră (shade-grown), fără chimicale, Fair Trade.",
+    "descriere": "Cafeaua bio are adesea o aciditate mai plăcută și arome mai complexe."
+  },
+  {
+    "id": "iaurt-grecesc",
+    "produs": "Iaurt Grecesc",
+    "categorie": "Lactate",
+    "pret_standard": "18",
+    "pret_bio": "32",
+    "unitate": "500g",
+    "riscuri_conventional": "Lapte standardizat, posibil adaos de lapte praf sau amidon pentru textură.",
+    "beneficii_bio": "Lapte bio integral, fermentare naturală, fără agenți de îngroșare.",
+    "descriere": "Iaurtul bio este o sursă mai curată de probiotice."
+  }
+]
