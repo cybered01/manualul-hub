@@ -1,0 +1,13 @@
+{
+  "varsta_standard_pensionare": 65,
+  "speranta_viata": 82,
+  "rata_inflatie_medie": 0.035,
+  "crestere_salariala_medie": 0.04,
+  "pilon1": {
+    "rata_inlocuire": 0.40
+  },
+  "pilon2": {
+    "procent_contributie": 0.0475,
+    "randament_mediu_anual": 0.06
+  }
+}

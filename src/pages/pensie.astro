@@ -1,0 +1,252 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import data from '../data/pensie.json';
+
+const title = "Simulator Pensie Reală - Puterea de Cumpărare";
+const description = "Află ce pensie vei avea cu adevărat la bătrânețe, ajustată la inflație. Simulator Pilonul 1 și Pilonul 2.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <nav class="py-6">
+            <a href="/" class="text-sm font-bold text-slate-600 hover:underline flex items-center gap-2">
+                ← Înapoi la meniul principal
+            </a>
+        </nav>
+
+        <header class="py-8 text-center">
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-200 mb-4 inline-block">
+                Simulator Financiar
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black text-slate-900 mb-4 tracking-tight">
+                Simulator <span class="text-blue-600">Pensie Reală</span>
+            </h1>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+                Câți bani vei avea la bătrânețe? Calculăm puterea de cumpărare (în banii de azi) pentru a combate iluzia monetară.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-[40px] shadow-xl border border-slate-100 overflow-hidden">
+                    <div class="p-8 bg-slate-900 text-white">
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <span class="text-blue-400">📊</span> Date Personale
+                        </h2>
+                        <div class="space-y-8">
+                            <div class="space-y-4">
+                                <div class="flex justify-between">
+                                    <label for="varstaActuala" class="text-xs font-black uppercase opacity-80">Vârsta Actuală</label>
+                                    <span id="varstaActualaVal" class="text-blue-400 font-bold">30 ani</span>
+                                </div>
+                                <input type="range" id="varstaActuala" min="20" max="64" value="30" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label for="salariuNet" class="block text-xs font-black uppercase opacity-80">Salariu Net Actual (RON)</label>
+                                    <input type="number" id="salariuNet" value="5000" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white font-bold outline-none focus:border-blue-500 transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="soldPilon2" class="block text-xs font-black uppercase opacity-80">Sold Curent Pilon 2 (RON)</label>
+                                    <input type="number" id="soldPilon2" value="0" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white font-bold outline-none focus:border-blue-500 transition-all">
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="flex justify-between">
+                                    <label for="varstaPensionare" class="text-xs font-black uppercase opacity-80">Vârsta de Pensionare</label>
+                                    <span id="varstaPensionareVal" class="text-blue-400 font-bold">65 ani</span>
+                                </div>
+                                <input type="range" id="varstaPensionare" min="50" max="70" value="65" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-8 md:p-10">
+                         <div class="bg-blue-50 rounded-[32px] p-8 text-center border-2 border-blue-100">
+                            <p class="text-[10px] font-black uppercase text-slate-400 tracking-[0.2em] mb-2">Pensia ta estimată (Putere de cumpărare azi)</p>
+                            <p class="text-5xl md:text-6xl font-black text-slate-900 mb-2" id="pensieAziDisplay">0 RON</p>
+                            <p class="text-sm text-slate-500" id="pensieViitorDisplay">Echivalentul a 0 RON în anul 2059</p>
+                         </div>
+
+                         <div class="mt-10 space-y-8">
+                            <div>
+                                <h3 class="text-sm font-black uppercase text-slate-400 mb-6 tracking-widest text-center">Gap-ul de Sărăcie</h3>
+                                <div class="space-y-6">
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between text-sm">
+                                            <span class="font-bold text-slate-600">Salariu Actual</span>
+                                            <span id="salariuActualBarVal" class="font-bold text-slate-900">5.000 RON</span>
+                                        </div>
+                                        <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden">
+                                            <div class="h-full bg-slate-400" style="width: 100%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between text-sm">
+                                            <span class="font-bold text-blue-600">Pensie Estimată (Azi)</span>
+                                            <span id="pensieAziBarVal" class="font-bold text-blue-700">2.500 RON</span>
+                                        </div>
+                                        <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden">
+                                            <div id="pensieAziBar" class="h-full bg-blue-600" style="width: 50%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-center mt-6 text-red-600 font-bold text-sm" id="povertyGapText">Diferență: -2.500 RON (Gap de Sărăcie)</p>
+                            </div>
+
+                            <div class="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
+                                <div class="text-center md:text-left">
+                                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Deficit lunar</p>
+                                    <p class="text-2xl font-black text-red-600" id="deficitLunar">0 RON</p>
+                                    <p class="text-xs text-slate-500 mt-1" id="ctaEconomisire">Ar trebui să economisești 0 RON/lună</p>
+                                </div>
+                                <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-slate-900 text-white p-8 rounded-[40px] shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full blur-[60px] opacity-20 pointer-events-none"></div>
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2 relative z-10">
+                        <span class="text-blue-400">📋</span> Defalcare Nominală
+                    </h3>
+                    <div class="space-y-4 relative z-10">
+                        <div class="flex justify-between items-center pb-3 border-b border-white/10">
+                            <span class="text-slate-400 text-sm font-medium">Pilonul 1 (Stat)</span>
+                            <span class="font-bold" id="pilon1Sum">0 RON</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-3 border-b border-white/10">
+                            <span class="text-slate-400 text-sm font-medium">Pilonul 2 (Privat)</span>
+                            <span class="font-bold" id="pilon2Sum">0 RON</span>
+                        </div>
+                        <div class="pt-2">
+                            <p class="text-[10px] text-slate-500 leading-relaxed italic">
+                                *Sumele de mai sus reprezintă valori nominale în anul pensionării, fără ajustarea la inflație.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-8 rounded-[40px] border border-blue-100">
+                    <h4 class="font-bold text-blue-900 mb-3 flex items-center gap-2">
+                        <span>💡</span> Presupuneri Macro
+                    </h4>
+                    <ul class="text-sm text-blue-800 space-y-2 opacity-80">
+                        <li>• Inflație medie: {(data.rata_inflatie_medie * 100).toFixed(1)}% / an</li>
+                        <li>• Creștere salarială: {(data.crestere_salariala_medie * 100).toFixed(1)}% / an</li>
+                        <li>• Randament Pilon 2: {(data.pilon2.randament_mediu_anual * 100).toFixed(1)}% / an</li>
+                        <li>• Speranță viață: {data.speranta_viata} ani</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline define:vars={{ data }}>
+        function val(id) {
+            const el = document.getElementById(id);
+            return el ? (parseFloat(el.value) || 0) : 0;
+        }
+
+        function updateCalculator() {
+            const varstaActuala = val('varstaActuala');
+            const salariuNetActual = val('salariuNet');
+            const soldPilon2 = val('soldPilon2');
+            const varstaPensionare = val('varstaPensionare');
+
+            document.getElementById('varstaActualaVal').innerText = varstaActuala + " ani";
+            document.getElementById('varstaPensionareVal').innerText = varstaPensionare + " ani";
+
+            const aniContribuire = varstaPensionare - varstaActuala;
+
+            if (aniContribuire <= 0) {
+                document.getElementById('pensieAziDisplay').innerText = "Vârstă invalidă";
+                return;
+            }
+
+            // Pasul 1: Salariu Viitor (Nominal)
+            const ultimulSalariuNet = salariuNetActual * Math.pow(1 + data.crestere_salariala_medie, aniContribuire);
+
+            // Pasul 2: Pilonul 1 (Stat)
+            const pensiePilon1Nominal = ultimulSalariuNet * data.pilon1.rata_inlocuire;
+
+            // Pasul 3: Pilonul 2 (Privat)
+            // Gross = Net / 0.585 approx
+            const salariuBrutActual = salariuNetActual / 0.585;
+            const contributiePilon2LunaraInitiala = salariuBrutActual * data.pilon2.procent_contributie;
+
+            let totalAcumulatPilon2 = soldPilon2;
+            const r_anual = data.pilon2.randament_mediu_anual;
+            const g_anual = data.crestere_salariala_medie;
+
+            // Calcul compus cu contributii lunare si crestere salariala anuala
+            for (let an = 1; an <= aniContribuire; an++) {
+                const contributieLunaraAnuala = contributiePilon2LunaraInitiala * Math.pow(1 + g_anual, an - 1);
+                for (let luna = 1; luna <= 12; luna++) {
+                    totalAcumulatPilon2 = totalAcumulatPilon2 * Math.pow(1 + r_anual, 1/12) + contributieLunaraAnuala;
+                }
+            }
+
+            const aniPensie = data.speranta_viata - varstaPensionare;
+            const pensiePilon2Nominal = totalAcumulatPilon2 / (aniPensie * 12);
+
+            // Pasul 4: Total si Ajustare
+            const totalPensieNominala = pensiePilon1Nominal + pensiePilon2Nominal;
+            const putereCumparareAzi = totalPensieNominala / Math.pow(1 + data.rata_inflatie_medie, aniContribuire);
+
+            // Afisare
+            document.getElementById('pensieAziDisplay').innerText = Math.round(putereCumparareAzi).toLocaleString() + " RON";
+            const anPensionare = new Date().getFullYear() + aniContribuire;
+            document.getElementById('pensieViitorDisplay').innerText = `Echivalentul a ${Math.round(totalPensieNominala).toLocaleString()} RON în anul ${anPensionare}`;
+
+            document.getElementById('pilon1Sum').innerText = Math.round(pensiePilon1Nominal).toLocaleString() + " RON";
+            document.getElementById('pilon2Sum').innerText = Math.round(pensiePilon2Nominal).toLocaleString() + " RON";
+
+            // Chart
+            document.getElementById('salariuActualBarVal').innerText = Math.round(salariuNetActual).toLocaleString() + " RON";
+            document.getElementById('pensieAziBarVal').innerText = Math.round(putereCumparareAzi).toLocaleString() + " RON";
+
+            const ratio = (putereCumparareAzi / salariuNetActual) * 100;
+            document.getElementById('pensieAziBar').style.width = Math.min(ratio, 100) + "%";
+
+            const gap = salariuNetActual - putereCumparareAzi;
+            document.getElementById('povertyGapText').innerText = `Diferență: -${Math.round(gap).toLocaleString()} RON (Gap de Sărăcie)`;
+            document.getElementById('deficitLunar').innerText = Math.round(Math.max(0, gap)).toLocaleString() + " RON";
+
+            // CTA: Cat ar trebui sa economiseasca azi pentru a acoperi gap-ul
+            if (gap > 0) {
+                const r = r_anual / 12;
+                const n = aniContribuire * 12;
+                const sumaNecesaraNominala = gap * Math.pow(1 + data.rata_inflatie_medie, aniContribuire) * (aniPensie * 12);
+                const economisireLunara = sumaNecesaraNominala / ((Math.pow(1 + r, n) - 1) / r);
+                document.getElementById('ctaEconomisire').innerText = `Ar trebui să economisești ${Math.round(economisireLunara).toLocaleString()} RON/lună suplimentar`;
+            } else {
+                document.getElementById('ctaEconomisire').innerText = "Ești pe drumul cel bun! Pensia ta acoperă salariul actual.";
+                document.getElementById('deficitLunar').innerText = "0 RON";
+            }
+
+            // WhatsApp
+            const btnDesktop = document.getElementById('whatsappBtn');
+            const btnMobile = document.getElementById('whatsappBtnFloating');
+
+            const mesaj = `Am calculat pensia pe Manualul.ro. Voi avea o putere de cumpărare de doar ${Math.round(putereCumparareAzi).toLocaleString()} RON. Tu știi cât vei primi? ${window.location.href}`;
+            const finalLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnDesktop) btnDesktop.href = finalLink;
+            if (btnMobile) btnMobile.href = finalLink;
+        }
+
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', updateCalculator);
+        });
+
+        updateCalculator();
+    </script>
+</Layout>
