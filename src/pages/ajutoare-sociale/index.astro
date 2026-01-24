@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
 import ajutoare from '../../data/ajutoare.json';
 
 // Grupăm ajutoarele pe categorii
@@ -72,6 +73,13 @@ const getCategoryIcon = (cat) => {
                 </p>
             </div>
             <div class="absolute right-[-20px] bottom-[-20px] text-[150px] opacity-10 pointer-events-none">🏛️</div>
+        </div>
+
+        <div class="max-w-md mx-auto mt-12">
+            <WhatsAppButton
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent('Uite ce listă de ajutoare sociale am găsit pe Manualul.ro: https://manualul.ro/ajutoare-sociale')}`}
+                text="Trimite lista pe WhatsApp"
+            />
         </div>
     </main>
 </Layout>

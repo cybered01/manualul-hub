@@ -1,6 +1,7 @@
 ---
 export const prerender = true;
 import Layout from '../../layouts/Layout.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
 import records from '../../data/carbon.json';
 
 export async function getStaticPaths() {
@@ -82,9 +83,11 @@ const renderList = (text) => text.split('<br>').filter(Boolean);
                         
                         <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
                             <h3 class="text-emerald-800 font-bold mb-2">Echivalentul tău verde:</h3>
-                            <p class="text-emerald-700 text-sm italic">
+                                <p class="text-emerald-700 text-sm italic mb-6">
                                 Prin gestionarea acestei suprafețe, elimini anual dioxidul de carbon echivalent cu emisiile a <strong id="masiniDisplay">0</strong> mașini.
                             </p>
+
+                                <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" class="scale-90" />
                         </div>
                     </div>
                 </div>
@@ -169,6 +172,8 @@ const renderList = (text) => text.split('<br>').filter(Boolean);
         const venitDisplay = document.getElementById('venitDisplay');
         const carbonDisplay = document.getElementById('carbonDisplay');
         const masiniDisplay = document.getElementById('masiniDisplay');
+        const btnWhatsapp = document.getElementById('whatsappBtn');
+        const btnWhatsappFloating = document.getElementById('whatsappBtnFloating');
 
         const formatNumber = (num) => Math.round(num).toLocaleString('ro-RO');
 
@@ -184,6 +189,13 @@ const renderList = (text) => text.split('<br>').filter(Boolean);
             venitDisplay.innerText = formatNumber(venitTotal);
             carbonDisplay.innerText = formatNumber(toneCarbon);
             masiniDisplay.innerText = masiniEchivalent;
+
+            // WhatsApp Update
+            const mesaj = `Amprenta mea de carbon este de ${formatNumber(toneCarbon)} tone sechestrate anual 🌿 Am aflat că pot câștiga ${Math.round(venitTotal).toLocaleString()} EUR/an din credite de carbon pe Manualul.ro! Vezi și tu: ${window.location.href}`;
+            const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnWhatsapp) btnWhatsapp.href = link;
+            if (btnWhatsappFloating) btnWhatsappFloating.href = link;
         };
 
         input.addEventListener('input', calculate);

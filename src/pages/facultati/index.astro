@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
 import facultati from '../../data/facultati.json';
 
 // Grupăm pe județe și sortăm alfabetic județele
@@ -49,6 +50,13 @@ const judete = [...new Set(facultati.map(f => f.judet))].sort();
                     </div>
                 </section>
             ))}
+        </div>
+
+        <div class="max-w-md mx-auto mt-20">
+            <WhatsAppButton
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent('Uite o listă cu analiza rentabilității facultăților din România: https://manualul.ro/facultati')}`}
+                text="Trimite lista pe WhatsApp"
+            />
         </div>
     </main>
 </Layout>
