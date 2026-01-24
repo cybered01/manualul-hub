@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
 import tipuriTeren from '../../data/carbon.json';
 ---
 
@@ -66,6 +67,13 @@ import tipuriTeren from '../../data/carbon.json';
                     </div>
                 </a>
             ))}
+        </div>
+
+        <div class="max-w-md mx-auto mt-16">
+            <WhatsAppButton
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent('Vezi cum poți câștiga din credite de carbon în funcție de terenul tău: https://manualul.ro/carbon')}`}
+                text="Trimite lista pe WhatsApp"
+            />
         </div>
     </main>
 </Layout>

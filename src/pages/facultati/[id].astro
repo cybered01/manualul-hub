@@ -147,7 +147,7 @@ const esteOrasScump = info.universitate.includes('Cluj') || info.universitate.in
 
             // WhatsApp Update
             const luniText = profitRealLunar > 0 ? Math.round(luniRecuperare) : 'N/A';
-            const mesaj = `Am simulat rentabilitatea studiilor la ${specializare} pe Manualul.ro 🎓\nÎmi recuperez investiția în ${luniText} luni. Vezi și tu: ${window.location.href}`;
+            const mesaj = `Am simulat rentabilitatea studiilor la ${specializare} pe Manualul.ro 🎓 Îmi recuperez investiția în ${luniText} luni. Vezi și tu: ${window.location.href}`;
             const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
 
             if (btnWhatsapp) btnWhatsapp.href = link;

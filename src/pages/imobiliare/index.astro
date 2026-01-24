@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
 ---
 
 <Layout title="Chirie vs. Rată | Manualul.ro" description="Compară direct costul lunar și profitul pe termen lung între chirie și rată.">
@@ -76,11 +77,18 @@ import Layout from '../../layouts/Layout.astro';
                     </div>
                 </section>
 
+                <div class="max-w-md mx-auto">
+                    <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" class="mt-8" />
+                </div>
+
             </div>
         </div>
     </main>
 
     <script is:inline>
+        const btnWhatsapp = document.getElementById('whatsappBtn');
+        const btnWhatsappFloating = document.getElementById('whatsappBtnFloating');
+
         function calculate() {
             const pret = parseFloat(document.getElementById('pret').value) || 0;
             const chirie = parseFloat(document.getElementById('chirie').value) || 0;
@@ -115,11 +123,21 @@ import Layout from '../../layouts/Layout.astro';
             document.querySelectorAll('.dispAni').forEach(el => el.innerText = ani);
 
             const v = document.getElementById('verdict');
+            let winnerText = "";
             if(valoareCasa > totalInvestit) {
+                winnerText = "Casa";
                 v.innerText = "⭐ Imobiliarul Câștigă: Casa valorează mai mult decât investiția.";
             } else {
+                winnerText = "Chiria + Investiția";
                 v.innerText = "📈 Investiția Câștigă: Ai mai mulți bani dacă stai în chirie și investești.";
             }
+
+            // WhatsApp Update
+            const mesaj = `Am aflat că ${winnerText} este mai rentabilă pentru mine pe Manualul.ro! 🏠 Vezi și tu: ${window.location.href}`;
+            const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnWhatsapp) btnWhatsapp.href = link;
+            if (btnWhatsappFloating) btnWhatsappFloating.href = link;
         }
 
         ['pret', 'chirie', 'dobanda', 'ani'].forEach(id => document.getElementById(id).addEventListener('input', calculate));

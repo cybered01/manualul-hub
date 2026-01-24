@@ -191,7 +191,7 @@ const renderList = (text) => text.split('<br>').filter(Boolean);
             masiniDisplay.innerText = masiniEchivalent;
 
             // WhatsApp Update
-            const mesaj = `Am calculat potențialul de profit din credite de carbon pentru terenul meu pe Manualul.ro 🌿\nVenit anual estimat: ${Math.round(venitTotal).toLocaleString()} EUR. Vezi simulatorul: ${window.location.href}`;
+            const mesaj = `Amprenta mea de carbon este de ${formatNumber(toneCarbon)} tone sechestrate anual 🌿 Am aflat că pot câștiga ${Math.round(venitTotal).toLocaleString()} EUR/an din credite de carbon pe Manualul.ro! Vezi și tu: ${window.location.href}`;
             const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
 
             if (btnWhatsapp) btnWhatsapp.href = link;

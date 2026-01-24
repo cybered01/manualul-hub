@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
 import finantari from '../../data/finantari.json';
 
 // Funcție pentru a determina culoarea statusului
@@ -70,12 +71,19 @@ const getStatusClass = (status) => {
             ))}
         </div>
 
-        <section class="mt-20 p-8 bg-blue-700 rounded-3xl text-white text-center">
+        <section class="mt-20 p-8 bg-blue-700 rounded-3xl text-white text-center mb-12">
             <h3 class="text-2xl font-bold mb-2">Nu ai găsit ce căutai?</h3>
             <p class="opacity-80 mb-6">Actualizăm zilnic Manualul cu noi linii de finanțare din PNRR și Bugetul de Stat.</p>
             <button class="bg-white text-blue-700 px-8 py-3 rounded-xl font-bold hover:bg-blue-50 transition-colors">
                 Abonează-te la Alerte
             </button>
         </section>
+
+        <div class="max-w-md mx-auto">
+            <WhatsAppButton
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent('Uite ce listă de finanțări pentru IMM am găsit pe Manualul.ro: https://manualul.ro/finantari')}`}
+                text="Trimite lista pe WhatsApp"
+            />
+        </div>
     </main>
 </Layout>
