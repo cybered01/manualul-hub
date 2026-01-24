@@ -1,0 +1,15 @@
+{
+  "manopera_generala": 120,
+  "decopertare": 25,
+  "materiale": {
+    "budget": 100,
+    "standard": 180,
+    "premium": 350
+  },
+  "extra": {
+    "electrica": 50,
+    "sanitara": 2000,
+    "usa": 250,
+    "mobila_bucatarie": 3000
+  }
+}
