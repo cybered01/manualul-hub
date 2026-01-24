@@ -1,0 +1,24 @@
+{
+  "medical": {
+    "sarcina_stat": 600,
+    "sarcina_privat": 5000,
+    "nastere_stat": 1500,
+    "nastere_privat": 9500,
+    "celule_stem": 4000
+  },
+  "echipament": {
+    "sh_basic": 2500,
+    "nou_mediu": 6500,
+    "premium": 15000
+  },
+  "lunar": {
+    "scutece_consumabile": 350,
+    "lapte_praf": 400,
+    "diversificare": 200,
+    "medical_abonament": 150
+  },
+  "venituri": {
+    "alocatie": 719,
+    "plafon_minim_indemnizatie": 1650
+  }
+}

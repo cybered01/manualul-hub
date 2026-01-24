@@ -1,0 +1,281 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import data from '../data/copil.json';
+
+const title = "Calculator Cost Primul Copil 2026 - Manualul.ro";
+const description = "Estimează costurile pentru primul an de viață al copilului: sarcină, naștere, echipament și cheltuieli lunare.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <div class="inline-block p-3 bg-blue-100 rounded-2xl mb-4">
+                <span class="text-4xl">🍼</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Costul Primului <span class="text-blue-600">Copil</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
+                Pregătește-te financiar pentru perioada Sarcinii, Nașterii și a Primului An. Calculează balansul dintre cheltuieli și indemnizație.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-[40px] shadow-xl border border-blue-50 overflow-hidden">
+                    <div class="p-8 bg-blue-600 text-white">
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <span>💰</span> Venituri & Configurare
+                        </h2>
+                        <div class="grid grid-cols-1 gap-6">
+                            <div class="space-y-2">
+                                <label for="venit_net" class="block text-xs font-black uppercase opacity-80 tracking-wider">Venitul Tău Net Mediu (RON / lună)</label>
+                                <div class="relative">
+                                    <input type="number" id="venit_net" value="5000" min="0" step="100" class="w-full bg-white/10 border border-white/20 rounded-2xl p-4 text-white font-bold text-2xl outline-none focus:bg-white/20 transition-all">
+                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 font-bold opacity-60 text-sm">RON</span>
+                                </div>
+                                <p class="text-[10px] opacity-70 italic font-medium mt-1">Se calculează ca medie a veniturilor nete din ultimele 12 luni înainte de naștere.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-8 md:p-10 space-y-8">
+                        <!-- Monitorizare & Nastere -->
+                        <div class="space-y-4">
+                            <label class="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">Sistem Medical (Monitorizare & Naștere)</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 border-gray-100 cursor-pointer hover:border-blue-200 transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+                                    <input type="radio" name="tip_medical" value="stat" checked class="hidden">
+                                    <span class="text-2xl">🏥</span>
+                                    <span class="font-bold text-gray-700">Sistem Stat</span>
+                                </label>
+                                <label class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 border-gray-100 cursor-pointer hover:border-blue-200 transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+                                    <input type="radio" name="tip_medical" value="privat" class="hidden">
+                                    <span class="text-2xl">💎</span>
+                                    <span class="font-bold text-gray-700">Privat</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Echipament -->
+                        <div class="space-y-4">
+                            <label class="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">Echipament (Cărucior, Mobilă, Haine)</label>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-100 cursor-pointer hover:border-blue-200 transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+                                    <input type="radio" name="echipament" value="sh_basic" checked class="w-4 h-4 accent-blue-600">
+                                    <span class="text-sm font-bold text-gray-700">Second Hand</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-100 cursor-pointer hover:border-blue-200 transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+                                    <input type="radio" name="echipament" value="nou_mediu" class="w-4 h-4 accent-blue-600">
+                                    <span class="text-sm font-bold text-gray-700">Nou (Mediu)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-100 cursor-pointer hover:border-blue-200 transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50">
+                                    <input type="radio" name="echipament" value="premium" class="w-4 h-4 accent-blue-600">
+                                    <span class="text-sm font-bold text-gray-700">Premium</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-gray-50">
+                            <!-- Alimentatie -->
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">Alimentație</label>
+                                <div class="flex bg-gray-100 p-1 rounded-2xl">
+                                    <label class="flex-1 py-3 text-center rounded-xl cursor-pointer font-bold text-sm transition-all has-[:checked]:bg-white has-[:checked]:shadow-sm has-[:checked]:text-blue-600 text-gray-500">
+                                        <input type="radio" name="alimentatie" value="alaptare" checked class="hidden">
+                                        Alăptare
+                                    </label>
+                                    <label class="flex-1 py-3 text-center rounded-xl cursor-pointer font-bold text-sm transition-all has-[:checked]:bg-white has-[:checked]:shadow-sm has-[:checked]:text-blue-600 text-gray-500">
+                                        <input type="radio" name="alimentatie" value="lapte_praf" class="hidden">
+                                        Lapte Praf
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Optionale -->
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black text-blue-600 uppercase tracking-[0.2em]">Opționale</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 cursor-pointer hover:bg-gray-100 transition-all">
+                                        <input type="checkbox" id="celule_stem" class="w-5 h-5 accent-blue-600">
+                                        <span class="text-sm font-bold text-gray-700">Recoltare Celule Stem</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 cursor-pointer hover:bg-gray-100 transition-all">
+                                        <input type="checkbox" id="abonament_medical" class="w-5 h-5 accent-blue-600">
+                                        <span class="text-sm font-bold text-gray-700">Abonament Pediatrie</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 p-8 rounded-[40px] bg-blue-50 border-2 border-dashed border-blue-200">
+                            <div class="flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+                                <div>
+                                    <p class="text-[10px] font-black uppercase text-blue-400 tracking-[0.2em] mb-1">Balanța Anul 1 (Venituri - Cheltuieli)</p>
+                                    <p class="text-5xl font-black text-blue-700" id="balantaDisplay">0 RON</p>
+                                    <p id="verdictMessage" class="mt-2 text-sm font-bold text-blue-900"></p>
+                                </div>
+                                <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-gray-900 text-white p-8 rounded-[40px] shadow-xl">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <span class="text-blue-400">📊</span> Rezumat Anul 1
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="space-y-3 pb-6 border-b border-white/10">
+                            <p class="text-xs font-black uppercase text-gray-400 tracking-wider">Cheltuieli</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Start (Sarcină+Naștere+Eq)</span>
+                                <span class="font-bold" id="costStartSum">0 RON</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Mentenanță (12 luni)</span>
+                                <span class="font-bold" id="costLunarSum">0 RON</span>
+                            </div>
+                            <div class="flex justify-between items-center text-red-400">
+                                <span class="text-sm font-black uppercase">TOTAL COSTURI</span>
+                                <span class="font-black" id="totalCostSum">0 RON</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <p class="text-xs font-black uppercase text-gray-400 tracking-wider">Venituri (12 luni)</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Indemnizație CCC</span>
+                                <span class="font-bold" id="indemnizatieSum">0 RON</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-400 text-sm">Alocație</span>
+                                <span class="font-bold" id="alocatieSum">0 RON</span>
+                            </div>
+                            <div class="flex justify-between items-center text-green-400">
+                                <span class="text-sm font-black uppercase">TOTAL VENITURI</span>
+                                <span class="font-black" id="totalVenitSum">0 RON</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-8 rounded-[40px] border border-blue-100">
+                    <h4 class="font-bold text-blue-700 mb-3 flex items-center gap-2">
+                        <span>👶</span> Info Utile
+                    </h4>
+                    <p class="text-sm text-blue-900/70 leading-relaxed font-medium">
+                        Indemnizația reprezintă 85% din media veniturilor nete pe ultimele 12 luni din ultimii 2 ani. În 2026, aceasta este plafonată la 8.500 RON. Alocația pentru copiii sub 2 ani este de 719 RON.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline define:vars={{ data }}>
+        function val(id) {
+            const el = document.getElementById(id);
+            return el ? (parseFloat(el.value) || 0) : 0;
+        }
+
+        function isChecked(id) {
+            const el = document.getElementById(id);
+            return el ? el.checked : false;
+        }
+
+        function getRadioValue(name) {
+            const el = document.querySelector(`input[name="${name}"]:checked`);
+            return el ? el.value : null;
+        }
+
+        function updateCalculator() {
+            const venitNet = val('venit_net');
+            const tipMedical = getRadioValue('tip_medical');
+            const echipamentKey = getRadioValue('echipament');
+            const alimentatie = getRadioValue('alimentatie');
+            const hasStemCells = isChecked('celule_stem');
+            const hasAbonament = isChecked('abonament_medical');
+
+            // 1. Costuri Start (One-time)
+            let costSarcina = (tipMedical === 'privat') ? data.medical.sarcina_privat : data.medical.sarcina_stat;
+            let costNastere = (tipMedical === 'privat') ? data.medical.nastere_privat : data.medical.nastere_stat;
+            let costEchipament = data.echipament[echipamentKey] || 0;
+            let costStem = hasStemCells ? data.medical.celule_stem : 0;
+
+            const costStart = costSarcina + costNastere + costEchipament + costStem;
+
+            // 2. Costuri Lunare
+            let costScutece = data.lunar.scutece_consumabile;
+            let costHrana = (alimentatie === 'lapte_praf') ? data.lunar.lapte_praf : 0;
+            let costDiversificare = data.lunar.diversificare;
+            let costMedical = hasAbonament ? data.lunar.medical_abonament : 0;
+
+            const costLunarUnitat = costScutece + costHrana + costDiversificare + costMedical;
+            const costLunarTotalAn = costLunarUnitat * 12;
+
+            // 3. Venituri
+            let indemnizatieLunara = venitNet * 0.85;
+            if (indemnizatieLunara < data.venituri.plafon_minim_indemnizatie) {
+                indemnizatieLunara = data.venituri.plafon_minim_indemnizatie;
+            }
+            if (indemnizatieLunara > 8500) {
+                indemnizatieLunara = 8500;
+            }
+
+            const alocatieLunara = data.venituri.alocatie;
+
+            const totalIndemnizatieAn = indemnizatieLunara * 12;
+            const totalAlocatieAn = alocatieLunara * 12;
+            const totalVenitAn = totalIndemnizatieAn + totalAlocatieAn;
+
+            // 4. Calcule Finale
+            const totalCostAnul1 = costStart + costLunarTotalAn;
+            const balanta = totalVenitAn - totalCostAnul1;
+
+            // 5. Afișare Rezultate
+            document.getElementById('costStartSum').innerText = Math.round(costStart).toLocaleString() + " RON";
+            document.getElementById('costLunarSum').innerText = Math.round(costLunarTotalAn).toLocaleString() + " RON";
+            document.getElementById('totalCostSum').innerText = Math.round(totalCostAnul1).toLocaleString() + " RON";
+
+            document.getElementById('indemnizatieSum').innerText = Math.round(totalIndemnizatieAn).toLocaleString() + " RON";
+            document.getElementById('alocatieSum').innerText = Math.round(totalAlocatieAn).toLocaleString() + " RON";
+            document.getElementById('totalVenitSum').innerText = Math.round(totalVenitAn).toLocaleString() + " RON";
+
+            const balantaEl = document.getElementById('balantaDisplay');
+            balantaEl.innerText = Math.round(balanta).toLocaleString() + " RON";
+
+            const verdictEl = document.getElementById('verdictMessage');
+            if (balanta >= 0) {
+                balantaEl.className = "text-5xl font-black text-green-600";
+                verdictEl.innerText = `Veste bună! Indemnizația acoperă cheltuielile de bază. Îți rămâne un surplus de ${Math.round(balanta).toLocaleString()} RON.`;
+                verdictEl.className = "mt-2 text-sm font-bold text-green-700";
+            } else {
+                balantaEl.className = "text-5xl font-black text-red-600";
+                verdictEl.innerText = `Atenție! Ai un deficit de ${Math.round(Math.abs(balanta)).toLocaleString()} RON. Va trebui să acoperi diferența din economii sau salariul partenerului.`;
+                verdictEl.className = "mt-2 text-sm font-bold text-red-700";
+            }
+
+            // 6. WhatsApp Link
+            const btnDesktop = document.getElementById('whatsappBtn');
+            const btnMobile = document.getElementById('whatsappBtnFloating');
+
+            const mesaj = `Am calculat cât costă primul an de viață al copilului. Cost total estimat: ${Math.round(totalCostAnul1).toLocaleString()} RON. Vezi dacă îți permiți: ${window.location.href}`;
+            const finalLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnDesktop) btnDesktop.href = finalLink;
+            if (btnMobile) btnMobile.href = finalLink;
+        }
+
+        // Event Listeners
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('input', updateCalculator);
+        });
+
+        // Initial run
+        updateCalculator();
+    </script>
+</Layout>
