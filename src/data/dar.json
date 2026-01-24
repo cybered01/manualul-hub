@@ -1,0 +1,26 @@
+{
+  "base_menu_price": 600,
+  "zone": {
+    "bucuresti_cluj": 1.3,
+    "orase_mari": 1.1,
+    "provincie": 0.9,
+    "rural": 0.7
+  },
+  "locatie": {
+    "ultra_lux": 1.5,
+    "restaurant_standard": 1.0,
+    "cort_evenimente": 0.9,
+    "camin_cultural": 0.6
+  },
+  "ziua": {
+    "sambata": 1.0,
+    "duminica_vineri": 0.85
+  },
+  "relatie": {
+    "fara_obligatii": 1.6,
+    "prieten": 2.0,
+    "prieten_foarte_bun": 2.5,
+    "ruda_apropiata": 3.0,
+    "nas": 5.0
+  }
+}

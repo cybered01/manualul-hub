@@ -1,0 +1,215 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import data from '../data/dar.json';
+
+const title = "Calculator Dar de Nuntă 2026 - Cât se dă la nuntă?";
+const description = "Află suma corectă pentru darul de nuntă în 2026. Calculează în funcție de locație, relația cu mirii și numărul de invitați.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Calculator <span class="text-[#D4AF37]">Dar de Nuntă</span> 2026
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Depășește simplele estimări. Calculează o sumă social acceptabilă bazată pe variabile complexe și inflația din 2026.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-[40px] shadow-xl border border-gold-50 overflow-hidden">
+                    <div class="p-8 bg-[#D4AF37] text-white">
+                        <h2 class="text-xl font-bold mb-6">Configurare Eveniment</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="zone" class="block text-xs font-black uppercase opacity-80">Unde are loc nunta?</label>
+                                <select id="zone" class="w-full bg-white/10 border border-white/20 rounded-xl p-3 text-white font-bold outline-none focus:bg-white/20 transition-all appearance-none">
+                                    <option value="bucuresti_cluj" class="text-gray-900">București / Cluj</option>
+                                    <option value="orase_mari" class="text-gray-900">Oraș Mare (Timișoara, Iași, etc.)</option>
+                                    <option value="provincie" class="text-gray-900" selected>Oraș Mic / Provincie</option>
+                                    <option value="rural" class="text-gray-900">Mediu Rural (Cămin Cultural)</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="locatie" class="block text-xs font-black uppercase opacity-80">Tipul Locației</label>
+                                <select id="locatie" class="w-full bg-white/10 border border-white/20 rounded-xl p-3 text-white font-bold outline-none focus:bg-white/20 transition-all appearance-none">
+                                    <option value="ultra_lux" class="text-gray-900">Ultra Lux (Palat, Ballroom 5*)</option>
+                                    <option value="restaurant_standard" class="text-gray-900" selected>Restaurant Standard</option>
+                                    <option value="cort_evenimente" class="text-gray-900">Cort Evenimente / Garden</option>
+                                    <option value="camin_cultural" class="text-gray-900">Cămin Cultural / Acasă</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-8 md:p-10 space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black text-[#D4AF37] uppercase tracking-widest">Ziua Evenimentului</label>
+                                <div class="grid grid-cols-1 gap-3">
+                                    <label class="flex items-center gap-3 p-4 rounded-2xl border-2 border-gray-100 cursor-pointer hover:border-gold-200 transition-all has-[:checked]:border-[#D4AF37] has-[:checked]:bg-yellow-50">
+                                        <input type="radio" name="ziua" value="sambata" checked class="w-4 h-4 accent-[#D4AF37]">
+                                        <span class="font-bold text-gray-700">Sâmbătă</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-4 rounded-2xl border-2 border-gray-100 cursor-pointer hover:border-gold-200 transition-all has-[:checked]:border-[#D4AF37] has-[:checked]:bg-yellow-50">
+                                        <input type="radio" name="ziua" value="duminica_vineri" class="w-4 h-4 accent-[#D4AF37]">
+                                        <span class="font-bold text-gray-700">Duminică / Vineri</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black text-[#D4AF37] uppercase tracking-widest">Cine ești tu?</label>
+                                <select id="relatie" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 text-gray-700 font-bold outline-none focus:border-[#D4AF37] transition-all appearance-none">
+                                    <option value="fara_obligatii">Coleg / Vecin / Cunoștință</option>
+                                    <option value="prieten" selected>Prieten</option>
+                                    <option value="prieten_foarte_bun">Prieten Foarte Bun</option>
+                                    <option value="ruda_apropiata">Rudă Apropiată (Frate, Var, etc.)</option>
+                                    <option value="nas">Naș</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 pt-6 border-t border-gray-100">
+                            <label for="participare" class="text-[10px] font-black text-[#D4AF37] uppercase tracking-widest">Formula de participare</label>
+                            <select id="participare" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 text-gray-700 font-bold outline-none focus:border-[#D4AF37] transition-all appearance-none">
+                                <option value="singur">Singur</option>
+                                <option value="cuplu" selected>Cuplu</option>
+                                <option value="cuplu_1_copil">Cuplu + 1 Copil</option>
+                                <option value="cuplu_2_copii">Cuplu + 2 Copii</option>
+                            </select>
+                        </div>
+
+                        <div class="mt-12 p-8 rounded-[32px] bg-gradient-to-br from-yellow-50 to-white border-2 border-[#D4AF37]/20 shadow-inner">
+                            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                                <div class="text-center md:text-left">
+                                    <p class="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-1">Suma Recomandată (2026)</p>
+                                    <p class="text-6xl font-black text-[#D4AF37]" id="totalDisplay">0 RON</p>
+                                </div>
+                                <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-gray-900 text-white p-8 rounded-[40px] shadow-xl">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <span class="text-[#D4AF37]">💰</span> Range de Siguranță
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <span class="text-gray-400 text-xs font-black uppercase tracking-widest block mb-1">Minim Decent</span>
+                            <div class="flex justify-between items-end">
+                                <span class="font-bold text-xl" id="minDecentSum">0 RON</span>
+                            </div>
+                            <p class="text-[10px] text-gray-500 mt-1">Suma minimă ca să nu te faci de râs.</p>
+                        </div>
+                        <div class="pt-4 border-t border-white/10">
+                            <span class="text-[#D4AF37] text-xs font-black uppercase tracking-widest block mb-1">Recomandat</span>
+                            <div class="flex justify-between items-end">
+                                <span class="font-black text-2xl text-white" id="recomandatSum">0 RON</span>
+                            </div>
+                            <p class="text-[10px] text-gray-400 mt-1">Suma corectă pentru anul 2026.</p>
+                        </div>
+                        <div class="pt-4 border-t border-white/10">
+                            <span class="text-green-400 text-xs font-black uppercase tracking-widest block mb-1">Generos</span>
+                            <div class="flex justify-between items-end">
+                                <span class="font-bold text-xl text-white" id="generosSum">0 RON</span>
+                            </div>
+                            <p class="text-[10px] text-gray-500 mt-1">Dacă vrei să lași o impresie memorabilă.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 p-8 rounded-[40px] border border-gold-100">
+                    <h4 class="font-bold text-[#D4AF37] mb-3 flex items-center gap-2">
+                        <span>💡</span> Sfat Social
+                    </h4>
+                    <p class="text-sm text-yellow-900 leading-relaxed">
+                        Darul de nuntă în România nu este doar o plată a meniului, ci și un sprijin pentru noul început al mirilor. Sumele sunt calculate pentru a acoperi inflația estimată în 2026.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline define:vars={{ data }}>
+        function val(id) {
+            const el = document.getElementById(id);
+            return el ? el.value : null;
+        }
+
+        function getRadioValue(name) {
+            const el = document.querySelector(`input[name="${name}"]:checked`);
+            return el ? el.value : null;
+        }
+
+        function roundSuma(suma) {
+            // Rotunjește la cel mai apropiat multiplu de 50 sau 100 RON
+            return Math.round(suma / 50) * 50;
+        }
+
+        function updateCalculator() {
+            const zone = val('zone');
+            const locatie = val('locatie');
+            const ziua = getRadioValue('ziua');
+            const relatie = val('relatie');
+            const participare = val('participare');
+
+            const zoneCoef = data.zone[zone] || 1;
+            const locatieCoef = data.locatie[locatie] || 1;
+            const ziuaCoef = data.ziua[ziua] || 1;
+            const relatieCoef = data.relatie[relatie] || 1;
+
+            // Pas 1: Estimare Cost Meniu
+            const costMeniu = data.base_menu_price * zoneCoef * locatieCoef;
+
+            // Pas 2: Calcul Total Meniuri
+            let factorParticipare = 1; // Default singur
+            if (participare === 'cuplu') factorParticipare = 2;
+            else if (participare === 'cuplu_1_copil') factorParticipare = 2.4;
+            else if (participare === 'cuplu_2_copii') factorParticipare = 2.8;
+
+            const totalMeniuri = costMeniu * factorParticipare;
+
+            // Pas 3: Aplicare "Profit" Mirilor
+            const sumaCalculata = totalMeniuri * relatieCoef * ziuaCoef;
+
+            // Pas 4: Rotunjire Psihologică
+            const recomandat = roundSuma(sumaCalculata);
+            const minimDecent = roundSuma(recomandat * 0.9);
+            const generos = roundSuma(recomandat * 1.15);
+
+            // Afișare
+            document.getElementById('totalDisplay').innerText = recomandat.toLocaleString() + " RON";
+            document.getElementById('recomandatSum').innerText = recomandat.toLocaleString() + " RON";
+            document.getElementById('minDecentSum').innerText = minimDecent.toLocaleString() + " RON";
+            document.getElementById('generosSum').innerText = generos.toLocaleString() + " RON";
+
+            // WhatsApp Link
+            const btnDesktop = document.getElementById('whatsappBtn');
+            const btnMobile = document.getElementById('whatsappBtnFloating');
+
+            const locatieNume = document.getElementById('zone').options[document.getElementById('zone').selectedIndex].text;
+            const mesaj = `Mergem la nuntă? Am calculat darul corect pentru ${locatieNume}: între ${minimDecent.toLocaleString()} și ${generos.toLocaleString()} RON. Vezi cât trebuie să dăm: ${window.location.href}`;
+            const finalLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnDesktop) btnDesktop.href = finalLink;
+            if (btnMobile) btnMobile.href = finalLink;
+        }
+
+        // Event Listeners
+        const inputs = document.querySelectorAll('select, input');
+        inputs.forEach(input => {
+            input.addEventListener('change', updateCalculator);
+        });
+
+        // Initial run
+        updateCalculator();
+    </script>
+</Layout>
