@@ -1,0 +1,216 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import data from '../data/renovare.json';
+
+const title = "Calculator Renovare 2026 - Deviz estimativ";
+const description = "Calculează bugetul pentru renovarea apartamentului tău în 2026. Include manoperă, materiale și neprevăzute.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Deviz <span class="text-[#d35400]">Renovare</span> 2026
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Obține o estimare realistă pentru proiectul tău de renovare, incluzând manopera, materialele și un fond de urgență.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-[40px] shadow-xl border border-orange-50 overflow-hidden">
+                    <div class="p-8 bg-[#d35400] text-white">
+                        <h2 class="text-xl font-bold mb-6">Configurare Apartament</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="suprafata" class="block text-xs font-black uppercase opacity-80">Suprafață (mp)</label>
+                                <input type="number" id="suprafata" value="50" min="10" max="500" class="w-full bg-white/10 border border-white/20 rounded-xl p-3 text-white font-bold outline-none focus:bg-white/20 transition-all">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="camere" class="block text-xs font-black uppercase opacity-80">Număr Camere</label>
+                                <input type="number" id="camere" value="2" min="1" max="10" class="w-full bg-white/10 border border-white/20 rounded-xl p-3 text-white font-bold outline-none focus:bg-white/20 transition-all">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-8 md:p-10 space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black text-[#d35400] uppercase tracking-widest">Tip Imobil</label>
+                                <div class="grid grid-cols-1 gap-3">
+                                    <label class="flex items-center gap-3 p-4 rounded-2xl border-2 border-gray-100 cursor-pointer hover:border-orange-200 transition-all has-[:checked]:border-[#d35400] has-[:checked]:bg-orange-50">
+                                        <input type="radio" name="tip_imobil" value="vechi" checked class="w-4 h-4 accent-[#d35400]">
+                                        <span class="font-bold text-gray-700">Vechi (Decopertare)</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-4 rounded-2xl border-2 border-gray-100 cursor-pointer hover:border-orange-200 transition-all has-[:checked]:border-[#d35400] has-[:checked]:bg-orange-50">
+                                        <input type="radio" name="tip_imobil" value="nou" class="w-4 h-4 accent-[#d35400]">
+                                        <span class="font-bold text-gray-700">Nou (La gri)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black text-[#d35400] uppercase tracking-widest">Calitate Finisaje</label>
+                                <div class="grid grid-cols-1 gap-3">
+                                    <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-100 cursor-pointer hover:border-orange-200 transition-all has-[:checked]:border-[#d35400] has-[:checked]:bg-orange-50">
+                                        <input type="radio" name="calitate" value="budget" class="w-4 h-4 accent-[#d35400]">
+                                        <span class="font-bold text-gray-700">Buget</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-100 cursor-pointer hover:border-orange-200 transition-all has-[:checked]:border-[#d35400] has-[:checked]:bg-orange-50">
+                                        <input type="radio" name="calitate" value="standard" checked class="w-4 h-4 accent-[#d35400]">
+                                        <span class="font-bold text-gray-700">Standard</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-100 cursor-pointer hover:border-orange-200 transition-all has-[:checked]:border-[#d35400] has-[:checked]:bg-orange-50">
+                                        <input type="radio" name="calitate" value="premium" class="w-4 h-4 accent-[#d35400]">
+                                        <span class="font-bold text-gray-700">Premium</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 pt-6 border-t border-gray-100">
+                            <label class="text-[10px] font-black text-[#d35400] uppercase tracking-widest">Opțiuni Suplimentare</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label class="flex items-center gap-3 p-4 rounded-2xl bg-gray-50 cursor-pointer hover:bg-gray-100 transition-all">
+                                    <input type="checkbox" id="electrica" class="w-5 h-5 accent-[#d35400]">
+                                    <span class="text-sm font-semibold text-gray-700">Instalație Electrică</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-4 rounded-2xl bg-gray-50 cursor-pointer hover:bg-gray-100 transition-all">
+                                    <input type="checkbox" id="sanitara" class="w-5 h-5 accent-[#d35400]">
+                                    <span class="text-sm font-semibold text-gray-700">Instalație Sanitară</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-4 rounded-2xl bg-gray-50 cursor-pointer hover:bg-gray-100 transition-all">
+                                    <input type="checkbox" id="usi" class="w-5 h-5 accent-[#d35400]">
+                                    <span class="text-sm font-semibold text-gray-700">Schimb Uși Interioare</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-4 rounded-2xl bg-gray-50 cursor-pointer hover:bg-gray-100 transition-all">
+                                    <input type="checkbox" id="mobila" class="w-5 h-5 accent-[#d35400]">
+                                    <span class="text-sm font-semibold text-gray-700">Mobilă Bucătărie</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 p-8 rounded-[32px] bg-gray-50 border-2 border-dashed border-gray-200">
+                            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                                <div class="text-center md:text-left">
+                                    <p class="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-1">Total Estimat (include 15% neprevăzute)</p>
+                                    <p class="text-6xl font-black text-[#d35400]" id="totalDisplay">0 €</p>
+                                </div>
+                                <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-gray-900 text-white p-8 rounded-[40px] shadow-xl">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <span class="text-orange-500">📋</span> Defalcare Costuri
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center pb-3 border-b border-white/10">
+                            <span class="text-gray-400 text-sm font-medium">Manoperă</span>
+                            <span class="font-bold" id="manoperaSum">0 €</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-3 border-b border-white/10">
+                            <span class="text-gray-400 text-sm font-medium">Materiale</span>
+                            <span class="font-bold" id="materialeSum">0 €</span>
+                        </div>
+                        <div class="flex justify-between items-center pb-3 border-b border-white/10">
+                            <span class="text-gray-400 text-sm font-medium">Extra & Instalatii</span>
+                            <span class="font-bold" id="extraSum">0 €</span>
+                        </div>
+                        <div class="flex justify-between items-center text-[#d35400]">
+                            <span class="text-sm font-black uppercase">Fond Urgență (15%)</span>
+                            <span class="font-black" id="urgentaSum">0 €</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-orange-50 p-8 rounded-[40px] border border-orange-100">
+                    <h4 class="font-bold text-[#d35400] mb-3 flex items-center gap-2">
+                        <span>💡</span> Sfat Expert
+                    </h4>
+                    <p class="text-sm text-orange-900 leading-relaxed">
+                        Prețurile materialelor pot varia cu până la 30% în funcție de furnizor și sezon. Recomandăm contractarea manoperei cu minim 2-3 luni înainte de începerea lucrărilor.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline define:vars={{ data }}>
+        function val(id) {
+            const el = document.getElementById(id);
+            return el ? (parseFloat(el.value) || 0) : 0;
+        }
+
+        function isChecked(id) {
+            const el = document.getElementById(id);
+            return el ? el.checked : false;
+        }
+
+        function getRadioValue(name) {
+            const el = document.querySelector(`input[name="${name}"]:checked`);
+            return el ? el.value : null;
+        }
+
+        function updateCalculator() {
+            const suprafata = val('suprafata');
+            const camere = val('camere');
+            const tipImobil = getRadioValue('tip_imobil');
+            const calitate = getRadioValue('calitate');
+
+            // 1. Manopera
+            let manoperaBaza = suprafata * data.manopera_generala;
+            if (tipImobil === 'vechi') {
+                manoperaBaza += suprafata * data.decopertare;
+            }
+
+            // 2. Materiale
+            const pretMaterialeMp = data.materiale[calitate] || 0;
+            const materialeTotal = suprafata * pretMaterialeMp;
+
+            // 3. Extra-uri
+            let extraTotal = 0;
+            if (isChecked('electrica')) extraTotal += suprafata * data.extra.electrica;
+            if (isChecked('sanitara')) extraTotal += data.extra.sanitara;
+            if (isChecked('usi')) extraTotal += (camere + 1) * data.extra.usa;
+            if (isChecked('mobila')) extraTotal += data.extra.mobila_bucatarie;
+
+            // 4. Calcule finale
+            const subtotal = manoperaBaza + materialeTotal + extraTotal;
+            const urgenta = subtotal * 0.15;
+            const total = subtotal + urgenta;
+
+            // 5. Afișare
+            document.getElementById('manoperaSum').innerText = Math.round(manoperaBaza).toLocaleString() + " €";
+            document.getElementById('materialeSum').innerText = Math.round(materialeTotal).toLocaleString() + " €";
+            document.getElementById('extraSum').innerText = Math.round(extraTotal).toLocaleString() + " €";
+            document.getElementById('urgentaSum').innerText = Math.round(urgenta).toLocaleString() + " €";
+            document.getElementById('totalDisplay').innerText = Math.round(total).toLocaleString() + " €";
+
+            // 6. WhatsApp Link
+            const btnDesktop = document.getElementById('whatsappBtn');
+            const btnMobile = document.getElementById('whatsappBtnFloating');
+
+            const mesaj = `Am calculat că renovarea mă costă ${Math.round(total).toLocaleString()} EUR pe Manualul.ro 🛠️\nVezi devizul aici: ${window.location.href}`;
+            const finalLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnDesktop) btnDesktop.href = finalLink;
+            if (btnMobile) btnMobile.href = finalLink;
+        }
+
+        // Event Listeners
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', updateCalculator);
+        });
+
+        // Initial run
+        updateCalculator();
+    </script>
+</Layout>
