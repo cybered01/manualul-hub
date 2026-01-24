@@ -1,12 +1,9 @@
 ---
 export const prerender = true;
 import Layout from '../../layouts/Layout.astro';
-import { readFileSync } from 'fs';
-import { parse } from 'csv-parse/sync';
+import records from '../../data/carbon.json';
 
 export async function getStaticPaths() {
-    const fileContent = readFileSync('./src/data/carbon.csv', 'utf-8');
-    const records = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
     return records.map((row) => ({ params: { id: row.id }, props: { info: row } }));
 }
 

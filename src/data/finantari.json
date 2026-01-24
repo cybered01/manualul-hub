@@ -1,0 +1,62 @@
+[
+  {
+    "id": "digitalizare-pr-vest",
+    "titlu": "Digitalizare IMM Vest",
+    "categorie": "Regional",
+    "valoare_maxima": "100.000 EUR",
+    "cofinantare": "10%",
+    "status": "Deschis",
+    "descriere": "Granturi pentru echipamente hardware, software și automatizări în Regiunea Vest.",
+    "eligibilitate_extinsa": "Firma trebuie să aibă sediul social în județele Timiș, Arad, Caraș-Severin sau Hunedoara. Sunt eligibile microîntreprinderile și IMM-urile (inclusiv din industria alimentară) care au profit operațional în ultimul an fiscal.",
+    "cheltuieli_eligibile": "1. Echipamente Hardware (Servere, Laptopuri, Roboți Industriali)<br>2. Licențe Software (ERP, CRM, Windows, Office)<br>3. Servicii Cloud și Website-uri<br>4. Consultanță (maxim 10% din proiect)",
+    "acte_necesare": "1. Certificat Constatator (ONRC)<br>2. Bilanț contabil pe ultimul an<br>3. Oferte de preț de la furnizori<br>4. Semnătură electronică"
+  },
+  {
+    "id": "startup-nation-2026",
+    "titlu": "Start-Up Nation 2026",
+    "categorie": "Antreprenoriat",
+    "valoare_maxima": "40.000 EUR",
+    "cofinantare": "15%",
+    "status": "Deschis",
+    "descriere": "Finanțare pentru firme nou înființate la nivel național.",
+    "eligibilitate_extinsa": "Eligibile sunt firmele înființate după 1 ianuarie 2024. Acționarii nu trebuie să fi avut alte firme falimentare. Firma trebuie să creeze minim 1 loc de muncă și să îl mențină 2 ani.",
+    "cheltuieli_eligibile": "1. Echipamente tehnologice și mașini<br>2. Mobilier și aparatură birotică<br>3. Pachet digital obligatoriu (Site + Soft)<br>4. Utilitare (Autoutilitare)",
+    "acte_necesare": "1. Plan de Afaceri (se completează online)<br>2. Actele de înființare ale firmei<br>3. Contract de chirie/comodat pentru sediu<br>4. Cazier fiscal curat"
+  },
+  {
+    "id": "parteneriate-cdi-centru",
+    "titlu": "Parteneriate Inovare Centru",
+    "categorie": "Cercetare",
+    "valoare_maxima": "300.000 EUR",
+    "cofinantare": "0%",
+    "status": "Deschis",
+    "descriere": "Finanțare 100% nerambursabilă pentru IMM-urile din Regiunea Centru.",
+    "eligibilitate_extinsa": "Doar pentru firmele din județele Alba, Brașov, Covasna, Harghita, Mureș, Sibiu. Trebuie să închei un parteneriat cu o Universitate sau Institut de Cercetare pentru a dezvolta un produs nou.",
+    "cheltuieli_eligibile": "1. Costuri cu personalul de cercetare<br>2. Materiale și consumabile pentru prototipuri<br>3. Brevetare și protejarea proprietății intelectuale<br>4. Testare în laboratoare",
+    "acte_necesare": "1. Acord de parteneriat cu Institutul de Cercetare<br>2. Deviz estimativ al proiectului<br>3. Declarație DNSH (protecția mediului)"
+  },
+  {
+    "id": "digitalizare-iti-centru",
+    "titlu": "Competitivitate ITI Centru",
+    "categorie": "Regional",
+    "valoare_maxima": "150.000 EUR",
+    "cofinantare": "15%",
+    "status": "În curând",
+    "descriere": "Dedicat exclusiv firmelor din zonele ITI (ex: Moții, Țara Făgărașului).",
+    "eligibilitate_extinsa": "Se adresează strict firmelor cu sediul în zonele ITI (Investiții Teritoriale Integrate) - ex: Țara Făgărașului, Munții Apuseni. Prioritate au firmele de producție și turism.",
+    "cheltuieli_eligibile": "1. Linii de producție automatizate<br>2. Panouri fotovoltaice pentru autoconsum<br>3. Digitalizarea fluxului de producție<br>4. Echipamente de ambalare",
+    "acte_necesare": "1. Certificat de atestare a locației în zona ITI<br>2. Proiect tehnic (dacă e cazul)<br>3. Analiza economico-financiară"
+  },
+  {
+    "id": "digitalizare-transport-bi",
+    "titlu": "Digitalizare Transport BI",
+    "categorie": "Tehnologie",
+    "valoare_maxima": "500.000 EUR",
+    "cofinantare": "2%",
+    "status": "În curând",
+    "descriere": "Apel dedicat regiunii București-Ilfov pentru transport inteligent.",
+    "eligibilitate_extinsa": "Eligibile sunt firmele de transport și logistică din București și Ilfov. Se finanțează modernizarea flotei prin tehnologie (nu achiziția de mașini, ci sistemele de pe ele).",
+    "cheltuieli_eligibile": "1. Sisteme GPS și monitorizare flotă<br>2. Software de e-Ticketing<br>3. Sisteme de siguranță activă<br>4. Panouri de informare călători",
+    "acte_necesare": "1. Licența de transport<br>2. Studiu de fezabilitate<br>3. Aprobări de la primărie (dacă e cazul)"
+  }
+]

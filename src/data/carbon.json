@@ -1,0 +1,50 @@
+[
+  {
+    "id": "padure-foioase",
+    "titlu": "Pădure de Foioase",
+    "categorie": "Silvicultură",
+    "absorbtie_t_ha": "7.5",
+    "pret_credit": "35 EUR",
+    "status": "Activ",
+    "descriere": "Păduri mature de stejar sau fag care stochează carbon masiv în biomasă și sol.",
+    "eligibilitate": "Proprietari de păduri (privați sau UAT) cu suprafețe de minim 10 ha care au un plan de management forestier durabil.",
+    "beneficii": "1. Conservarea biodiversității locale<br>2. Protecția naturală împotriva inundațiilor și eroziunii<br>3. Venit pasiv pe termen lung (contracte de 10-20 ani)",
+    "acte_necesare": "1. Amenajament silvic valabil<br>2. Extras de Carte Funciară (recent)<br>3. Contract de monitorizare cu un auditor certificat carbon"
+  },
+  {
+    "id": "agricultura-regen",
+    "titlu": "Agricultură Regenerativă",
+    "categorie": "Agricultură",
+    "absorbtie_t_ha": "2.5",
+    "pret_credit": "40 EUR",
+    "status": "Deschis",
+    "descriere": "Sistem de cultivare bazat pe tehnologia No-Till (fără arătură) și rotația culturilor de acoperire.",
+    "eligibilitate": "Fermieri care fac trecerea de la agricultura convențională la cea regenerativă pe suprafețe de minim 50 ha.",
+    "beneficii": "1. Creșterea fertilității naturale a solului prin materie organică<br>2. Reducerea costurilor cu motorina și îngrășămintele<br>3. Reziliență crescută a culturilor la secetă extremă",
+    "acte_necesare": "1. Analiza de sol (nivelul inițial de Carbon Organic)<br>2. Registrul culturilor pe ultimii 3 ani<br>3. Plan de management pentru agricultura regenerativă"
+  },
+  {
+    "id": "pasune-permanenta",
+    "titlu": "Pășuni și Fânețe",
+    "categorie": "Zootehnie",
+    "absorbtie_t_ha": "1.5",
+    "pret_credit": "25 EUR",
+    "status": "Activ",
+    "descriere": "Sechestrare stabilă de carbon prin sistemul radicular peren al ierburilor de pășune.",
+    "eligibilitate": "Deținători de pășuni și fânețe care mențin acoperirea vegetală tot anul și practică pășunatul rotațional.",
+    "beneficii": "1. Suport pentru biodiversitatea pajiștilor<br>2. Îmbunătățirea calității furajelor pentru animale<br>3. Prevenirea deșertificării și a degradării solului",
+    "acte_necesare": "1. Dovada proprietății sau contract de concesiune<br>2. Plan de pășunat durabil<br>3. Înregistrări privind numărul de animale (încărcarea la hectar)"
+  },
+  {
+    "id": "perdele-forestiere",
+    "titlu": "Perdele Forestiere",
+    "categorie": "Protecție",
+    "absorbtie_t_ha": "8.0",
+    "pret_credit": "45 EUR",
+    "status": "În curând",
+    "descriere": "Înființarea de bariere vegetale pentru protecția culturilor agricole împotriva vântului și zăpezii.",
+    "eligibilitate": "Fermieri sau consilii locale care înființează perdele de protecție pe marginile drumurilor sau ale solurilor agricole.",
+    "beneficii": "1. Creșterea randamentului culturilor vecine cu până la 20%<br>2. Protecție împotriva viscolului și a înzăpezirii drumurilor<br>3. Crearea de coridoare ecologice pentru faună",
+    "acte_necesare": "1. Proiect tehnic de înființare a perdelei forestiere<br>2. Aviz de mediu<br>3. Acordul proprietarilor de terenuri limitrofe"
+  }
+]

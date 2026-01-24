@@ -1,11 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { readFileSync } from 'fs';
-import { parse } from 'csv-parse/sync';
-
-// Citim datele din CSV-ul de finanțări
-const fileContent = readFileSync('./src/data/finantari.csv', 'utf-8');
-const finantari = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
+import finantari from '../../data/finantari.json';
 
 // Funcție pentru a determina culoarea statusului
 const getStatusClass = (status) => {

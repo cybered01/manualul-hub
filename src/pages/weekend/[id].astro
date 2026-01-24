@@ -1,12 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { readFileSync } from 'fs';
-import { parse } from 'csv-parse/sync';
+import records from '../../data/weekend.json';
 import { getCentralData } from '../../lib/api';
 
 const { id } = Astro.params;
-const fileContent = readFileSync('./src/data/weekend.csv', 'utf-8');
-const records = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
 const info = records.find(r => r.id === id);
 
 if (!info) {

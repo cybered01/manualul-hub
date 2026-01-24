@@ -1,10 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { readFileSync } from 'fs';
-import { parse } from 'csv-parse/sync';
-
-const fileContent = readFileSync('./src/data/facultati.csv', 'utf-8');
-const facultati = parse(fileContent, { columns: true, skip_empty_lines: true, trim: true });
+import facultati from '../../data/facultati.json';
 
 // Grupăm pe județe și sortăm alfabetic județele
 const judete = [...new Set(facultati.map(f => f.judet))].sort();

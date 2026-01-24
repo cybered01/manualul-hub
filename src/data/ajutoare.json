@@ -1,0 +1,80 @@
+[
+  {
+    "id": "card-alimente-2026",
+    "titlu": "Card Social pentru Alimente",
+    "categorie": "Vulnerabili",
+    "valoare_ajutor": "250 Lei / 2 luni",
+    "plafon_venit": "2210",
+    "status": "Deschis",
+    "descriere": "Sprijin pentru alimente și mese calde.",
+    "institutie": "Ministerul Investițiilor și Proiectelor Europene (MIPE)",
+    "acte_necesare": "1. Act de identitate (original și copie)<br>2. Ultimul cupon de pensie<br>3. Certificat de handicap (dacă e cazul)",
+    "criterii_eligibilitate": "1. Pensionari cu venit sub 2.210 lei<br>2. Familii cu copii cu venit sub 675 lei/membru<br>3. Persoane fără adăpost",
+    "pasi_procedura": "1. Verificarea listelor: MIPE extrage datele de la Casa de Pensii și ANAF.<br>2. Distribuția: Poșta Română livrează cardul la domiciliu.<br>3. Activarea: Cardul vine gata activat; codul PIN este în plic."
+  },
+  {
+    "id": "vouchere-energie",
+    "titlu": "Ajutor Energie & Lemne",
+    "categorie": "Utilități",
+    "valoare_ajutor": "700 Lei / sezon",
+    "plafon_venit": "2000",
+    "status": "În curând",
+    "descriere": "Ajutor pentru facturi sau lemne de foc.",
+    "institutie": "Primăria locală (Serviciul de Asistență Socială)",
+    "acte_necesare": "1. Cerere și declarație pe propria răspundere<br>2. Factura de energie/gaz recentă<br>3. Acte identitate toți locatarii",
+    "criterii_eligibilitate": "1. Venit sub 2.000 lei/membru familie<br>2. Să nu dețineți alte clădiri sau mașini luxoase<br>3. Domiciliul la adresa pentru care se cere ajutorul",
+    "pasi_procedura": "1. Depunerea dosarului: La primăria de domiciliu până la finalul lunii Octombrie.<br>2. Anchetă socială: Primăria poate verifica situația la domiciliu.<br>3. Plata: Se face prin mandat poștal sau direct în contul furnizorului."
+  },
+  {
+    "id": "venit-minim-incluziune",
+    "titlu": "Venit Minim de Incluziune (VMI)",
+    "categorie": "Vulnerabili",
+    "valoare_ajutor": "Variabil (min. 250 lei)",
+    "plafon_venit": "700",
+    "status": "Deschis",
+    "descriere": "Programul care a înlocuit venitul minim garantat.",
+    "institutie": "Primăria prin Agenția Națională pentru Plăți (ANPIS)",
+    "acte_necesare": "1. Cerere tip VMI<br>2. Acte identitate familie<br>3. Documente venituri (adeverințe/cupoane)<br>4. Acte proprietate locuință",
+    "criterii_eligibilitate": "1. Persoane singure/familii cu venit net sub 700 lei/membru<br>2. Persoane apte de muncă înregistrate la AJOFM<br>3. Copiii din familie trebuie să frecventeze școala",
+    "pasi_procedura": "1. Depunerea dosarului: La primăria de domiciliu.<br>2. Evaluarea: Primăria verifică bunurile deținute (mașini, terenuri).<br>3. Plata: Se primește lunar pe card sau prin mandat poștal."
+  },
+  {
+    "id": "indemnizatie-copil",
+    "titlu": "Indemnizație Creștere Copil",
+    "categorie": "Familie",
+    "valoare_ajutor": "85% din media veniturilor",
+    "plafon_venit": "Fără Plafon",
+    "status": "Deschis",
+    "descriere": "Sprijin lunar pentru părinții în concediu de maternitate.",
+    "institutie": "Agenția Județeană pentru Plăți (AJPIS)",
+    "acte_necesare": "1. Certificat naștere copil<br>2. Adeverință venit angajator (12 luni lucrate)<br>3. Extras de cont bancar<br>4. Declarație celălalt părinte",
+    "criterii_eligibilitate": "1. Realizarea de venituri impozabile 12 luni în ultimii 2 ani<br>2. Solicitantul are domiciliul în România<br>3. Copilul este în îngrijirea directă a solicitantului",
+    "pasi_procedura": "1. Depunerea actelor: La primărie sau online pe platforma AJPIS.<br>2. Procesarea: AJPIS emite decizia de plată.<br>3. Încasarea: Banii intră lunar pe card pe data de 15."
+  },
+  {
+    "id": "trusou-nou-nascut",
+    "titlu": "Tichet Nou-Născut",
+    "categorie": "Familie",
+    "valoare_ajutor": "2.000 Lei",
+    "plafon_venit": "1800",
+    "status": "Deschis",
+    "descriere": "Tichete electronice pentru produse de îngrijire bebeluși.",
+    "institutie": "Primăria (Direcția de Asistență Socială)",
+    "acte_necesare": "1. Certificat naștere copil<br>2. Act identitate mamă<br>3. Referat medical de la medicul de familie",
+    "criterii_eligibilitate": "1. Mame cu venit minim de incluziune<br>2. Mame în situații de risc (minore, victime violență)<br>3. Cererea depusă în max. 3 luni de la naștere",
+    "pasi_procedura": "1. Depunerea cererii: La primăria unde a avut loc nașterea.<br>2. Aprobarea: Primăria verifică condițiile de vulnerabilitate.<br>3. Ridicarea cardului: Se ridică personal de la sediul primăriei."
+  },
+  {
+    "id": "rechizite-scolare",
+    "titlu": "Tichete Educaționale",
+    "categorie": "Elevi",
+    "valoare_ajutor": "500 Lei / an",
+    "plafon_venit": "1500",
+    "status": "În curând",
+    "descriere": "Sprijin pentru achiziția de rechizite și haine pentru școală.",
+    "institutie": "Secretariatul Școlii / Grădiniței",
+    "acte_necesare": "1. Adeverință de înscriere la școală<br>2. Actele de identitate părinți/copii<br>3. Dovada veniturilor familiei",
+    "criterii_eligibilitate": "1. Preșcolari și elevi din familii defavorizate<br>2. Frecventarea regulată a cursurilor<br>3. Venit mic pe membru de familie",
+    "pasi_procedura": "1. Depunerea cererii: La școala unde este înscris copilul (Septembrie).<br>2. Centralizarea: Școala trimite listele la minister.<br>3. Distribuția: Cardurile se primesc prin unitatea de învățământ."
+  }
+]
