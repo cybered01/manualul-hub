@@ -281,6 +281,11 @@ const description = "Află cât te costă mașina ta cu adevărat. Calculează d
 
                     <div class="mt-8 space-y-4">
                         <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" class="w-full" />
+
+                        <button id="downloadPDF" class="w-full p-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all border border-white/10 flex items-center justify-center gap-2">
+                            📄 Descarcă Analiza TCO (PDF)
+                        </button>
+
                         <p class="text-[9px] text-center text-gray-500 italic">
                             *Acest simulator oferă o estimare bazată pe datele introduse. Valorile reale pot varia în funcție de starea tehnică și piață.
                         </p>
@@ -314,6 +319,37 @@ const description = "Află cât te costă mașina ta cu adevărat. Calculează d
             transform: rotate(180deg);
         }
     </style>
+
+    <script>
+        import { generatePDF } from '../utils/pdfGenerator';
+
+        document.getElementById('downloadPDF')?.addEventListener('click', () => {
+            const inputs = [
+                { "Eticheta": "Profil Mașină", "Valoare": document.getElementById('preset-select').options[document.getElementById('preset-select').selectedIndex].text },
+                { "Eticheta": "Preț Achiziție", "Valoare": document.getElementById('pret_achizitie').value + " EUR" },
+                { "Eticheta": "Perioadă Deținere", "Valoare": document.getElementById('ani_detinere').value + " ani" },
+                { "Eticheta": "Metodă Plată", "Valoare": document.getElementById('metoda_plata').value === 'cash' ? 'Cash' : 'Credit/Leasing' },
+                { "Eticheta": "Km Anual", "Valoare": document.getElementById('km_anual').value + " km" },
+                { "Eticheta": "Consum Mediu", "Valoare": document.getElementById('consum_mediu').value + " L/100km" },
+                { "Eticheta": "Preț Carburant", "Valoare": document.getElementById('pret_carburant').value + " RON/L" }
+            ];
+
+            const salariuNet = parseFloat(document.getElementById('salariu_net').value) || 0;
+            const results = [
+                { "Eticheta": "COST TOTAL LUNAR", "Valoare": document.getElementById('total-monthly').innerText + " RON" },
+                { "Eticheta": "Cost per KM", "Valoare": document.getElementById('cost-per-km').innerText + " RON" },
+                { "Eticheta": "Verdict Uber/Taxi", "Valoare": document.getElementById('uber-verdict').innerText },
+                { "Eticheta": "Impact Salariu", "Valoare": salariuNet > 0 ? document.getElementById('salary-hours').innerText : "Nespecificat" }
+            ];
+
+            generatePDF({
+                title: "Analiză Cost Total de Deținere (TCO) Auto",
+                inputs,
+                results,
+                filename: "Analiza-Auto-Manualul.pdf"
+            });
+        });
+    </script>
 
     <script is:inline define:vars={{ presets, bnr, fuel }}>
         // Utility functions
