@@ -1,0 +1,172 @@
+[
+  {
+    "id": "bucuresti",
+    "nume": "București (RO)",
+    "moneda": "RON",
+    "curs_valutar": 1,
+    "costuri": {
+      "chirie_garsoniera_centru": 2900,
+      "chirie_2cam_periferie": 2000,
+      "utilitati_basice": 800,
+      "transport_public": 90,
+      "internet": 47,
+      "gradinita_privata": 3300,
+      "masa_oras_2pers": 300,
+      "pachet_tigari": 30,
+      "cos_cumparaturi_index": 1.0
+    }
+  },
+  {
+    "id": "cluj",
+    "nume": "Cluj-Napoca (RO)",
+    "moneda": "RON",
+    "curs_valutar": 1,
+    "costuri": {
+      "chirie_garsoniera_centru": 3300,
+      "chirie_2cam_periferie": 2300,
+      "utilitati_basice": 850,
+      "transport_public": 100,
+      "internet": 47,
+      "gradinita_privata": 3000,
+      "masa_oras_2pers": 330,
+      "pachet_tigari": 30,
+      "cos_cumparaturi_index": 1.05
+    }
+  },
+  {
+    "id": "timisoara",
+    "nume": "Timișoara (RO)",
+    "moneda": "RON",
+    "curs_valutar": 1,
+    "costuri": {
+      "chirie_garsoniera_centru": 2600,
+      "chirie_2cam_periferie": 1800,
+      "utilitati_basice": 750,
+      "transport_public": 80,
+      "internet": 47,
+      "gradinita_privata": 2500,
+      "masa_oras_2pers": 270,
+      "pachet_tigari": 30,
+      "cos_cumparaturi_index": 0.95
+    }
+  },
+  {
+    "id": "london",
+    "nume": "Londra (UK)",
+    "moneda": "GBP",
+    "curs_valutar": 6.2,
+    "costuri": {
+      "chirie_garsoniera_centru": 2400,
+      "chirie_2cam_periferie": 1800,
+      "utilitati_basice": 290,
+      "transport_public": 180,
+      "internet": 33,
+      "gradinita_privata": 1900,
+      "masa_oras_2pers": 80,
+      "pachet_tigari": 18,
+      "cos_cumparaturi_index": 1.7
+    }
+  },
+  {
+    "id": "berlin",
+    "nume": "Berlin (DE)",
+    "moneda": "EUR",
+    "curs_valutar": 5.1,
+    "costuri": {
+      "chirie_garsoniera_centru": 1300,
+      "chirie_2cam_periferie": 950,
+      "utilitati_basice": 350,
+      "transport_public": 60,
+      "internet": 45,
+      "gradinita_privata": 120,
+      "masa_oras_2pers": 67,
+      "pachet_tigari": 9,
+      "cos_cumparaturi_index": 1.5
+    }
+  },
+  {
+    "id": "munchen",
+    "nume": "Munchen (DE)",
+    "moneda": "EUR",
+    "curs_valutar": 5.1,
+    "costuri": {
+      "chirie_garsoniera_centru": 1500,
+      "chirie_2cam_periferie": 1200,
+      "utilitati_basice": 330,
+      "transport_public": 58,
+      "internet": 38,
+      "gradinita_privata": 850,
+      "masa_oras_2pers": 80,
+      "pachet_tigari": 9,
+      "cos_cumparaturi_index": 1.6
+    }
+  },
+  {
+    "id": "madrid",
+    "nume": "Madrid (ES)",
+    "moneda": "EUR",
+    "curs_valutar": 5.1,
+    "costuri": {
+      "chirie_garsoniera_centru": 1300,
+      "chirie_2cam_periferie": 1000,
+      "utilitati_basice": 170,
+      "transport_public": 35,
+      "internet": 28,
+      "gradinita_privata": 560,
+      "masa_oras_2pers": 60,
+      "pachet_tigari": 6,
+      "cos_cumparaturi_index": 1.2
+    }
+  },
+  {
+    "id": "roma",
+    "nume": "Roma (IT)",
+    "moneda": "EUR",
+    "curs_valutar": 5.1,
+    "costuri": {
+      "chirie_garsoniera_centru": 1300,
+      "chirie_2cam_periferie": 850,
+      "utilitati_basice": 190,
+      "transport_public": 35,
+      "internet": 27,
+      "gradinita_privata": 470,
+      "masa_oras_2pers": 70,
+      "pachet_tigari": 6.5,
+      "cos_cumparaturi_index": 1.3
+    }
+  },
+  {
+    "id": "amsterdam",
+    "nume": "Amsterdam (NL)",
+    "moneda": "EUR",
+    "curs_valutar": 5.1,
+    "costuri": {
+      "chirie_garsoniera_centru": 2200,
+      "chirie_2cam_periferie": 1700,
+      "utilitati_basice": 260,
+      "transport_public": 100,
+      "internet": 48,
+      "gradinita_privata": 2500,
+      "masa_oras_2pers": 90,
+      "pachet_tigari": 12.5,
+      "cos_cumparaturi_index": 1.7
+    }
+  },
+  {
+    "id": "paris",
+    "nume": "Paris (FR)",
+    "moneda": "EUR",
+    "curs_valutar": 5.1,
+    "costuri": {
+      "chirie_garsoniera_centru": 1400,
+      "chirie_2cam_periferie": 1050,
+      "utilitati_basice": 240,
+      "transport_public": 89,
+      "internet": 30,
+      "gradinita_privata": 1250,
+      "masa_oras_2pers": 70,
+      "pachet_tigari": 13,
+      "cos_cumparaturi_index": 1.6
+    }
+  }
+]
