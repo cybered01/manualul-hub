@@ -1,0 +1,661 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+const title = "Diagnosticul Financiar - Audit Complet Sănătate Financiară 2026";
+const description = "Evaluează-ți sănătatea financiară pe baza unor indicatori reali: Siguranță, Datorii, Disciplină și Protecție. Primește un raport detaliat și un plan de acțiune.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-200 mb-4 inline-block">
+                Financial Audit v1.0
+            </span>
+            <h1 class="text-4xl md:text-5xl font-black text-gray-900 mb-4 tracking-tight">
+                Diagnosticul <span class="text-emerald-600">Financiar</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Nu-ți lăsa viitorul la voia întâmplării. Află scorul tău de sănătate financiară și ce pași trebuie să faci pentru a deveni o "Fortăreață".
+            </p>
+        </header>
+
+        <!-- Wizard Progress Bar -->
+        <div class="mb-12" id="wizard-progress-container">
+            <div class="flex justify-between mb-2">
+                <span class="text-xs font-black uppercase text-emerald-600 tracking-widest" id="step-label">Pasul 1 din 4: Cashflow</span>
+                <span class="text-xs font-black uppercase text-gray-400 tracking-widest" id="step-percent">25%</span>
+            </div>
+            <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 25%"></div>
+            </div>
+        </div>
+
+        <div id="wizard-steps">
+            <!-- Pasul 1: Fluxul de Numerar -->
+            <div class="step-container" data-step="1">
+                <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8 md:p-12">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-2xl">💵</div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Fluxul de Numerar</h2>
+                            <p class="text-gray-500">Baza oricărei strategii financiare este controlul intrărilor și ieșirilor.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block mb-2">
+                                <span class="text-xs font-black uppercase text-gray-400 tracking-widest">Venit Lunar Net (RON)</span>
+                                <input type="number" id="venit_net" placeholder="ex: 6000" class="w-full mt-2 bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 text-xl font-bold focus:bg-white focus:border-emerald-500 outline-none transition-all">
+                            </label>
+                            <p class="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-tight italic">*Include bonusuri medii lunare și tichete de masă.</p>
+                        </div>
+
+                        <div>
+                            <label class="block mb-2">
+                                <span class="text-xs font-black uppercase text-gray-400 tracking-widest">Cheltuieli Obligatorii (RON)</span>
+                                <input type="number" id="cheltuieli_obligatorii" placeholder="ex: 3500" class="w-full mt-2 bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 text-xl font-bold focus:bg-white focus:border-emerald-500 outline-none transition-all">
+                            </label>
+                            <p class="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-tight italic">*Chirie/Rată, Mâncare, Utilități, Transport, Abonamente.</p>
+                        </div>
+
+                        <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-sm font-bold text-emerald-800 uppercase tracking-tight">Venit Disponibil:</span>
+                                <span id="venit_disponibil_display" class="text-xl font-black text-emerald-700">0 RON</span>
+                            </div>
+                            <div class="space-y-4">
+                                <label class="block">
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-xs font-black uppercase text-emerald-800 tracking-widest">Cât pui deoparte lunar?</span>
+                                        <span id="economii_val_display" class="text-sm font-black text-emerald-600">0 RON (0%)</span>
+                                    </div>
+                                    <input type="range" id="economii_lunar" min="0" max="10000" step="100" value="0" class="w-full h-2 bg-emerald-200 rounded-lg appearance-none cursor-pointer accent-emerald-600">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 flex justify-end">
+                        <button class="next-step px-10 py-4 bg-emerald-600 text-white font-black rounded-2xl shadow-lg hover:bg-emerald-700 transition-all transform hover:-translate-y-1">
+                            Pasul Următor →
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pasul 2: Averea & Siguranța -->
+            <div class="step-container hidden" data-step="2">
+                <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8 md:p-12">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-2xl">🛡️</div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Averea & Siguranța</h2>
+                            <p class="text-gray-500">Cât timp poți supraviețui dacă mâine nu mai ai niciun venit?</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block mb-2">
+                                <span class="text-xs font-black uppercase text-gray-400 tracking-widest">Fond de Urgență / Lichidități (RON)</span>
+                                <input type="number" id="fond_urgenta" placeholder="ex: 15000" class="w-full mt-2 bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 text-xl font-bold focus:bg-white focus:border-blue-500 outline-none transition-all">
+                            </label>
+                            <p class="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-tight italic">*Include bani cash, conturi de economii și depozite bancare la care ai acces imediat.</p>
+                        </div>
+
+                        <div id="survival-result" class="hidden p-8 rounded-[24px] bg-slate-900 text-white text-center">
+                            <p class="text-gray-400 uppercase text-[10px] font-black tracking-[0.2em] mb-2">Autonomie Financiară</p>
+                            <p class="text-4xl font-black mb-2"><span id="luni_supravietuire" class="text-blue-400">0</span> luni</p>
+                            <p id="survival-verdict" class="text-sm text-gray-400">Fondul tău acoperă necesarul de bază pentru 0 luni.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 flex justify-between">
+                        <button class="prev-step px-8 py-4 text-gray-400 font-bold rounded-2xl hover:text-gray-600 transition-all">
+                            ← Înapoi
+                        </button>
+                        <button class="next-step px-10 py-4 bg-emerald-600 text-white font-black rounded-2xl shadow-lg hover:bg-emerald-700 transition-all transform hover:-translate-y-1">
+                            Pasul Următor →
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pasul 3: Datoriile -->
+            <div class="step-container hidden" data-step="3">
+                <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8 md:p-12">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center text-2xl">⚖️</div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Datoriile (Liability)</h2>
+                            <p class="text-gray-500">Gradul de îndatorare îți dictează flexibilitatea financiară.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block mb-2">
+                                <span class="text-xs font-black uppercase text-gray-400 tracking-widest">Total Rate Lunare (RON)</span>
+                                <input type="number" id="rate_lunare" placeholder="ex: 1200" class="w-full mt-2 bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 text-xl font-bold focus:bg-white focus:border-red-500 outline-none transition-all">
+                            </label>
+                            <p class="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-tight italic">*Include credite ipotecare, nevoi personale, carduri de credit, leasing-uri.</p>
+                        </div>
+
+                        <div id="dti-result" class="hidden p-6 rounded-2xl bg-red-50 border border-red-100">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="text-xs font-black uppercase text-red-800 tracking-widest">Grad de Îndatorare (DTI)</span>
+                                    <p id="dti-verdict" class="text-sm font-bold text-red-600">Rata ta reprezintă 0% din venit.</p>
+                                </div>
+                                <span id="dti-percent" class="text-3xl font-black text-red-700">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 flex justify-between">
+                        <button class="prev-step px-8 py-4 text-gray-400 font-bold rounded-2xl hover:text-gray-600 transition-all">
+                            ← Înapoi
+                        </button>
+                        <button class="next-step px-10 py-4 bg-emerald-600 text-white font-black rounded-2xl shadow-lg hover:bg-emerald-700 transition-all transform hover:-translate-y-1">
+                            Pasul Următor →
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pasul 4: Investiții & Protecție -->
+            <div class="step-container hidden" data-step="4">
+                <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8 md:p-12">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-2xl flex items-center justify-center text-2xl">🛡️</div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Investiții & Protecție</h2>
+                            <p class="text-gray-500">Strategia pe termen lung și plasele de siguranță.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-10">
+                        <div>
+                            <span class="text-xs font-black uppercase text-gray-400 tracking-widest block mb-4">Investești activ în active generatoare de profit?</span>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <button class="invest-option p-4 rounded-2xl border-2 border-gray-100 bg-gray-50 text-gray-600 font-bold hover:border-indigo-200 transition-all flex flex-col items-center gap-1" data-val="da">
+                                    <span class="text-xl">🚀 Da</span>
+                                    <span class="text-[10px] uppercase opacity-60">Recurent</span>
+                                </button>
+                                <button class="invest-option p-4 rounded-2xl border-2 border-gray-100 bg-gray-50 text-gray-600 font-bold hover:border-indigo-200 transition-all flex flex-col items-center gap-1" data-val="ocazional">
+                                    <span class="text-xl">📈 Ocazional</span>
+                                    <span class="text-[10px] uppercase opacity-60">Când am surplus</span>
+                                </button>
+                                <button class="invest-option p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold transition-all flex flex-col items-center gap-1" data-val="nu">
+                                    <span class="text-xl">🛑 Nu</span>
+                                    <span class="text-[10px] uppercase opacity-60">Deloc</span>
+                                </button>
+                                <input type="hidden" id="investitii_activ" value="nu">
+                            </div>
+                            <p class="text-[10px] text-gray-400 mt-2 uppercase font-bold tracking-tight italic">*Bursă, Titluri de Stat, Imobiliare, Aur (excluzând Pilonul 2).</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="p-6 bg-slate-50 rounded-2xl border border-gray-100 flex items-center justify-between">
+                                <div>
+                                    <span class="text-sm font-bold text-gray-700 block">Asigurări Private</span>
+                                    <p class="text-[10px] text-gray-400 uppercase font-black">Sănătate / Viață</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="asigurare_privata" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                                </label>
+                            </div>
+                            <div class="p-6 bg-slate-50 rounded-2xl border border-gray-100 flex items-center justify-between">
+                                <div>
+                                    <span class="text-sm font-bold text-gray-700 block">Bugetare & Note</span>
+                                    <p class="text-[10px] text-gray-400 uppercase font-black">Îți notezi cheltuielile?</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="notare_cheltuieli" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-10 flex justify-between">
+                        <button class="prev-step px-8 py-4 text-gray-400 font-bold rounded-2xl hover:text-gray-600 transition-all">
+                            ← Înapoi
+                        </button>
+                        <button id="generate-report" class="px-10 py-4 bg-emerald-600 text-white font-black rounded-2xl shadow-xl hover:bg-emerald-700 transition-all transform hover:-translate-y-1">
+                            Generează Raportul 📊
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Rezultate (Hidden initially) -->
+        <div id="results-dashboard" class="hidden space-y-8 animate-in fade-in duration-700">
+            <!-- Header Rezultat -->
+            <div class="bg-slate-900 rounded-[40px] p-8 md:p-12 text-white text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-500 via-yellow-500 to-emerald-500"></div>
+
+                <p class="text-gray-400 uppercase text-xs font-black tracking-[0.3em] mb-4">Scorul tău de Sănătate Financiară</p>
+
+                <div class="relative inline-block mb-6">
+                    <svg class="w-48 h-48 md:w-64 md:h-64" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8" />
+                        <circle cx="50" cy="50" r="45" fill="none" id="score-circle" stroke="#10b981" stroke-width="8" stroke-dasharray="282.7" stroke-dashoffset="282.7" stroke-linecap="round" class="transition-all duration-[1500ms] ease-out" />
+                        <text x="50" y="50" text-anchor="middle" dominant-baseline="middle" class="fill-white font-black text-3xl" id="score-text">0</text>
+                        <text x="50" y="65" text-anchor="middle" dominant-baseline="middle" class="fill-gray-400 font-bold text-[6px] uppercase tracking-widest" id="score-label">Puncte</text>
+                    </svg>
+                </div>
+
+                <h2 id="verdict-title" class="text-3xl md:text-4xl font-black mb-4 italic">Ești o Fortăreață!</h2>
+                <p id="verdict-desc" class="text-gray-400 max-w-xl mx-auto mb-8">Ești într-o poziție privilegiată. Ai disciplinele necesare pentru a face față oricărui șoc și pentru a-ți crește averea accelerat.</p>
+
+                <div class="flex flex-wrap justify-center gap-4">
+                    <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+                    <button id="restart-test" class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all border border-white/10">
+                        🔄 Refă Testul
+                    </button>
+                </div>
+            </div>
+
+            <!-- Analiza pe Piloni -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-[32px] p-8 shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-black mb-6 flex items-center gap-2">
+                        <span class="text-emerald-500">📊</span> Analiza pe Categorii
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="pillar-row">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-bold text-gray-700">🛡️ Siguranță</span>
+                                <span class="text-sm font-black" id="pillar-siguranta-val">0 / 30</span>
+                            </div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div id="pillar-siguranta-bar" class="h-full bg-blue-500 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="pillar-row">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-bold text-gray-700">⚖️ Datorii</span>
+                                <span class="text-sm font-black" id="pillar-datorii-val">0 / 30</span>
+                            </div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div id="pillar-datorii-bar" class="h-full bg-red-500 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="pillar-row">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-bold text-gray-700">📈 Disciplină & Creștere</span>
+                                <span class="text-sm font-black" id="pillar-crestere-val">0 / 25</span>
+                            </div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div id="pillar-crestere-bar" class="h-full bg-emerald-500 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="pillar-row">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-bold text-gray-700">🩹 Protecție</span>
+                                <span class="text-sm font-black" id="pillar-protectie-val">0 / 15</span>
+                            </div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div id="pillar-protectie-bar" class="h-full bg-indigo-500 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rețeta Financiară (Action Plan) -->
+                <div class="bg-white rounded-[32px] p-8 shadow-sm border border-gray-100">
+                    <h3 class="text-xl font-black mb-6 flex items-center gap-2">
+                        <span class="text-orange-500">📜</span> Rețeta Ta Financiară
+                    </h3>
+                    <div id="action-plan-container" class="space-y-4">
+                        <!-- Advice items injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Sticky Retest Button for Results -->
+    <div id="sticky-retest" class="fixed bottom-0 left-0 w-full p-4 bg-white/80 backdrop-blur-md border-t border-gray-100 flex justify-center z-50 hidden">
+        <button class="restart-test-btn w-full max-w-md py-4 bg-slate-900 text-white font-black rounded-2xl shadow-xl hover:bg-slate-800 transition-all">
+            🔄 Refă Auditul
+        </button>
+    </div>
+
+    <script is:inline>
+        // --- Selectors & State ---
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        const getEl = (id) => document.getElementById(id);
+        const val = (id) => parseFloat(getEl(id).value) || 0;
+
+        // --- Navigation ---
+        function updateWizardUI() {
+            // Update steps visibility
+            document.querySelectorAll('.step-container').forEach(el => {
+                if (parseInt(el.dataset.step) === currentStep) {
+                    el.classList.remove('hidden');
+                    el.classList.add('animate-in');
+                } else {
+                    el.classList.add('hidden');
+                    el.classList.remove('animate-in');
+                }
+            });
+
+            // Update progress bar
+            const percent = (currentStep / totalSteps) * 100;
+            getEl('progress-bar').style.width = `${percent}%`;
+            getEl('step-percent').innerText = `${percent}%`;
+
+            const labels = ["Cashflow", "Averea & Siguranța", "Datoriile", "Investiții & Protecție"];
+            getEl('step-label').innerText = `Pasul ${currentStep} din ${totalSteps}: ${labels[currentStep-1]}`;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('.next-step').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    updateWizardUI();
+                }
+            });
+        });
+
+        document.querySelectorAll('.prev-step').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateWizardUI();
+                }
+            });
+        });
+
+        // --- Step 1: Cashflow Logic ---
+        function updateCashflow() {
+            const venit = val('venit_net');
+            const cheltuieli = val('cheltuieli_obligatorii');
+            const disponibil = Math.max(0, venit - cheltuieli);
+
+            getEl('venit_disponibil_display').innerText = `${disponibil.toLocaleString()} RON`;
+
+            // Update slider max to match available income or at least net income
+            const slider = getEl('economii_lunar');
+            slider.max = venit;
+
+            const economii = val('economii_lunar');
+            const percentEconomii = venit > 0 ? (economii / venit) * 100 : 0;
+            getEl('economii_val_display').innerText = `${economii.toLocaleString()} RON (${Math.round(percentEconomii)}%)`;
+        }
+
+        // --- Step 2: Net Worth Logic ---
+        function updateSurvival() {
+            const fond = val('fond_urgenta');
+            const cheltuieli = val('cheltuieli_obligatorii');
+
+            if (cheltuieli > 0 && fond > 0) {
+                getEl('survival-result').classList.remove('hidden');
+                const luni = (fond / cheltuieli).toFixed(1);
+                getEl('luni_supravietuire').innerText = luni;
+
+                let verdict = "";
+                if (luni < 1) verdict = "🚨 Zonă critică. Orice mic șoc te poate destabiliza.";
+                else if (luni < 3) verdict = "⚠️ Ești la limită. Recomandat este un minim de 3 luni.";
+                else if (luni < 6) verdict = "✅ Stai bine. Ești protejat împotriva majorității problemelor.";
+                else verdict = "🛡️ Excelent! Ai o plasă de siguranță robustă.";
+
+                getEl('survival-verdict').innerText = verdict;
+            } else {
+                getEl('survival-result').classList.add('hidden');
+            }
+        }
+
+        // --- Step 3: Liability Logic ---
+        function updateDTI() {
+            const rate = val('rate_lunare');
+            const venit = val('venit_net');
+
+            if (venit > 0 && rate >= 0) {
+                getEl('dti-result').classList.remove('hidden');
+                const dti = Math.round((rate / venit) * 100);
+                getEl('dti-percent').innerText = `${dti}%`;
+
+                let verdict = "";
+                if (dti === 0) verdict = "🚀 Libertate totală! Nu ai datorii active.";
+                else if (dti <= 20) verdict = "✅ Grad de îndatorare optim și sănătos.";
+                else if (dti <= 40) verdict = "⚠️ Atentie. Te apropii de limita prudenței bancare.";
+                else verdict = "🚨 Alertă! Datoriile îți consumă prea mult din venit.";
+
+                getEl('dti-verdict').innerText = verdict;
+                getEl('dti-percent').className = `text-3xl font-black ${dti > 40 ? 'text-red-700' : (dti > 20 ? 'text-orange-600' : 'text-emerald-700')}`;
+            } else {
+                getEl('dti-result').classList.add('hidden');
+            }
+        }
+
+        // --- Step 4: Investments Selection ---
+        document.querySelectorAll('.invest-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.invest-option').forEach(b => {
+                    b.classList.remove('border-indigo-600', 'bg-indigo-50', 'text-indigo-700');
+                    b.classList.add('border-gray-100', 'bg-gray-50', 'text-gray-600');
+                });
+                btn.classList.add('border-indigo-600', 'bg-indigo-50', 'text-indigo-700');
+                btn.classList.remove('border-gray-100', 'bg-gray-50', 'text-gray-600');
+                getEl('investitii_activ').value = btn.dataset.val;
+            });
+        });
+
+        // --- FINAL CALCULATION & REPORT ---
+        function generateReport() {
+            const venit = val('venit_net');
+            const cheltuieli = val('cheltuieli_obligatorii');
+            const fond = val('fond_urgenta');
+            const economii = val('economii_lunar');
+            const rate = val('rate_lunare');
+            const investVal = getEl('investitii_activ').value;
+            const hasInsurance = getEl('asigurare_privata').checked;
+            const hasBudget = getEl('notare_cheltuieli').checked;
+
+            // 1. Siguranță (30p)
+            const luniUrgenta = cheltuieli > 0 ? (fond / cheltuieli) : (fond > 0 ? 6 : 0);
+            const scoreSiguranta = Math.min(30, (luniUrgenta / 6) * 30);
+
+            // 2. Datorii (30p)
+            const dti = venit > 0 ? (rate / venit) : (rate > 0 ? 1 : 0);
+            const scoreDatorii = Math.max(0, 30 * (1 - (dti / 0.4)));
+
+            // 3. Disciplină & Creștere (25p)
+            const rateEconomii = venit > 0 ? (economii / venit) : 0;
+            const scoreEconomii = Math.min(15, (rateEconomii / 0.2) * 15);
+            let scoreInvest = 0;
+            if (investVal === 'da') scoreInvest = 10;
+            else if (investVal === 'ocazional') scoreInvest = 5;
+            const scoreDisciplina = scoreEconomii + scoreInvest;
+
+            // 4. Protecție (15p)
+            const scoreProtectie = (hasInsurance ? 10 : 0) + (hasBudget ? 5 : 0);
+
+            const finalScore = Math.round(scoreSiguranta + scoreDatorii + scoreDisciplina + scoreProtectie);
+
+            // --- Update UI ---
+            getEl('wizard-progress-container').classList.add('hidden');
+            getEl('wizard-steps').classList.add('hidden');
+            getEl('results-dashboard').classList.remove('hidden');
+
+            // Gauge
+            const circle = getEl('score-circle');
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (finalScore / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+
+            // Text values
+            getEl('score-text').textContent = finalScore;
+
+            let color = "#10b981"; // Emerald
+            let verdictTitle = "Fortăreață Financiară 🛡️";
+            let verdictDesc = "Ești într-o poziție de invidiat. Disciplinele tale financiare sunt mature și te protejează eficient.";
+
+            if (finalScore <= 40) {
+                color = "#ef4444"; // Red
+                verdictTitle = "Zonă Critică 🚨";
+                verdictDesc = "Ești vulnerabil la orice șoc extern. Micile greșeli pot deveni dezastre financiare. Trebuie să acționezi acum.";
+            } else if (finalScore <= 70) {
+                color = "#f59e0b"; // Amber
+                verdictTitle = "Stabilitate Fragilă ⚖️";
+                verdictDesc = "Te descurci cu cheltuielile curente, dar nu progresezi spre independență. Ești blocat într-o zonă de confort periculoasă.";
+            }
+
+            circle.style.stroke = color;
+            getEl('verdict-title').innerText = verdictTitle;
+            getEl('verdict-title').style.color = color;
+            getEl('verdict-desc').innerText = verdictDesc;
+
+            // Pillars
+            getEl('pillar-siguranta-val').innerText = `${Math.round(scoreSiguranta)} / 30`;
+            getEl('pillar-siguranta-bar').style.width = `${(scoreSiguranta / 30) * 100}%`;
+
+            getEl('pillar-datorii-val').innerText = `${Math.round(scoreDatorii)} / 30`;
+            getEl('pillar-datorii-bar').style.width = `${(scoreDatorii / 30) * 100}%`;
+
+            getEl('pillar-crestere-val').innerText = `${Math.round(scoreDisciplina)} / 25`;
+            getEl('pillar-crestere-bar').style.width = `${(scoreDisciplina / 25) * 100}%`;
+
+            getEl('pillar-protectie-val').innerText = `${Math.round(scoreProtectie)} / 15`;
+            getEl('pillar-protectie-bar').style.width = `${(scoreProtectie / 15) * 100}%`;
+
+            // Action Plan
+            const planContainer = getEl('action-plan-container');
+            planContainer.innerHTML = '';
+
+            const advices = [];
+            if (luniUrgenta < 3) {
+                advices.push({
+                    title: "Prioritate Zero: Fondul de Urgență",
+                    desc: `Oprește investițiile și strânge minim 3 luni de cheltuieli (aprox. ${(cheltuieli * 3).toLocaleString()} RON) în contul de economii.`,
+                    icon: "🚨"
+                });
+            }
+            if (dti > 0.4) {
+                advices.push({
+                    title: "Grad de Îndatorare Periculos",
+                    desc: "Datoriile îți sufocă viitorul. Încearcă refinanțarea sau metoda 'Snowball' (plătește cel mai mic credit primul) pentru a reduce presiunea.",
+                    icon: "⚖️"
+                });
+            }
+            if (rateEconomii < 0.1) {
+                advices.push({
+                    title: "Crește Rata de Economisire",
+                    desc: "Automatizează economisirea. Programează un transfer de minim 10% din salariu imediat după ce primești banii.",
+                    icon: "📈"
+                });
+            }
+            if (!hasInsurance) {
+                advices.push({
+                    title: "Protejează-ți Capacitatea de Câștig",
+                    desc: "Ești la un singur eveniment medical neprevăzut de un dezastru financiar. Caută o asigurare de sănătate privată.",
+                    icon: "🩹"
+                });
+            }
+            if (!hasBudget) {
+                advices.push({
+                    title: "Urmărește Banii",
+                    desc: "Banii se scurg printre degete dacă nu îi monitorizezi. Notează fiecare cheltuială timp de 30 de zile într-o aplicație sau caiet.",
+                    icon: "📝"
+                });
+            }
+            if (investVal === 'nu' && scoreSiguranta >= 15) {
+                advices.push({
+                    title: "Începe să pui banii la treabă",
+                    desc: "Dacă ai fond de urgență, nu lăsa surplusul să fie mâncat de inflație. Deschide un cont la un broker și investește în ETF-uri globale.",
+                    icon: "🚀"
+                });
+            }
+
+            // Fallback advice if everything is perfect
+            if (advices.length === 0) {
+                advices.push({
+                    title: "Menține Cursul",
+                    desc: "Sistemul tău funcționează. Următorul pas este optimizarea fiscală sau creșterea venitului activ pentru a accelera independența.",
+                    icon: "💎"
+                });
+            }
+
+            advices.slice(0, 3).forEach(a => {
+                const div = document.createElement('div');
+                div.className = "p-4 bg-slate-50 rounded-2xl border border-gray-100 flex gap-4 items-start";
+                div.innerHTML = `
+                    <div class="text-2xl">${a.icon}</div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 leading-tight mb-1">${a.title}</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed">${a.desc}</p>
+                    </div>
+                `;
+                planContainer.appendChild(div);
+            });
+
+            // WhatsApp Share
+            const mesaj = `Mi-am calculat Scorul Financiar pe Manualul.ro. Am obținut ${finalScore}/100. ${finalScore > 70 ? 'Stau mai bine decât credeam!' : 'Am primit un plan clar de redresare.'} Fă-ți și tu auditul: ${window.location.href}`;
+            const whatsappBtnDesktop = document.getElementById('whatsappBtn');
+            const whatsappBtnMobile = document.getElementById('whatsappBtnFloating');
+            const waLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (whatsappBtnDesktop) whatsappBtnDesktop.href = waLink;
+            if (whatsappBtnMobile) whatsappBtnMobile.href = waLink;
+
+            // Show sticky retest button
+            getEl('sticky-retest').classList.remove('hidden');
+        }
+
+        getEl('generate-report').addEventListener('click', generateReport);
+
+        // --- Restart Logic ---
+        function restartTest() {
+            location.reload();
+        }
+        getEl('restart-test').addEventListener('click', restartTest);
+        document.querySelectorAll('.restart-test-btn').forEach(btn => btn.addEventListener('click', restartTest));
+
+        // --- Real-time updates ---
+        getEl('venit_net').addEventListener('input', updateCashflow);
+        getEl('cheltuieli_obligatorii').addEventListener('input', () => {
+            updateCashflow();
+            updateSurvival();
+        });
+        getEl('economii_lunar').addEventListener('input', updateCashflow);
+        getEl('fond_urgenta').addEventListener('input', updateSurvival);
+        getEl('rate_lunare').addEventListener('input', updateDTI);
+        getEl('venit_net').addEventListener('input', updateDTI);
+
+        // Initialize
+        updateWizardUI();
+    </script>
+</Layout>
+
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .step-container {
+        transition: all 0.4s ease-in-out;
+    }
+
+    .animate-in {
+        animation: slideUp 0.6s ease-out forwards;
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
