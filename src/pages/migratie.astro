@@ -1,0 +1,506 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import cities from '../data/migration_cities.json';
+import { getCentralData } from '../lib/api';
+
+const { bnr } = await getCentralData();
+
+const title = "Simulator de Migrație: România vs. Vest | Puterea de Cumpărare 2026";
+const description = "Compară costul real al vieții între România și marile orașe din Europa. Calculează venitul disponibil, puterea de cumpărare (PPP) și vezi unde rămâi cu mai mulți bani la final de lună.";
+
+const roCities = cities.filter(c => c.moneda === 'RON');
+const vestCities = cities.filter(c => c.moneda !== 'RON');
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-6xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-indigo-200 mb-4 inline-block">
+                Migration Simulator v1.0
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                România <span class="text-indigo-600">vs. Vest</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Trecem dincolo de salariile brute. Află cât valorează banii tăi cu adevărat în Londra, Berlin sau Paris comparativ cu București.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Inputs Section -->
+            <div class="lg:col-span-8 space-y-8">
+
+                <!-- Pas 1: Cine ești? -->
+                <div class="bg-white rounded-[32px] shadow-sm border border-gray-100 p-8">
+                    <h2 class="text-xl font-bold mb-6 flex items-center gap-3">
+                        <span class="bg-indigo-100 p-2 rounded-lg text-indigo-600 text-sm">👤</span>
+                        Profil Social
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button class="status-btn p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold transition-all flex flex-col items-center gap-2" data-status="single">
+                            <span class="text-2xl">🕺</span>
+                            <span>Single</span>
+                        </button>
+                        <button class="status-btn p-4 rounded-2xl border-2 border-gray-100 bg-gray-50 text-gray-500 font-bold hover:border-indigo-200 transition-all flex flex-col items-center gap-2" data-status="couple">
+                            <span class="text-2xl">👩‍❤️‍👨</span>
+                            <span>Cuplu</span>
+                        </button>
+                        <button class="status-btn p-4 rounded-2xl border-2 border-gray-100 bg-gray-50 text-gray-500 font-bold hover:border-indigo-200 transition-all flex flex-col items-center gap-2" data-status="family">
+                            <span class="text-2xl">👪</span>
+                            <span>Cuplu + 1 Copil</span>
+                        </button>
+                        <input type="hidden" id="family-status" value="single">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Coloana A: ACASĂ -->
+                    <div class="space-y-6">
+                        <div class="bg-slate-900 text-white rounded-[32px] p-8 shadow-xl">
+                            <h3 class="text-lg font-bold mb-6 flex items-center gap-2 text-indigo-400">
+                                🇷🇴 Acasă (România)
+                            </h3>
+
+                            <div class="space-y-6">
+                                <label class="block">
+                                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-widest">Oraș Referință</span>
+                                    <select id="home-city" class="w-full mt-2 bg-white/10 border border-white/20 rounded-xl p-3 font-bold text-white outline-none focus:bg-white/20">
+                                        {roCities.map(c => (
+                                            <option value={c.id} class="text-black">{c.nume}</option>
+                                        ))}
+                                    </select>
+                                </label>
+
+                                <label class="block">
+                                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-widest">Salariu Net Lună (RON)</span>
+                                    <input type="number" id="home-salary" value="5000" class="w-full mt-2 bg-white/10 border border-white/20 rounded-xl p-3 font-bold text-white outline-none focus:bg-white/20">
+                                </label>
+
+                                <label class="block">
+                                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-widest">Locuință</span>
+                                    <select id="home-rent-type" class="w-full mt-2 bg-white/10 border border-white/20 rounded-xl p-3 font-bold text-white outline-none focus:bg-white/20">
+                                        <option value="garsoniera" class="text-black">Garsonieră (Centru)</option>
+                                        <option value="apartament" class="text-black">2 Camere (Periferie)</option>
+                                        <option value="shared" class="text-black">Cameră în apartament partajat</option>
+                                        <option value="own" class="text-black">Locuiesc la mine (Rată/Propriu)</option>
+                                    </select>
+                                </label>
+
+                                <label id="home-rent-custom-container" class="block">
+                                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-widest">Chirie / Rată Estimată (RON)</span>
+                                    <input type="number" id="home-rent-value" value="2900" class="w-full mt-2 bg-white/10 border border-white/20 rounded-xl p-3 font-bold text-white outline-none focus:bg-white/20">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coloana B: DESTINAȚIE -->
+                    <div class="space-y-6">
+                        <div class="bg-white border-2 border-indigo-600 rounded-[32px] p-8 shadow-xl">
+                            <h3 class="text-lg font-bold mb-6 flex items-center gap-2 text-indigo-600">
+                                ✈️ Destinație (Vest)
+                            </h3>
+
+                            <div class="space-y-6">
+                                <label class="block">
+                                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-widest">Alege Orașul</span>
+                                    <select id="dest-city" class="w-full mt-2 bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold text-gray-900 outline-none focus:border-indigo-500 transition-all cursor-pointer">
+                                        {vestCities.map(c => (
+                                            <option value={c.id}>{c.nume}</option>
+                                        ))}
+                                    </select>
+                                </label>
+
+                                <label class="block">
+                                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-widest">Salariu Net Destinație (<span class="currency-label">GBP</span>)</span>
+                                    <input type="number" id="dest-salary" value="3500" class="w-full mt-2 bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold text-gray-900 outline-none focus:border-indigo-500">
+                                </label>
+
+                                <label class="block">
+                                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-widest">Locuință</span>
+                                    <select id="dest-rent-type" class="w-full mt-2 bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold text-gray-900 outline-none focus:border-indigo-500 transition-all cursor-pointer">
+                                        <option value="garsoniera">Garsonieră (Centru)</option>
+                                        <option value="apartament">2 Camere (Periferie)</option>
+                                        <option value="shared">Cameră în apartament partajat</option>
+                                    </select>
+                                </label>
+
+                                <label id="dest-rent-custom-container" class="block">
+                                    <span class="text-[10px] font-black uppercase text-gray-400 tracking-widest">Chirie Estimată (<span class="currency-label">GBP</span>)</span>
+                                    <input type="number" id="dest-rent-value" value="2400" class="w-full mt-2 bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold text-gray-900 outline-none focus:border-indigo-500">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stil de Viata & Extra -->
+                <div class="bg-white rounded-[32px] shadow-sm border border-gray-100 p-8 space-y-10">
+                    <div>
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-3">
+                            <span class="bg-indigo-100 p-2 rounded-lg text-indigo-600 text-sm">🍕</span>
+                            Stil de Viață & Vicii
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <label class="block">
+                                    <span class="text-xs font-black uppercase text-gray-400 tracking-widest">Lifestyle Alimentar</span>
+                                    <select id="lifestyle-food" class="w-full mt-2 bg-gray-50 border-2 border-gray-100 rounded-xl p-3 font-bold focus:border-indigo-500 outline-none">
+                                        <option value="1.0">Gătesc acasă (Economic)</option>
+                                        <option value="1.3" selected>Mix (Gătesc + Ieșiri ocazionale)</option>
+                                        <option value="1.8">Expats / Mănânc des în oraș</option>
+                                    </select>
+                                </label>
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                                    <div class="flex items-center gap-3">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" id="smoker" class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
+                                        </label>
+                                        <div>
+                                            <span class="text-sm font-bold text-gray-700">Fumător?</span>
+                                            <p class="text-[10px] text-gray-400 uppercase font-bold">1 pachet / zi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <label class="block">
+                                    <span class="text-xs font-black uppercase text-gray-400 tracking-widest">Transport</span>
+                                    <div class="grid grid-cols-2 gap-2 mt-2">
+                                        <button id="btn-transport-public" class="transport-btn p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold transition-all">Public</button>
+                                        <button id="btn-transport-car" class="transport-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-500 font-bold hover:border-indigo-200 transition-all">Mașină</button>
+                                        <input type="hidden" id="transport-type" value="public">
+                                    </div>
+                                </label>
+                                <div id="car-extra-cost" class="hidden p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
+                                    <p class="text-[10px] font-black text-indigo-800 uppercase mb-2">Cost extra mașină (Asigurare + Combustibil)</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs text-indigo-600">Estimat lunar:</span>
+                                        <span id="car-cost-val" class="font-bold text-indigo-900">1200 RON / €250</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-3 text-red-600">
+                            <span class="bg-red-100 p-2 rounded-lg text-red-600 text-sm">🏠</span>
+                            Costuri de "Dor" (Diaspora)
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <label class="block">
+                                <span class="text-xs font-black uppercase text-gray-400 tracking-widest">Zboruri acasă pe an: <span id="flights-val" class="text-indigo-600">2</span></span>
+                                <input type="range" id="flights-count" min="0" max="10" value="2" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-4 accent-indigo-600">
+                            </label>
+                            <label class="block">
+                                <span class="text-xs font-black uppercase text-gray-400 tracking-widest italic text-gray-500">Opțional</span>
+                                <span class="block text-[10px] font-black uppercase text-gray-700 tracking-widest mt-1">Bani trimiși lunar în RO (<span class="currency-label">GBP</span>)</span>
+                                <input type="number" id="remittances" value="0" class="w-full mt-2 bg-gray-50 border-2 border-gray-100 rounded-xl p-3 font-bold focus:border-indigo-500 outline-none">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section (Dashboard) -->
+            <div class="lg:col-span-4 space-y-6">
+                <div class="bg-gray-900 rounded-[40px] p-8 text-white shadow-2xl sticky top-8">
+                    <p class="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-2">Rămas în mână (Economii)</p>
+
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-gray-400">Acasă:</span>
+                                <span id="savings-ro" class="text-2xl font-black text-white">0 RON</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-gray-400">Destinație:</span>
+                                <span id="savings-vest" class="text-2xl font-black text-indigo-400">0 RON</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-8 border-t border-white/10">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="flex-1">
+                                    <p class="text-[10px] font-black uppercase text-gray-500 mb-1">Diferență Anuală</p>
+                                    <p id="yearly-diff" class="text-3xl font-black text-emerald-400">+0 RON</p>
+                                </div>
+                                <div class="text-4xl" id="verdict-icon">💰</div>
+                            </div>
+                        </div>
+
+                        <!-- Stacked Bar Chart -->
+                        <div class="space-y-4">
+                            <p class="text-[10px] font-black uppercase text-gray-500 tracking-widest">Structura Cheltuielilor (%)</p>
+                            <div class="space-y-6">
+                                <div>
+                                    <p class="text-[8px] uppercase font-bold text-gray-400 mb-2">Acasă (RO)</p>
+                                    <div id="chart-ro" class="h-4 w-full rounded-full overflow-hidden flex bg-gray-800">
+                                        <!-- Segments added by JS -->
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-[8px] uppercase font-bold text-gray-400 mb-2">Destinație</p>
+                                    <div id="chart-vest" class="h-4 w-full rounded-full overflow-hidden flex bg-gray-800">
+                                        <!-- Segments added by JS -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Legend -->
+                            <div class="grid grid-cols-2 gap-x-4 gap-y-2 pt-2">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
+                                    <span class="text-[8px] font-bold text-gray-400 uppercase">Chirie</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+                                    <span class="text-[8px] font-bold text-gray-400 uppercase">Mâncare</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+                                    <span class="text-[8px] font-bold text-gray-400 uppercase">Utilități</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                                    <span class="text-[8px] font-bold text-gray-400 uppercase">Altele</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ppp-container" class="p-6 bg-white/5 border border-white/10 rounded-2xl">
+                            <p class="text-[10px] font-black uppercase text-indigo-400 mb-2">Echivalare Putere Cumpărare (PPP)</p>
+                            <p class="text-sm leading-relaxed">
+                                Ca să ai același stil de viață din România, în <span id="ppp-city-name" class="font-bold">Londra</span> ar trebui să câștigi:
+                                <br/>
+                                <span id="ppp-salary" class="text-xl font-black text-white">0 GBP</span> <span class="text-xs text-gray-400">net / lună</span>
+                            </p>
+                        </div>
+
+                        <div class="pt-6">
+                            <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" class="w-full" />
+                        </div>
+
+                        <p class="text-[9px] text-center text-gray-500 italic leading-tight">
+                            *Acest simulator folosește indici de cost estimați pentru 2026. Calculele includ chiria, mâncarea, utilitățile, transportul și zborurile.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline define:vars={{ cities, bnr }}>
+        // --- Constants ---
+        const BASE_BASKET_SINGLE_RO = 2000; // RON per month for a single person in Bucharest (baseline)
+        const AVG_FLIGHT_PRICE_RON = 800;
+
+        // --- Selectors ---
+        const getEl = (id) => document.getElementById(id);
+        const val = (id) => parseFloat(getEl(id).value) || 0;
+
+        // --- Logic ---
+        function updateCalculator() {
+            const status = getEl('family-status').value;
+            const homeCityId = getEl('home-city').value;
+            const destCityId = getEl('dest-city').value;
+
+            const homeCity = cities.find(c => c.id === homeCityId);
+            const destCity = cities.find(c => c.id === destCityId);
+
+            if (!homeCity || !destCity) return;
+
+            // Update currency labels
+            document.querySelectorAll('.currency-label').forEach(el => el.innerText = destCity.moneda);
+
+            // Multipliers based on family status
+            let familyGroceriesMult = 1.0;
+            let familyUtilitiesMult = 1.0;
+            let familyTransportMult = 1.0;
+            let hasChild = false;
+
+            if (status === 'couple') {
+                familyGroceriesMult = 1.8;
+                familyUtilitiesMult = 1.3;
+                familyTransportMult = 2.0;
+            } else if (status === 'family') {
+                familyGroceriesMult = 2.4;
+                familyUtilitiesMult = 1.6;
+                familyTransportMult = 2.0;
+                hasChild = true;
+            }
+
+            const foodLifestyleMult = val('lifestyle-food');
+            const isSmoker = getEl('smoker').checked;
+            const transportType = getEl('transport-type').value;
+            const flightsCount = val('flights-count');
+            getEl('flights-val').innerText = flightsCount;
+
+            // --- Home (RO) Calculation ---
+            const homeSalary = val('home-salary');
+            const homeRentType = getEl('home-rent-type').value;
+            let homeRentValue = val('home-rent-value');
+
+            // Pre-fill RO rent if not custom
+            if (homeRentType !== 'custom-disabled-now') { // Simplified for now
+                // No, let's just use the value in the input which is updated on city/type change
+            }
+
+            const homeGroceries = BASE_BASKET_SINGLE_RO * homeCity.costuri.cos_cumparaturi_index * foodLifestyleMult * familyGroceriesMult;
+            const homeUtilities = homeCity.costuri.utilitati_basice * familyUtilitiesMult;
+            const homeTransport = (transportType === 'public' ? homeCity.costuri.transport_public * familyTransportMult : 1200); // 1200 RON for car in RO
+            const homeInternet = homeCity.costuri.internet;
+            const homeSmoking = isSmoker ? homeCity.costuri.pachet_tigari * 30 : 0;
+            const homeKindergarten = hasChild ? homeCity.costuri.gradinita_privata : 0;
+            const homeFlights = 0; // Flights only for Diaspora
+            const homeRemittances = 0;
+
+            const homeTotalCost = homeRentValue + homeGroceries + homeUtilities + homeTransport + homeInternet + homeSmoking + homeKindergarten;
+            const homeSavings = homeSalary - homeTotalCost;
+
+            // --- Dest (Vest) Calculation ---
+            const destSalary = val('dest-salary');
+            const destRentValue = val('dest-rent-value'); // in local currency
+            const destRate = destCity.curs_valutar;
+
+            const destGroceriesRON = BASE_BASKET_SINGLE_RO * destCity.costuri.cos_cumparaturi_index * foodLifestyleMult * familyGroceriesMult;
+            const destUtilitiesRON = (destCity.costuri.utilitati_basice * familyUtilitiesMult) * destRate;
+            const destTransportRON = (transportType === 'public' ? destCity.costuri.transport_public * familyTransportMult : 250) * destRate; // 250 EUR for car
+            const destInternetRON = destCity.costuri.internet * destRate;
+            const destSmokingRON = (isSmoker ? destCity.costuri.pachet_tigari * 30 : 0) * destRate;
+            const destKindergartenRON = (hasChild ? destCity.costuri.gradinita_privata : 0) * destRate;
+            const destFlightsRON = (flightsCount * AVG_FLIGHT_PRICE_RON) / 12;
+            const destRemittancesRON = val('remittances') * destRate;
+
+            const destRentRON = destRentValue * destRate;
+            const destSalaryRON = destSalary * destRate;
+
+            const destTotalCostRON = destRentRON + destGroceriesRON + destUtilitiesRON + destTransportRON + destInternetRON + destSmokingRON + destKindergartenRON + destFlightsRON + destRemittancesRON;
+            const destSavingsRON = destSalaryRON - destTotalCostRON;
+
+            // --- UI Updates ---
+            getEl('savings-ro').innerText = Math.round(homeSavings).toLocaleString() + ' RON';
+            getEl('savings-ro').className = `text-2xl font-black ${homeSavings >= 0 ? 'text-white' : 'text-red-500'}`;
+
+            getEl('savings-vest').innerText = Math.round(destSavingsRON).toLocaleString() + ' RON';
+            getEl('savings-vest').className = `text-2xl font-black ${destSavingsRON >= 0 ? 'text-indigo-400' : 'text-red-500'}`;
+
+            const yearlyDiff = (destSavingsRON - homeSavings) * 12;
+            const diffEl = getEl('yearly-diff');
+            diffEl.innerText = (yearlyDiff >= 0 ? '+' : '') + Math.round(yearlyDiff).toLocaleString() + ' RON';
+            diffEl.className = `text-3xl font-black ${yearlyDiff >= 0 ? 'text-emerald-400' : 'text-red-400'}`;
+
+            getEl('verdict-icon').innerText = yearlyDiff > 50000 ? '🚀' : (yearlyDiff > 0 ? '📈' : (yearlyDiff > -20000 ? '⚖️' : '⚠️'));
+
+            // PPP Calculation
+            // Standard_RO = HomeTotalCost
+            // Required_Dest_RON = HomeTotalCost * (Price_Index_Dest / Price_Index_RO)
+            // But we already have granular costs.
+            // PPP Salary = Cost of maintainting SAME standard.
+            const pppSalaryRON = destTotalCostRON + (homeSavings > 0 ? homeSavings : 0); // Keep same savings buffer in absolute RON? Or same "utility"?
+            // Simple PPP: What salary in Vest gives you same savings as in RO?
+            const pppSalaryLocal = pppSalaryRON / destRate;
+
+            getEl('ppp-city-name').innerText = destCity.nume;
+            getEl('ppp-salary').innerText = Math.round(pppSalaryLocal).toLocaleString() + ' ' + destCity.moneda;
+
+            // --- Charts ---
+            updateChart('chart-ro', homeRentValue, homeGroceries, homeUtilities, homeTotalCost - (homeRentValue + homeGroceries + homeUtilities));
+            updateChart('chart-vest', destRentRON, destGroceriesRON, destUtilitiesRON, destTotalCostRON - (destRentRON + destGroceriesRON + destUtilitiesRON));
+
+            // WhatsApp
+            const shareMsg = `Mă gândesc să mă mut în ${destCity.nume}. Simulatorul îmi arată că aș economisi ${Math.round(destSavingsRON).toLocaleString()} RON/lună față de ${Math.round(homeSavings).toLocaleString()} acasă. Vezi și tu: ${window.location.href}`;
+            const waLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareMsg)}`;
+            getEl('whatsappBtn').href = waLink;
+            getEl('whatsappBtnFloating').href = waLink;
+        }
+
+        function updateChart(id, rent, food, util, other) {
+            const total = rent + food + util + other;
+            const pRent = (rent / total) * 100;
+            const pFood = (food / total) * 100;
+            const pUtil = (util / total) * 100;
+            const pOther = (other / total) * 100;
+
+            const el = getEl(id);
+            el.innerHTML = `
+                <div style="width: ${pRent}%" class="bg-indigo-500 h-full"></div>
+                <div style="width: ${pFood}%" class="bg-emerald-500 h-full"></div>
+                <div style="width: ${pUtil}%" class="bg-amber-500 h-full"></div>
+                <div style="width: ${pOther}%" class="bg-red-500 h-full"></div>
+            `;
+        }
+
+        // --- Interaction Handlers ---
+        document.querySelectorAll('.status-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.status-btn').forEach(b => b.className = 'status-btn p-4 rounded-2xl border-2 border-gray-100 bg-gray-50 text-gray-500 font-bold hover:border-indigo-200 transition-all flex flex-col items-center gap-2');
+                btn.className = 'status-btn p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold transition-all flex flex-col items-center gap-2';
+                getEl('family-status').value = btn.dataset.status;
+                updateCalculator();
+            });
+        });
+
+        getEl('home-city').addEventListener('change', (e) => {
+            const city = cities.find(c => c.id === e.target.value);
+            updateRentValue('home', city);
+            updateCalculator();
+        });
+
+        getEl('dest-city').addEventListener('change', (e) => {
+            const city = cities.find(c => c.id === e.target.value);
+            updateRentValue('dest', city);
+            updateCalculator();
+        });
+
+        getEl('home-rent-type').addEventListener('change', () => {
+            const city = cities.find(c => c.id === getEl('home-city').value);
+            updateRentValue('home', city);
+            updateCalculator();
+        });
+
+        getEl('dest-rent-type').addEventListener('change', () => {
+            const city = cities.find(c => c.id === getEl('dest-city').value);
+            updateRentValue('dest', city);
+            updateCalculator();
+        });
+
+        function updateRentValue(side, city) {
+            const type = getEl(`${side}-rent-type`).value;
+            let val = 0;
+            if (type === 'garsoniera') val = city.costuri.chirie_garsoniera_centru;
+            else if (type === 'apartament') val = city.costuri.chirie_2cam_periferie;
+            else if (type === 'shared') val = Math.round(city.costuri.chirie_2cam_periferie / 2);
+            else val = 0;
+
+            getEl(`${side}-rent-value`).value = val;
+        }
+
+        const transportPublic = getEl('btn-transport-public');
+        const transportCar = getEl('btn-transport-car');
+        transportPublic.addEventListener('click', () => {
+            getEl('transport-type').value = 'public';
+            transportPublic.className = 'transport-btn p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold transition-all';
+            transportCar.className = 'transport-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-500 font-bold hover:border-indigo-200 transition-all';
+            getEl('car-extra-cost').classList.add('hidden');
+            updateCalculator();
+        });
+        transportCar.addEventListener('click', () => {
+            getEl('transport-type').value = 'car';
+            transportCar.className = 'transport-btn p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-bold transition-all';
+            transportPublic.className = 'transport-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-500 font-bold hover:border-indigo-200 transition-all';
+            getEl('car-extra-cost').classList.remove('hidden');
+            updateCalculator();
+        });
+
+        // Listeners for all inputs
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', updateCalculator);
+        });
+
+        // Initial Run
+        updateCalculator();
+    </script>
+</Layout>
