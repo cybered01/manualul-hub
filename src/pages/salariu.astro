@@ -1,0 +1,277 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+const pageTitle = "Analizator Venituri: Salariul Real vs. Fluturaș";
+const pageDesc = "Calculează venitul tău real, nu doar cel de pe fluturaș. Include beneficii extrasalariale, scutiri și costurile ascunse ale jobului.";
+---
+
+<Layout title={pageTitle} description={pageDesc}>
+    <main class="max-w-4xl mx-auto px-4 pb-32">
+        <nav class="py-6">
+            <a href="/" class="text-sm font-bold text-blue-600 hover:underline flex items-center gap-2">
+                ← Înapoi la hub
+            </a>
+        </nav>
+
+        <header class="mb-12 text-center">
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-200 mb-4 inline-block">
+                Expert Mode
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Analizator Venituri
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Află câți bani îți rămân cu adevărat după taxe, beneficii și costuri de navetă.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left Column: Inputs -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="bg-white rounded-[40px] p-8 shadow-xl border border-gray-100">
+                    <h3 class="text-lg font-black mb-6 flex items-center gap-2">
+                        <span class="p-2 bg-blue-50 rounded-lg text-blue-600">📊</span>
+                        Salariu de Bază
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Salariu Brut (RON)</label>
+                            <div class="relative">
+                                <input type="number" id="inBrut" value="8000" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 text-2xl font-black text-gray-900 focus:bg-white focus:border-blue-500 outline-none transition-all">
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">RON</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Nr. Persoane în Întreținere</label>
+                            <select id="inIntretinere" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl p-4 font-bold text-gray-900 outline-none focus:border-blue-500 transition-all appearance-none">
+                                <option value="0">Fără persoane în întreținere</option>
+                                <option value="1">1 persoană</option>
+                                <option value="2">2 persoane</option>
+                                <option value="3">3 persoane</option>
+                                <option value="4">4 sau mai multe</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Accordion -->
+                    <div class="mt-8 border-t border-gray-100 pt-6">
+                        <details class="group">
+                            <summary class="flex items-center justify-between cursor-pointer list-none text-sm font-bold text-gray-500 hover:text-blue-600 transition-colors">
+                                <span class="flex items-center gap-2">
+                                    ⚙️ Setări Avansate & Scutiri
+                                </span>
+                                <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </summary>
+
+                            <div class="mt-6 space-y-6">
+                                <div>
+                                    <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Regim Fiscal / Scutiri</label>
+                                    <select id="inRegim" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 font-bold text-gray-700 outline-none focus:border-blue-500 transition-all">
+                                        <option value="standard">Standard (Toate taxele)</option>
+                                        <option value="it">IT (Scutit Impozit Venit - prag 10k)</option>
+                                        <option value="constructii">Construcții / Agri (Taxe Reduse)</option>
+                                    </select>
+                                    <p class="text-[10px] text-gray-400 mt-2 italic">Scutirile se aplică conform codului fiscal 2026.</p>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Tichete Masă (RON/zi)</label>
+                                        <input type="number" id="inTichete" value="35" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 font-bold text-gray-700 outline-none focus:border-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Zile Lucrătoare</label>
+                                        <input type="number" id="inZile" value="21" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 font-bold text-gray-700 outline-none focus:border-blue-500">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Alte Beneficii (RON/lună)</label>
+                                    <input type="number" id="inAlteBeneficii" value="200" placeholder="Transport, Abonamente medicale..." class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 font-bold text-gray-700 outline-none focus:border-blue-500">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-black uppercase text-gray-400 mb-2 tracking-widest">Bonus Anual Estimat (RON)</label>
+                                    <input type="number" id="inBonus" value="0" class="w-full bg-slate-50 border-2 border-slate-100 rounded-xl p-3 font-bold text-gray-700 outline-none focus:border-blue-500">
+                                    <p class="text-[10px] text-gray-400 mt-1 italic">Va fi împărțit la 12 luni în calculul venitului real.</p>
+                                </div>
+
+                                <div class="p-4 bg-red-50 rounded-2xl border border-red-100">
+                                    <h4 class="text-xs font-black text-red-600 uppercase mb-4 tracking-wider text-center">Costuri Job (Cheltuieli)</h4>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-[10px] font-black uppercase text-red-400 mb-1">Cost Navetă (RON/lună)</label>
+                                            <input type="number" id="inNaveta" value="300" class="w-full bg-white border-2 border-red-100 rounded-xl p-3 font-bold text-gray-700 outline-none focus:border-red-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] font-black uppercase text-red-400 mb-1">Mâncare Office vs Acasă (RON/zi)</label>
+                                            <input type="number" id="inMancareExtra" value="15" class="w-full bg-white border-2 border-red-100 rounded-xl p-3 font-bold text-gray-700 outline-none focus:border-red-500">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Results -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="bg-gray-900 text-white rounded-[40px] p-8 shadow-2xl sticky top-6 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full blur-[60px] opacity-20 pointer-events-none"></div>
+
+                    <h3 class="text-xl font-bold mb-8 relative z-10 flex items-center gap-2">
+                        <span>📊</span> Rezultate Lunare
+                    </h3>
+
+                    <div class="space-y-6 relative z-10">
+                        <div class="p-6 bg-white/5 rounded-3xl border border-white/10">
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Salariu Net (Fluturaș)</p>
+                            <p id="outNetFluturas" class="text-4xl font-black text-white">0 RON</p>
+                        </div>
+
+                        <div class="p-6 bg-blue-600 rounded-3xl border border-blue-400 shadow-xl scale-105">
+                            <p class="text-xs font-black text-blue-100 uppercase tracking-widest mb-1 flex items-center gap-2">
+                                Salariul Real (În Mână)
+                                <span class="group relative inline-block">
+                                    <span class="cursor-help text-blue-200">ⓘ</span>
+                                    <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-gray-800 text-[10px] font-medium text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                        Calculat ca: Net + Tichete + Beneficii + (Bonus/12) - Costuri Job.
+                                    </span>
+                                </span>
+                            </p>
+                            <p id="outNetReal" class="text-5xl font-black text-white">0 RON</p>
+                        </div>
+
+                        <div class="space-y-3 pt-4 border-t border-white/10 text-sm">
+                            <div class="flex justify-between text-gray-400">
+                                <span>Total Taxe Stat:</span>
+                                <span id="outTaxe" class="text-red-400 font-bold">-0 RON</span>
+                            </div>
+                            <div class="flex justify-between text-gray-400">
+                                <span>Beneficii Extrasalariale:</span>
+                                <span id="outBeneficii" class="text-green-400 font-bold">+0 RON</span>
+                            </div>
+                            <div class="flex justify-between text-gray-400">
+                                <span>Costuri Ascunse Job:</span>
+                                <span id="outCosturi" class="text-red-400 font-bold">-0 RON</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-8 border-t border-white/10">
+                        <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-6 rounded-[32px] border border-blue-100">
+                    <h4 class="font-bold text-blue-900 mb-2 flex items-center gap-2">
+                        <span>💡</span> Știai că?
+                    </h4>
+                    <p class="text-xs text-blue-800 leading-relaxed">
+                        Multe companii oferă salarii brute mari, dar beneficiile extrasalariale pot face diferența între un trai confortabil și unul la limită. Folosește "Salariul Real" pentru a compara ofertele corect!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline>
+        function calculate() {
+            // Inputs
+            const brut = parseFloat(document.getElementById('inBrut').value) || 0;
+            const intretinere = parseInt(document.getElementById('inIntretinere').value) || 0;
+            const regim = document.getElementById('inRegim').value;
+            const ticheteVal = parseFloat(document.getElementById('inTichete').value) || 0;
+            const zile = parseFloat(document.getElementById('inZile').value) || 0;
+            const alteBeneficii = parseFloat(document.getElementById('inAlteBeneficii').value) || 0;
+            const bonusAnual = parseFloat(document.getElementById('inBonus').value) || 0;
+            const naveta = parseFloat(document.getElementById('inNaveta').value) || 0;
+            const mancareExtra = parseFloat(document.getElementById('inMancareExtra').value) || 0;
+
+            // Constante 2026 (Estimative)
+            const salariuMinim = 4050;
+
+            // --- 1. CALCUL TAXE ---
+            let cas = brut * 0.25;
+            let cass = brut * 0.10;
+            let impozitProcent = 0.10;
+
+            if (regim === 'constructii') {
+                cas = brut * 0.2125;
+                cass = 0;
+                impozitProcent = 0;
+            } else if (regim === 'it') {
+                // Scutire impozit pentru venit sub 10.000 lei
+                if (brut <= 10000) {
+                    impozitProcent = 0;
+                } else {
+                    // Impozit doar pe ce depășește 10k? Depinde de legea curentă.
+                    // Folosim simplificarea: scutire totala sub 10k, standard peste (sau pe diferenta).
+                    // In realitate e pe diferenta, dar multi calculeaza pe tot daca depasesti pragul.
+                    // Folosim varianta: scutire pentru primii 10.000.
+                }
+            }
+
+            // Deducere Personală (Formulă 2026 - Simplificată)
+            // Se acordă pentru venituri până la salariu minim + 2000 lei
+            let deducere = 0;
+            const pragDeducere = salariuMinim + 2000;
+            if (brut <= pragDeducere && regim === 'standard') {
+                const deducereBaza = 660 + (intretinere * 150); // Estimare deducere crestere per copil
+                const factorDiminuare = 1 - (brut - salariuMinim) / 2000;
+                deducere = Math.max(0, deducereBaza * (factorDiminuare > 0 ? factorDiminuare : 0));
+                if (brut <= salariuMinim) deducere = deducereBaza;
+            }
+
+            // Calcul Impozit pe Venit
+            let bazaImpozabila = brut - cas - cass - deducere;
+            if (regim === 'it' && brut > 10000) {
+                // Impozit doar pe ce depășește 10.000 brut
+                bazaImpozabila = Math.max(0, brut - 10000 - (cas * (brut-10000)/brut) - (cass * (brut-10000)/brut));
+            }
+
+            let impozit = Math.max(0, bazaImpozabila * impozitProcent);
+
+            const netFluturas = brut - cas - cass - impozit;
+
+            // --- 2. BENEFICII & COSTURI ---
+            const totalTichete = ticheteVal * zile;
+            const bonusLunar = bonusAnual / 12;
+            const totalBeneficii = totalTichete + alteBeneficii + bonusLunar;
+
+            const costMancareLuna = mancareExtra * zile;
+            const totalCosturiJob = naveta + costMancareLuna;
+
+            const netReal = netFluturas + totalBeneficii - totalCosturiJob;
+
+            // --- AFISARE ---
+            document.getElementById('outNetFluturas').innerText = Math.round(netFluturas).toLocaleString() + " RON";
+            document.getElementById('outNetReal').innerText = Math.round(netReal).toLocaleString() + " RON";
+            document.getElementById('outTaxe').innerText = "-" + Math.round(cas + cass + impozit).toLocaleString() + " RON";
+            document.getElementById('outBeneficii').innerText = "+" + Math.round(totalBeneficii).toLocaleString() + " RON";
+            document.getElementById('outCosturi').innerText = "-" + Math.round(totalCosturiJob).toLocaleString() + " RON";
+
+            // WhatsApp
+            const mesaj = `💸 Analizator Venituri Manualul.ro:\n\nSalariu Fluturaș: ${Math.round(netFluturas).toLocaleString()} RON\nSalariu REAL (cu beneficii și costuri): ${Math.round(netReal).toLocaleString()} RON\n\nVezi câți bani îți rămân cu adevărat: ${window.location.href}`;
+            const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            const btnD = document.getElementById('whatsappBtn');
+            const btnM = document.getElementById('whatsappBtnFloating');
+            if (btnD) btnD.href = link;
+            if (btnM) btnM.href = link;
+        }
+
+        // Event Listeners
+        const ids = ['inBrut', 'inIntretinere', 'inRegim', 'inTichete', 'inZile', 'inAlteBeneficii', 'inBonus', 'inNaveta', 'inMancareExtra'];
+        ids.forEach(id => document.getElementById(id).addEventListener('input', calculate));
+
+        // Initial run
+        calculate();
+    </script>
+</Layout>

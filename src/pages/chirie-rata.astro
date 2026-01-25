@@ -1,0 +1,325 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+---
+
+<Layout title="Investitor Imobiliar: Chirie vs. Rată Expert" description="Analiză avansată de investiție imobiliară. Compară averea netă (Net Worth) pe 30 de ani între a cumpăra și a sta în chirie.">
+    <main class="max-w-6xl mx-auto px-4 pb-32">
+        <nav class="py-6">
+            <a href="/" class="text-sm font-bold text-indigo-600 hover:underline flex items-center gap-2">
+                ← Înapoi la hub
+            </a>
+        </nav>
+
+        <header class="mb-12 text-center">
+            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-indigo-200 mb-4 inline-block">
+                Investment Analytics
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Investitor Imobiliar
+            </h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Nu e doar despre rata lunară. Este despre averea ta pe termen lung.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left: Inputs -->
+            <div class="lg:col-span-4 space-y-6">
+                <div class="bg-white p-8 rounded-[40px] border border-gray-100 shadow-xl">
+                    <h3 class="text-sm font-black uppercase tracking-widest text-indigo-600 mb-6">Date de Bază</h3>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Preț Apartament (EUR)</label>
+                            <input type="number" id="inPret" value="100000" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 font-black outline-none focus:border-indigo-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Chirie Lunară Actuală (EUR)</label>
+                            <input type="number" id="inChirie" value="500" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 font-black outline-none focus:border-indigo-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Dobândă Credit Anuală (%)</label>
+                            <input type="number" id="inDobanda" value="5.5" step="0.1" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 font-black outline-none focus:border-indigo-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Perioadă Credit (Ani)</label>
+                            <input type="number" id="inAni" value="30" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 font-black outline-none focus:border-indigo-500 transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Advanced Settings -->
+                    <div class="mt-8 pt-6 border-t border-gray-100">
+                        <details class="group">
+                            <summary class="flex items-center justify-between cursor-pointer list-none text-xs font-bold text-gray-500 hover:text-indigo-600 transition-colors">
+                                ⚙️ SETĂRI AVANSATE (Piață & Costuri)
+                                <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </summary>
+
+                            <div class="mt-6 space-y-6">
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <label class="text-[10px] font-black text-gray-400 uppercase">Apreciere Imobil/an: <span id="valApreciere" class="text-indigo-600">3%</span></label>
+                                    </div>
+                                    <input type="range" id="inApreciere" min="0" max="10" value="3" step="0.5" class="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between mb-2">
+                                        <label class="text-[10px] font-black text-gray-400 uppercase">Randament Investiții Alt: <span id="valInv" class="text-indigo-600">8%</span></label>
+                                        <span class="group relative inline-block text-[10px] cursor-help text-gray-400">
+                                            (?)
+                                            <span class="absolute bottom-full right-0 mb-2 w-48 p-2 bg-gray-800 text-[10px] font-medium text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                                                Ce randament ai obține dacă ai pune avansul și diferența de bani în bursă (ex: S&P500).
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <input type="range" id="inRandament" min="0" max="15" value="8" step="0.5" class="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Taxe Notar (%)</label>
+                                        <input type="number" id="inNotar" value="1.5" step="0.1" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-2 text-sm font-bold">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Comision Agent</label>
+                                        <input type="number" id="inAgent" value="0" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-2 text-sm font-bold">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-2">Creștere anuală chirie (%)</label>
+                                    <input type="number" id="inCrestereChirie" value="3" step="0.5" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-2 text-sm font-bold">
+                                </div>
+
+                                <div class="p-4 bg-indigo-50 rounded-2xl">
+                                    <p class="text-[10px] font-bold text-indigo-900 mb-2">COSTURI PROPRIETAR ANUALE:</p>
+                                    <ul class="text-[10px] text-indigo-700 space-y-1 list-disc ml-3">
+                                        <li>Impozit pe clădire</li>
+                                        <li>Asigurări (PAD + Facultativă)</li>
+                                        <li>Reparații/Mentenanță (0.5%)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Results -->
+            <div class="lg:col-span-8 space-y-8">
+                <div class="bg-gray-900 text-white rounded-[40px] p-8 md:p-12 shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 relative z-10">
+                        <div>
+                            <h2 class="text-2xl font-black mb-2">Proiecție Avere Netă (Net Worth)</h2>
+                            <p class="text-gray-400 text-sm">Comparație după <span class="dispAni">30</span> ani între a deține casa vs. a investi capitalul.</p>
+                        </div>
+                        <div id="verdictBadge" class="px-6 py-3 bg-white text-indigo-900 rounded-2xl font-black uppercase text-sm tracking-tighter animate-pulse">
+                            Analizăm...
+                        </div>
+                    </div>
+
+                    <!-- Chart Placeholder / Simple SVG Chart -->
+                    <div class="mb-12 relative z-10 h-80 flex items-end justify-around gap-4 px-4 border-b border-white/10 pb-16">
+                        <div class="flex flex-col items-center flex-1 group h-full justify-end">
+                            <div id="barRent" class="w-full max-w-[80px] bg-gray-700 rounded-t-2xl transition-all duration-1000 relative">
+                                <span id="labelRent" class="absolute -top-10 left-1/2 -translate-x-1/2 text-sm font-black text-gray-400 whitespace-nowrap">0€</span>
+                            </div>
+                            <span class="absolute -bottom-10 text-[10px] font-black uppercase text-gray-500 tracking-widest text-center">Chirie + Investiții</span>
+                        </div>
+
+                        <div class="flex flex-col items-center flex-1 group h-full justify-end">
+                            <div id="barBuy" class="w-full max-w-[80px] bg-indigo-500 rounded-t-2xl transition-all duration-1000 relative shadow-[0_0_40px_rgba(99,102,241,0.4)]">
+                                <span id="labelBuy" class="absolute -top-10 left-1/2 -translate-x-1/2 text-sm font-black text-white whitespace-nowrap">0€</span>
+                            </div>
+                            <span class="absolute -bottom-10 text-[10px] font-black uppercase text-indigo-400 tracking-widest text-center">Proprietar Casă</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                        <div class="p-6 bg-white/5 rounded-3xl border border-white/10">
+                            <h4 class="text-xs font-bold text-gray-500 uppercase mb-4">Dacă ești Proprietar:</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-400">Valoare Casă:</span>
+                                    <span id="outValCasa" class="font-black">0 €</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-400">Costuri Cumpărare:</span>
+                                    <span id="outCosturiAchizitie" class="font-bold text-red-400">0 €</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-400">Dobândă Totală:</span>
+                                    <span id="outDobandaTotala" class="font-bold text-red-400">0 €</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-6 bg-white/5 rounded-3xl border border-white/10">
+                            <h4 class="text-xs font-bold text-gray-500 uppercase mb-4">Dacă stai în Chirie:</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-400">Avere din Investiții:</span>
+                                    <span id="outValInvest" class="font-black text-green-400">0 €</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-400">Total Chirie Plătită:</span>
+                                    <span id="outTotalChirie" class="font-bold text-red-400">0 €</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-400">Cost Oportunitate:</span>
+                                    <span id="outOportunitate" class="font-bold text-orange-400">0 €</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 text-center relative z-10">
+                        <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+                    </div>
+                </div>
+
+                <!-- Monthly Comparison -->
+                <div class="bg-indigo-50 rounded-[40px] p-8 border border-indigo-100">
+                    <h3 class="font-black text-indigo-900 mb-6 uppercase tracking-widest text-sm">Fluxul de Numerar (Anul 1)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-[10px] font-black text-indigo-600 uppercase mb-1">Rată Lunară Bancă</p>
+                            <p id="outRata" class="text-3xl font-black text-indigo-950">0 €</p>
+                            <p class="text-[10px] text-indigo-400 mt-2">+ aprox. 50€/lună taxe & reparații</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-indigo-600 uppercase mb-1">Diferență pt. Investit</p>
+                            <p id="outDif" class="text-3xl font-black text-indigo-950">0 €</p>
+                            <p class="text-[10px] text-indigo-400 mt-2">Dacă Rata > Chirie, acești bani se duc în bursă în scenariul "Chirie".</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline>
+        function calculate() {
+            // Inputs
+            const pret = parseFloat(document.getElementById('inPret').value) || 0;
+            const chirieStart = parseFloat(document.getElementById('inChirie').value) || 0;
+            const dobandaAn = (parseFloat(document.getElementById('inDobanda').value) || 0) / 100;
+            const ani = parseInt(document.getElementById('inAni').value) || 1;
+            const apreciereAn = (parseFloat(document.getElementById('inApreciere').value) || 0) / 100;
+            const randamentAn = (parseFloat(document.getElementById('inRandament').value) || 0) / 100;
+            const notarProc = (parseFloat(document.getElementById('inNotar').value) || 0) / 100;
+            const comisionAgent = parseFloat(document.getElementById('inAgent').value) || 0;
+            const crestereChirieAn = (parseFloat(document.getElementById('inCrestereChirie').value) || 0) / 100;
+
+            const avans = pret * 0.15;
+            const credit = pret - avans;
+            const luni = ani * 12;
+            const rLuni = dobandaAn / 12;
+
+            // 1. Calcul Rata
+            const rata = credit * (rLuni * Math.pow(1 + rLuni, luni)) / (Math.pow(1 + rLuni, luni) - 1);
+
+            // 2. Scenariu Proprietar
+            const valoareCasaFinal = pret * Math.pow(1 + apreciereAn, ani);
+            const taxeAchizitie = (pret * notarProc) + comisionAgent;
+
+            // Costuri proprietar: Impozit + Asigurari + Reparații (~0.7% din valoarea curenta pe an cumulat)
+            // Pentru simplificare, folosim 0.7% din valoarea medie a casei pe parcursul anilor
+            const valoareMedie = (pret + valoareCasaFinal) / 2;
+            const costuriProprietarTotale = valoareMedie * 0.007 * ani;
+            const dobandaTotala = (rata * luni) - credit;
+
+            const netWorthBuy = valoareCasaFinal - costuriProprietarTotale - taxeAchizitie;
+
+            // 3. Scenariu Chirie + Investiție
+            // Investim AVANSUL + TAXELE DE ACHIZITIE (pe care nu le-am mai dat la notar)
+            let capitalInvestit = (avans + taxeAchizitie) * Math.pow(1 + randamentAn, ani);
+
+            // Diferența lunară între Rata (plus costuri proprietar lunare) și Chirie
+            const costuriProprietarLunare = (valoareMedie * 0.007) / 12;
+
+            let totalChiriePlatita = 0;
+            let currentChirie = chirieStart;
+
+            // Calculăm lună de lună pentru a ține cont de creșterea chiriei și investiția diferenței
+            let investmentBalance = (avans + taxeAchizitie);
+            const rInvLuni = randamentAn / 12;
+
+            for(let i = 1; i <= luni; i++) {
+                // Actualizăm chiria la fiecare 12 luni
+                if (i > 1 && i % 12 === 1) {
+                    currentChirie = currentChirie * (1 + crestereChirieAn);
+                }
+                totalChiriePlatita += currentChirie;
+
+                // Diferența: Cât aș fi dat pe casă (Rată + Mentenanță) MINUS cât dau pe chirie
+                const dif = (rata + costuriProprietarLunare) - currentChirie;
+
+                investmentBalance = investmentBalance * (1 + rInvLuni);
+                if (dif > 0) {
+                    investmentBalance += dif;
+                }
+            }
+
+            const netWorthRent = investmentBalance;
+
+            // --- AFISARE ---
+            document.querySelectorAll('.dispAni').forEach(el => el.innerText = ani);
+            document.getElementById('outRata').innerText = Math.round(rata).toLocaleString() + " €";
+            document.getElementById('outDif').innerText = Math.round(Math.max(0, (rata + costuriProprietarLunare) - chirieStart)).toLocaleString() + " €";
+
+            document.getElementById('outValCasa').innerText = Math.round(valoareCasaFinal).toLocaleString() + " €";
+            document.getElementById('outCosturiAchizitie').innerText = "-" + Math.round(taxeAchizitie).toLocaleString() + " €";
+            document.getElementById('outDobandaTotala').innerText = "-" + Math.round(dobandaTotala).toLocaleString() + " €";
+
+            document.getElementById('outValInvest').innerText = Math.round(netWorthRent).toLocaleString() + " €";
+            document.getElementById('outTotalChirie').innerText = "-" + Math.round(totalChiriePlatita).toLocaleString() + " €";
+            document.getElementById('outOportunitate').innerText = Math.round(netWorthRent - (avans + taxeAchizitie)).toLocaleString() + " €";
+
+            // Chart Update
+            const maxVal = Math.max(netWorthBuy, netWorthRent);
+            const heightRent = (netWorthRent / maxVal) * 100;
+            const heightBuy = (netWorthBuy / maxVal) * 100;
+
+            document.getElementById('barRent').style.height = heightRent + "%";
+            document.getElementById('barBuy').style.height = heightBuy + "%";
+            document.getElementById('labelRent').innerText = Math.round(netWorthRent/1000).toLocaleString() + "k €";
+            document.getElementById('labelBuy').innerText = Math.round(netWorthBuy/1000).toLocaleString() + "k €";
+
+            // Verdict
+            const v = document.getElementById('verdictBadge');
+            if (netWorthBuy > netWorthRent) {
+                v.innerText = "⭐ PROPRIETARUL CÂȘTIGĂ";
+                v.className = "px-6 py-3 bg-indigo-500 text-white rounded-2xl font-black uppercase text-sm tracking-tighter";
+            } else {
+                v.innerText = "📈 CHIRIAȘUL CÂȘTIGĂ";
+                v.className = "px-6 py-3 bg-green-500 text-white rounded-2xl font-black uppercase text-sm tracking-tighter";
+            }
+
+            // Sliders Label Update
+            document.getElementById('valApreciere').innerText = apreciereAn * 100 + "%";
+            document.getElementById('valInv').innerText = randamentAn * 100 + "%";
+
+            // WhatsApp Update
+            const winner = netWorthBuy > netWorthRent ? "să fiu proprietar" : "să stau în chirie și să investesc";
+            const mesaj = `🏠 Investitor Imobiliar Manualul.ro:\n\nDupă ${ani} ani, averea mea netă ar fi mai mare dacă aleg ${winner}.\n\nScenariu Casă: ${Math.round(netWorthBuy).toLocaleString()} €\nScenariu Chirie+Invest: ${Math.round(netWorthRent).toLocaleString()} €\n\nVezi simularea completă: ${window.location.href}`;
+            const link = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            document.getElementById('whatsappBtn').href = link;
+            document.getElementById('whatsappBtnFloating').href = link;
+        }
+
+        // Listeners
+        const inputs = ['inPret', 'inChirie', 'inDobanda', 'inAni', 'inApreciere', 'inRandament', 'inNotar', 'inAgent', 'inCrestereChirie'];
+        inputs.forEach(id => document.getElementById(id).addEventListener('input', calculate));
+
+        // Initial run
+        calculate();
+    </script>
+</Layout>
