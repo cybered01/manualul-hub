@@ -6,10 +6,28 @@
     "standard": 180,
     "premium": 350
   },
+  "electrica": {
+    "standard": 60,
+    "smart": 150
+  },
+  "incalzire": {
+    "centrala": 4500,
+    "pardoseala": 85
+  },
+  "pereti": {
+    "lavabila": 15,
+    "tapet": 45
+  },
+  "logistica": {
+    "etaj_fara_lift": 50
+  },
+  "moloz": {
+    "sac": 18,
+    "container": 850
+  },
   "extra": {
-    "electrica": 50,
-    "sanitara": 2000,
-    "usa": 250,
-    "mobila_bucatarie": 3000
+    "sanitara": 2500,
+    "usa": 350,
+    "mobila_bucatarie": 4500
   }
 }
