@@ -1,0 +1,550 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import presets from '../data/auto_presets.json';
+import { getCentralData } from '../lib/api';
+
+const { bnr, fuel } = await getCentralData();
+
+const title = "Simulator Avansat Costuri Auto 2026 - Costul Real (TCO)";
+const description = "Află cât te costă mașina ta cu adevărat. Calculează deprecierea, costul de oportunitate, mentenanța și combustibilul până la ultimul leu.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-6xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-200 mb-4 inline-block">
+                Auto TCO v2.0
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Simulator <span class="text-blue-600">Cost Auto</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Nu e doar benzina. Află costul total de deținere (TCO) și vezi dacă mașina ta lucrează pentru tine sau tu pentru ea.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Sidebar/Inputs -->
+            <div class="lg:col-span-8 space-y-6">
+                <!-- Selectare Profil -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
+                    <label for="preset-select" class="block text-xs font-black uppercase text-gray-400 mb-3 tracking-widest">Alege un profil similar</label>
+                    <select id="preset-select" class="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 text-lg font-bold text-gray-900 focus:bg-white focus:border-blue-500 outline-none transition-all cursor-pointer">
+                        <option value="">-- Personalizat --</option>
+                        {presets.map(p => (
+                            <option value={p.id}>{p.nume}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <!-- Capital & Finantare -->
+                <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 overflow-hidden">
+                    <div class="p-6 bg-slate-900 text-white flex items-center justify-between cursor-pointer md:cursor-default" id="accordion-capital-trigger">
+                        <h2 class="text-xl font-bold flex items-center gap-3">
+                            <span class="bg-blue-500/20 p-2 rounded-lg text-blue-400">💰</span>
+                            Capital & Finanțare
+                        </h2>
+                        <span class="md:hidden">▼</span>
+                    </div>
+                    <div class="p-8 space-y-8" id="section-capital">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <label class="block">
+                                    <span class="text-xs font-black uppercase text-gray-400 tracking-widest">Preț Achiziție (EUR)</span>
+                                    <input type="number" id="pret_achizitie" value="15000" class="w-full mt-2 bg-gray-50 border-2 border-gray-100 rounded-xl p-3 font-bold focus:border-blue-500 outline-none">
+                                </label>
+                                <label class="block">
+                                    <span class="text-xs font-black uppercase text-gray-400 tracking-widest">Perioada de deținere (ani): <span id="ani_detinere_val" class="text-blue-600">5</span></span>
+                                    <input type="range" id="ani_detinere" min="1" max="10" value="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-4 accent-blue-600">
+                                </label>
+                            </div>
+                            <div class="space-y-4">
+                                <label class="text-xs font-black uppercase text-gray-400 tracking-widest block mb-2">Metodă Achiziție</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button id="btn-cash" class="p-3 rounded-xl border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold transition-all">Cash</button>
+                                    <button id="btn-credit" class="p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-500 font-bold hover:border-blue-200 transition-all">Credit/Leasing</button>
+                                    <input type="hidden" id="metoda_plata" value="cash">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credit Details (Hidden by default) -->
+                        <div id="credit-details" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-blue-50 rounded-2xl border border-blue-100">
+                            <label>
+                                <span class="text-[10px] font-black uppercase text-blue-800 tracking-tight">Avans (%)</span>
+                                <input type="number" id="credit_avans_procent" value="20" class="w-full mt-1 bg-white border border-blue-200 rounded-lg p-2 font-bold outline-none">
+                            </label>
+                            <label>
+                                <span class="text-[10px] font-black uppercase text-blue-800 tracking-tight">Dobândă (DAE %)</span>
+                                <input type="number" id="credit_dae" value="8" class="w-full mt-1 bg-white border border-blue-200 rounded-lg p-2 font-bold outline-none">
+                            </label>
+                            <label>
+                                <span class="text-[10px] font-black uppercase text-blue-800 tracking-tight">Perioadă (ani)</span>
+                                <input type="number" id="credit_perioada" value="5" class="w-full mt-1 bg-white border border-blue-200 rounded-lg p-2 font-bold outline-none">
+                            </label>
+                        </div>
+
+                        <div class="pt-6 border-t border-gray-100 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="cost_oportunitate" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                </label>
+                                <div>
+                                    <span class="text-sm font-bold text-gray-700">Cost de Oportunitate (7%/an)</span>
+                                    <p class="text-[10px] text-gray-400 uppercase font-bold tracking-tighter">Bursa vs. Mașină</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-black uppercase text-gray-400 tracking-widest block">Depreciere Anuală (%)</span>
+                                <input type="number" id="depreciere_procent" value="12" class="w-20 mt-1 bg-gray-50 border-2 border-gray-100 rounded-lg p-2 font-bold text-center outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Taxe & Birocratie -->
+                <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 overflow-hidden">
+                    <div class="p-6 bg-slate-100 text-gray-800 flex items-center justify-between cursor-pointer md:cursor-default" id="accordion-taxe-trigger">
+                        <h2 class="text-xl font-bold flex items-center gap-3">
+                            <span class="bg-gray-200 p-2 rounded-lg">📜</span>
+                            Taxe & Birocrație
+                        </h2>
+                        <span class="md:hidden">▼</span>
+                    </div>
+                    <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6" id="section-taxe">
+                        <div class="space-y-4">
+                            <label class="block">
+                                <span class="text-xs font-black uppercase text-gray-400 tracking-widest italic">Anual</span>
+                                <div class="grid grid-cols-2 gap-4 mt-1">
+                                    <div>
+                                        <span class="text-[10px] font-bold text-gray-500 uppercase">RCA</span>
+                                        <input type="number" id="taxa_rca" value="1200" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] font-bold text-gray-500 uppercase">CASCO</span>
+                                        <input type="number" id="taxa_casco" value="0" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="block">
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div>
+                                        <span class="text-[10px] font-bold text-gray-500 uppercase">Impozit</span>
+                                        <input type="number" id="taxa_impozit" value="100" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] font-bold text-gray-500 uppercase">Rovinietă</span>
+                                        <input type="number" id="taxa_rovinieta" value="140" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] font-bold text-gray-500 uppercase">ITP (Media)</span>
+                                        <input type="number" id="taxa_itp" value="75" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="space-y-4">
+                            <label class="block">
+                                <span class="text-xs font-black uppercase text-gray-400 tracking-widest italic">Lunar</span>
+                                <div class="mt-1">
+                                    <span class="text-[10px] font-bold text-gray-500 uppercase">Parcare (Reședință + Oraș)</span>
+                                    <input type="number" id="taxa_parcare" value="50" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rulare & Mentenanta -->
+                <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 overflow-hidden">
+                    <div class="p-6 bg-slate-100 text-gray-800 flex items-center justify-between cursor-pointer md:cursor-default" id="accordion-mentenanta-trigger">
+                        <h2 class="text-xl font-bold flex items-center gap-3">
+                            <span class="bg-gray-200 p-2 rounded-lg">🔧</span>
+                            Rulare & Mentenanță
+                        </h2>
+                        <span class="md:hidden">▼</span>
+                    </div>
+                    <div class="p-8 space-y-8" id="section-mentenanta">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <label class="block">
+                                    <span class="text-xs font-black uppercase text-gray-400 tracking-widest">Km parcurși anual: <span id="km_anual_val" class="text-blue-600">15.000</span></span>
+                                    <input type="range" id="km_anual" min="1000" max="50000" step="500" value="15000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-4 accent-blue-600">
+                                </label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <label>
+                                        <span class="text-[10px] font-bold text-gray-500 uppercase">Consum (L/100km)</span>
+                                        <input type="number" id="consum_mediu" value="7.5" step="0.1" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                    </label>
+                                    <label>
+                                        <span class="text-[10px] font-bold text-gray-500 uppercase">Preț Combustibil</span>
+                                        <input type="number" id="pret_carburant" value={fuel.gasoline} step="0.01" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <label>
+                                    <span class="text-[10px] font-bold text-gray-500 uppercase">Preț Set Anvelope</span>
+                                    <input type="number" id="anvelope_pret_set" value="1600" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                </label>
+                                <label>
+                                    <span class="text-[10px] font-bold text-gray-500 uppercase">Schimb ani</span>
+                                    <input type="number" id="anvelope_schimb_ani" value="4" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                </label>
+                                <label class="col-span-2">
+                                    <span class="text-[10px] font-bold text-gray-500 uppercase">Cost Manoperă Schimb (2x/an)</span>
+                                    <input type="number" id="anvelope_manopera_anual" value="300" class="w-full bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-gray-100">
+                            <label>
+                                <span class="text-[10px] font-bold text-gray-500 uppercase italic">Anual</span>
+                                <span class="block text-xs font-black uppercase text-gray-700 tracking-widest mt-1">Revizie Medie</span>
+                                <input type="number" id="mentenanta_revizie" value="800" class="w-full mt-1 bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                            </label>
+                            <label>
+                                <span class="text-[10px] font-bold text-gray-500 uppercase italic">Anual</span>
+                                <span class="block text-xs font-black uppercase text-gray-700 tracking-widest mt-1">Reparații/Neprevăzute</span>
+                                <input type="number" id="mentenanta_reparatii" value="1000" class="w-full mt-1 bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                            </label>
+                            <label>
+                                <span class="text-[10px] font-bold text-gray-500 uppercase italic">Lunar</span>
+                                <span class="block text-xs font-black uppercase text-gray-700 tracking-widest mt-1">Spălătorie/Îngrijire</span>
+                                <input type="number" id="mentenanta_spalat" value="80" class="w-full mt-1 bg-gray-50 border border-gray-100 rounded-xl p-3 font-bold outline-none">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard / Results -->
+            <div class="lg:col-span-4 space-y-6">
+                <div class="bg-gray-900 rounded-[40px] p-8 text-white shadow-2xl sticky top-8">
+                    <p class="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em] mb-2">Cost Lunar REAL</p>
+                    <div class="flex items-baseline gap-2 mb-8">
+                        <span id="total-monthly" class="text-6xl font-black text-red-500">0</span>
+                        <span class="text-2xl font-bold text-gray-400 tracking-tighter">RON / lună</span>
+                    </div>
+
+                    <!-- Pie Chart Placeholder -->
+                    <div class="relative w-48 h-48 mx-auto mb-8 flex items-center justify-center">
+                        <div id="cost-pie" class="w-full h-full rounded-full" style="background: conic-gradient(#3b82f6 0% 30%, #ef4444 30% 60%, #10b981 60% 100%);"></div>
+                        <div class="absolute inset-4 bg-gray-900 rounded-full flex flex-col items-center justify-center">
+                            <span id="cost-per-km" class="text-xl font-black">0.00</span>
+                            <span class="text-[8px] font-bold text-gray-500 uppercase">RON / KM</span>
+                        </div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase">Depreciere</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase">Combustibil</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase">Mentenanță</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase">Finanțare</span>
+                        </div>
+                        <div class="flex items-center gap-2 col-span-2">
+                            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase">Taxe & Parcare</span>
+                        </div>
+                    </div>
+
+                    <div id="uber-compare" class="p-4 rounded-2xl bg-white/5 border border-white/10 mb-8">
+                        <p class="text-xs text-gray-400 mb-1">vs. Taxi / Uber (3.5 RON/km)</p>
+                        <p id="uber-verdict" class="text-sm font-bold text-blue-400">Calculăm...</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <label class="block">
+                            <span class="text-[10px] font-black uppercase text-gray-500 tracking-widest">Salariu Net Lună (Opțional)</span>
+                            <input type="number" id="salariu_net" placeholder="ex: 5000" class="w-full mt-2 bg-white/10 border border-white/20 rounded-xl p-3 font-bold text-white outline-none focus:bg-white/20">
+                        </label>
+                        <div id="salary-verdict" class="hidden p-4 rounded-2xl bg-red-500/10 border border-red-500/20">
+                            <p class="text-xs font-bold text-red-400">Verdict Financiar:</p>
+                            <p id="salary-hours" class="text-lg font-black text-white">Muncești 45 ore/lună doar pentru mașină.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 space-y-4">
+                        <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" class="w-full" />
+                        <p class="text-[9px] text-center text-gray-500 italic">
+                            *Acest simulator oferă o estimare bazată pe datele introduse. Valorile reale pot varia în funcție de starea tehnică și piață.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <style>
+        /* Accordion styles for mobile */
+        @media (max-width: 768px) {
+            #section-capital, #section-taxe, #section-mentenanta {
+                max-height: 0;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+                overflow: hidden;
+                transition: all 0.3s ease-out;
+                opacity: 0;
+            }
+            #section-capital.active, #section-taxe.active, #section-mentenanta.active {
+                max-height: 2000px;
+                padding-top: 2rem !important;
+                padding-bottom: 2rem !important;
+                opacity: 1;
+            }
+        }
+
+        /* Active state for trigger icons */
+        .trigger-active span:last-child {
+            transform: rotate(180deg);
+        }
+    </style>
+
+    <script is:inline define:vars={{ presets, bnr, fuel }}>
+        // Utility functions
+        const val = (id) => parseFloat(document.getElementById(id).value) || 0;
+        const setVal = (id, value) => {
+            const el = document.getElementById(id);
+            if (el) el.value = value;
+        };
+
+        // Accordion Logic
+        function setupAccordions() {
+            const triggers = [
+                { id: 'accordion-capital-trigger', target: 'section-capital' },
+                { id: 'accordion-taxe-trigger', target: 'section-taxe' },
+                { id: 'accordion-mentenanta-trigger', target: 'section-mentenanta' }
+            ];
+
+            triggers.forEach(t => {
+                const triggerEl = document.getElementById(t.id);
+                const targetEl = document.getElementById(t.target);
+
+                // Open by default on desktop, closed on mobile
+                if (window.innerWidth > 768) {
+                    targetEl.classList.add('active');
+                }
+
+                triggerEl.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        targetEl.classList.toggle('active');
+                        triggerEl.classList.toggle('trigger-active');
+                    }
+                });
+            });
+        }
+
+        // Cash vs Credit Toggle
+        function setupPaymentToggle() {
+            const btnCash = document.getElementById('btn-cash');
+            const btnCredit = document.getElementById('btn-credit');
+            const methodInput = document.getElementById('metoda_plata');
+            const creditDetails = document.getElementById('credit-details');
+
+            btnCash.addEventListener('click', () => {
+                methodInput.value = 'cash';
+                btnCash.className = 'p-3 rounded-xl border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold transition-all';
+                btnCredit.className = 'p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-500 font-bold hover:border-blue-200 transition-all';
+                creditDetails.classList.add('hidden');
+                updateCalculator();
+            });
+
+            btnCredit.addEventListener('click', () => {
+                methodInput.value = 'credit';
+                btnCredit.className = 'p-3 rounded-xl border-2 border-blue-600 bg-blue-50 text-blue-700 font-bold transition-all';
+                btnCash.className = 'p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-500 font-bold hover:border-blue-200 transition-all';
+                creditDetails.classList.remove('hidden');
+                updateCalculator();
+            });
+        }
+
+        // Preset Handler
+        function setupPresets() {
+            const select = document.getElementById('preset-select');
+            select.addEventListener('change', (e) => {
+                const presetId = e.target.value;
+                if (!presetId) return;
+
+                const p = presets.find(item => item.id === presetId);
+                if (p) {
+                    setVal('pret_achizitie', p.pret_achizitie);
+                    setVal('depreciere_procent', p.depreciere_anuala_procent);
+                    setVal('taxa_rca', p.rca);
+                    setVal('taxa_casco', p.casco);
+                    setVal('taxa_impozit', p.impozit);
+                    setVal('consum_mediu', p.consum_mediu);
+                    setVal('anvelope_pret_set', p.anvelope_pret_set);
+                    setVal('anvelope_schimb_ani', p.anvelope_schimb_ani);
+                    setVal('mentenanta_revizie', p.revizie_anuala);
+                    setVal('mentenanta_reparatii', p.reparatii_neprevazute);
+
+                    updateCalculator();
+                }
+            });
+        }
+
+        // Main Calculation Logic
+        function updateCalculator() {
+            // 1. Inputs
+            const pretEur = val('pret_achizitie');
+            const eurRon = bnr?.eur || 5.0;
+            const pretRon = pretEur * eurRon;
+            const aniDetinere = val('ani_detinere');
+            document.getElementById('ani_detinere_val').innerText = aniDetinere;
+
+            const kmAnual = val('km_anual');
+            document.getElementById('km_anual_val').innerText = kmAnual.toLocaleString();
+
+            const depreciereProcent = val('depreciere_procent');
+            const metodaPlata = document.getElementById('metoda_plata').value;
+            const useCostOportunitate = document.getElementById('cost_oportunitate').checked;
+
+            // 2. Depreciere (Annual & Monthly)
+            // Formula: Viitor = Inital * (1 - r)^n
+            const valoareRevanzare = pretRon * Math.pow((1 - depreciereProcent / 100), aniDetinere);
+            const pierdereTotalaDepreciere = pretRon - valoareRevanzare;
+            const depreciereLunara = pierdereTotalaDepreciere / (aniDetinere * 12);
+
+            // 3. Finantare
+            let costFinantareLunar = 0;
+            if (metodaPlata === 'credit') {
+                const avansProcent = val('credit_avans_procent');
+                const dae = val('credit_dae');
+                const perioadaCredit = val('credit_perioada');
+
+                const avansSuma = pretRon * (avansProcent / 100);
+                const sumaCreditata = pretRon - avansSuma;
+
+                if (dae > 0) {
+                    const r = (dae / 100) / 12;
+                    const n = perioadaCredit * 12;
+                    const rataLunara = sumaCreditata * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+
+                    // Costul finantarii este diferenta intre (rata * n) si suma creditata, impartit la n luni
+                    // Dar utilizatorul vrea costul lunar *total* in perioada creditului?
+                    // TCO se calculeaza de obicei pe toata perioada de detinere.
+                    const costTotalCredit = (rataLunara * n) - sumaCreditata;
+                    costFinantareLunar = costTotalCredit / (aniDetinere * 12);
+                }
+            }
+
+            // 4. Cost Oportunitate (If enabled)
+            let costOportunitateLunar = 0;
+            if (useCostOportunitate) {
+                // Dacă investeai banii la bursă cu 7%/an
+                // Calcul simplificat: profitul pierdut de la prețul de achiziție
+                const profitBursaAnual = pretRon * 0.07;
+                costOportunitateLunar = profitBursaAnual / 12;
+            }
+
+            // 5. Rulare (Combustibil)
+            const consum = val('consum_mediu');
+            const pretCombustibil = val('pret_carburant');
+            const combustibilLunar = (kmAnual / 12 / 100) * consum * pretCombustibil;
+
+            // 6. Taxe Fixe (Monthly)
+            const rca = val('taxa_rca');
+            const casco = val('taxa_casco');
+            const impozit = val('taxa_impozit');
+            const rovinieta = val('taxa_rovinieta');
+            const itp = val('taxa_itp');
+            const parcare = val('taxa_parcare');
+
+            const taxeLunare = (rca + casco + impozit + rovinieta + itp) / 12 + parcare;
+
+            // 7. Mentenanta (Monthly)
+            const pretAnvelope = val('anvelope_pret_set');
+            const aniAnvelope = val('anvelope_schimb_ani');
+            const manoperaAnvelope = val('anvelope_manopera_anual');
+            const revizie = val('mentenanta_revizie');
+            const reparatii = val('mentenanta_reparatii');
+            const spalat = val('mentenanta_spalat');
+
+            const mentenantaLunara = (pretAnvelope / aniAnvelope / 12) + (manoperaAnvelope / 12) + (revizie / 12) + (reparatii / 12) + spalat;
+
+            // 8. TOTAL
+            const totalLunar = depreciereLunara + costFinantareLunar + costOportunitateLunar + combustibilLunar + taxeLunare + mentenantaLunara;
+            const costPerKm = totalLunar / (kmAnual / 12);
+
+            // 9. Display
+            document.getElementById('total-monthly').innerText = Math.round(totalLunar).toLocaleString();
+            document.getElementById('cost-per-km').innerText = costPerKm.toFixed(2);
+
+            // Uber comparison
+            const uberVerdict = document.getElementById('uber-verdict');
+            if (costPerKm > 3.5) {
+                uberVerdict.innerText = "🚨 Mai scump decât Uber (3.5 RON/km).";
+                uberVerdict.className = "text-sm font-bold text-red-400";
+            } else {
+                uberVerdict.innerText = "✅ Mai ieftin decât Uber/Taxi.";
+                uberVerdict.className = "text-sm font-bold text-emerald-400";
+            }
+
+            // Salary Verdict
+            const salariuNet = val('salariu_net');
+            const salaryVerdictDiv = document.getElementById('salary-verdict');
+            if (salariuNet > 0) {
+                salaryVerdictDiv.classList.remove('hidden');
+                const oreLucrateLuna = 160;
+                const salariuOra = salariuNet / oreLucrateLuna;
+                const orePentruMasina = totalLunar / salariuOra;
+                document.getElementById('salary-hours').innerText = `Muncești ${Math.round(orePentruMasina)} ore/lună doar pentru mașină.`;
+            } else {
+                salaryVerdictDiv.classList.add('hidden');
+            }
+
+            // 10. Chart Update (CSS Conic Gradient)
+            const pDepr = (depreciereLunara / totalLunar) * 100;
+            const pFin = ((costFinantareLunar + costOportunitateLunar) / totalLunar) * 100;
+            const pComb = (combustibilLunar / totalLunar) * 100;
+            const pTaxe = (taxeLunare / totalLunar) * 100;
+            const pMent = (mentenantaLunara / totalLunar) * 100;
+
+            const chart = document.getElementById('cost-pie');
+            chart.style.background = `conic-gradient(
+                #3b82f6 0% ${pDepr}%,
+                #f59e0b ${pDepr}% ${pDepr + pFin}%,
+                #ef4444 ${pDepr + pFin}% ${pDepr + pFin + pComb}%,
+                #facc15 ${pDepr + pFin + pComb}% ${pDepr + pFin + pComb + pTaxe}%,
+                #10b981 ${pDepr + pFin + pComb + pTaxe}% 100%
+            )`;
+
+            // WhatsApp Share
+            const mesaj = `Am calculat costul REAL al mașinii mele. Nu e doar benzina... mă costă ${Math.round(totalLunar).toLocaleString()} RON pe lună! 🚗💸\nCalculează și tu pe Manualul.ro: ${window.location.href}`;
+            const whatsappBtnDesktop = document.getElementById('whatsappBtn');
+            const whatsappBtnMobile = document.getElementById('whatsappBtnFloating');
+            const waLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (whatsappBtnDesktop) whatsappBtnDesktop.href = waLink;
+            if (whatsappBtnMobile) whatsappBtnMobile.href = waLink;
+        }
+
+        // Initialize everything
+        setupAccordions();
+        setupPaymentToggle();
+        setupPresets();
+
+        // Listeners for all inputs
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', updateCalculator);
+        });
+
+        // Initial Run
+        updateCalculator();
+    </script>
+</Layout>
