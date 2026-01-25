@@ -1,0 +1,17 @@
+
+> manualul-hub@0.0.1 dev
+> astro dev
+
+20:30:01 [types] Generated 1ms
+20:30:01 [content] Syncing content
+20:30:01 [content] Synced content
+
+ astro  v5.16.15 ready in 472 ms
+
+┃ Local    http://localhost:4321/
+┃ Network  use --host to expose
+
+20:30:01 watching for file changes...
+20:30:06 [200] / 150ms
+20:30:07 [200] /termeni 7ms
+20:30:07 [200] /confidentialitate 5ms
