@@ -1,0 +1,62 @@
+[
+  {
+    "id": "logan_sh",
+    "nume": "Low Cost / SH (ex: Logan, Sandero)",
+    "pret_achizitie": 5000,
+    "vechime_ani": 8,
+    "consum_mediu": 7.5,
+    "rca": 1200,
+    "casco": 0,
+    "impozit": 50,
+    "anvelope_pret_set": 1200,
+    "anvelope_schimb_ani": 4,
+    "revizie_anuala": 600,
+    "reparatii_neprevazute": 1500,
+    "depreciere_anuala_procent": 10
+  },
+  {
+    "id": "compacta_sh",
+    "nume": "Compactă SH (ex: Golf, Octavia)",
+    "pret_achizitie": 15000,
+    "vechime_ani": 5,
+    "consum_mediu": 6.5,
+    "rca": 1500,
+    "casco": 2000,
+    "impozit": 100,
+    "anvelope_pret_set": 2000,
+    "anvelope_schimb_ani": 4,
+    "revizie_anuala": 1000,
+    "reparatii_neprevazute": 1000,
+    "depreciere_anuala_procent": 12
+  },
+  {
+    "id": "suv_premium_nou",
+    "nume": "SUV Premium Nou (ex: X5, GLE)",
+    "pret_achizitie": 80000,
+    "vechime_ani": 0,
+    "consum_mediu": 11,
+    "rca": 2500,
+    "casco": 6000,
+    "impozit": 400,
+    "anvelope_pret_set": 5000,
+    "anvelope_schimb_ani": 3,
+    "revizie_anuala": 2500,
+    "reparatii_neprevazute": 500,
+    "depreciere_anuala_procent": 18
+  },
+  {
+    "id": "electrica_medie",
+    "nume": "Electrică Medie (ex: Tesla Model 3)",
+    "pret_achizitie": 45000,
+    "vechime_ani": 0,
+    "consum_mediu": 16,
+    "rca": 1800,
+    "casco": 3500,
+    "impozit": 0,
+    "anvelope_pret_set": 3000,
+    "anvelope_schimb_ani": 3,
+    "revizie_anuala": 500,
+    "reparatii_neprevazute": 300,
+    "depreciere_anuala_procent": 15
+  }
+]
