@@ -17,6 +17,8 @@
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.12",
     "fast-xml-parser": "^5.3.3",
+    "jspdf": "^4.0.0",
+    "jspdf-autotable": "^5.0.7",
     "tailwindcss": "^4.1.18"
   }
 }

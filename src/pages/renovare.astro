@@ -208,6 +208,10 @@ const description = "Calculează un deviz detaliat pentru renovarea casei tale. 
                     </div>
 
                     <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+
+                    <button id="downloadPDF" class="w-full mt-4 p-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all border border-white/10 flex items-center justify-center gap-2">
+                        📄 Descarcă Deviz (PDF)
+                    </button>
                 </div>
 
                 <div class="bg-orange-50 p-6 rounded-[32px] border border-orange-100">
@@ -221,6 +225,39 @@ const description = "Calculează un deviz detaliat pentru renovarea casei tale. 
             </div>
         </div>
     </main>
+
+    <script>
+        import { generatePDF } from '../utils/pdfGenerator';
+
+        document.getElementById('downloadPDF')?.addEventListener('click', () => {
+            const inputs = [
+                { "Eticheta": "Suprafața Utilă", "Valoare": document.getElementById('inSuprafata').value + " mp" },
+                { "Eticheta": "Număr Camere", "Valoare": document.getElementById('inCamere').value },
+                { "Eticheta": "Suprafață Pereți", "Valoare": document.getElementById('inPereti').value + " mp" },
+                { "Eticheta": "Tip Imobil", "Valoare": document.getElementById('inTipImobil').options[document.getElementById('inTipImobil').selectedIndex].text },
+                { "Eticheta": "Instalație Electrică", "Valoare": document.querySelector('input[name="electrica"]:checked')?.parentElement.innerText.trim() || "N/A" },
+                { "Eticheta": "Sistem Încălzire", "Valoare": document.querySelector('input[name="incalzire"]:checked')?.parentElement.innerText.trim() || "N/A" },
+                { "Eticheta": "Finisaje Pereți", "Valoare": document.querySelector('input[name="pereti"]:checked')?.parentElement.innerText.trim() || "N/A" },
+                { "Eticheta": "Calitate Materiale", "Valoare": document.getElementById('inCalitate').options[document.getElementById('inCalitate').selectedIndex].text }
+            ];
+
+            const results = [
+                { "Eticheta": "Manoperă", "Valoare": document.getElementById('outManopera').innerText },
+                { "Eticheta": "Materiale", "Valoare": document.getElementById('outMateriale').innerText },
+                { "Eticheta": "Instalații", "Valoare": document.getElementById('outInstalatii').innerText },
+                { "Eticheta": "Logistică & Moloz", "Valoare": document.getElementById('outLogistica').innerText },
+                { "Eticheta": "Neprevăzute (15%)", "Valoare": document.getElementById('outUrgenta').innerText },
+                { "Eticheta": "TOTAL ESTIMAT", "Valoare": document.getElementById('outTotal').innerText }
+            ];
+
+            generatePDF({
+                title: "Deviz Estimativ Renovare 2026",
+                inputs,
+                results,
+                filename: "Deviz-Renovare-Manualul.pdf"
+            });
+        });
+    </script>
 
     <script is:inline define:vars={{ data }}>
         function calculate() {

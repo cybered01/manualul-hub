@@ -255,6 +255,11 @@ const description = "Evaluează-ți sănătatea financiară pe baza unor indicat
 
                 <div class="flex flex-wrap justify-center gap-4">
                     <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+
+                    <button id="downloadPDF" class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all border border-white/10 flex items-center justify-center gap-2">
+                        📄 Raport de Audit (PDF)
+                    </button>
+
                     <button id="restart-test" class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all border border-white/10">
                         🔄 Refă Testul
                     </button>
@@ -326,6 +331,47 @@ const description = "Evaluează-ți sănătatea financiară pe baza unor indicat
             🔄 Refă Auditul
         </button>
     </div>
+
+    <script>
+        import { generatePDF } from '../utils/pdfGenerator';
+
+        document.getElementById('downloadPDF')?.addEventListener('click', () => {
+            const inputs = [
+                { "Eticheta": "Venit Net Lunar", "Valoare": document.getElementById('venit_net').value + " RON" },
+                { "Eticheta": "Cheltuieli Obligatorii", "Valoare": document.getElementById('cheltuieli_obligatorii').value + " RON" },
+                { "Eticheta": "Fond Urgență", "Valoare": document.getElementById('fond_urgenta').value + " RON" },
+                { "Eticheta": "Rate Lunare", "Valoare": document.getElementById('rate_lunare').value + " RON" },
+                { "Eticheta": "Economii Lunare", "Valoare": document.getElementById('economii_lunar').value + " RON" },
+                { "Eticheta": "Investiții Active", "Valoare": document.getElementById('investitii_activ').value },
+                { "Eticheta": "Asigurare Privată", "Valoare": document.getElementById('asigurare_privata').checked ? "Da" : "Nu" },
+                { "Eticheta": "Monitorizare Buget", "Valoare": document.getElementById('notare_cheltuieli').checked ? "Da" : "Nu" }
+            ];
+
+            const results = [
+                { "Eticheta": "SCOR SĂNĂTATE FINANCIARĂ", "Valoare": document.getElementById('score-text').innerText + " / 100" },
+                { "Eticheta": "Verdict", "Valoare": document.getElementById('verdict-title').innerText },
+                { "Eticheta": "Pilon: Siguranță", "Valoare": document.getElementById('pillar-siguranta-val').innerText },
+                { "Eticheta": "Pilon: Datorii", "Valoare": document.getElementById('pillar-datorii-val').innerText },
+                { "Eticheta": "Pilon: Disciplină", "Valoare": document.getElementById('pillar-crestere-val').innerText },
+                { "Eticheta": "Pilon: Protecție", "Valoare": document.getElementById('pillar-protectie-val').innerText }
+            ];
+
+            // Add advices to results
+            const advices = document.querySelectorAll('.advice-item');
+            advices.forEach((advice, index) => {
+                const title = advice.querySelector('.advice-title').innerText;
+                const desc = advice.querySelector('.advice-desc').innerText;
+                results.push({ "Eticheta": `Sfat ${index + 1}: ${title}`, "Valoare": desc });
+            });
+
+            generatePDF({
+                title: "Raport de Audit Sănătate Financiară 2026",
+                inputs,
+                results,
+                filename: "Raport-Audit-Financiar.pdf"
+            });
+        });
+    </script>
 
     <script is:inline>
         // --- Selectors & State ---
@@ -590,12 +636,12 @@ const description = "Evaluează-ți sănătatea financiară pe baza unor indicat
 
             advices.slice(0, 3).forEach(a => {
                 const div = document.createElement('div');
-                div.className = "p-4 bg-slate-50 rounded-2xl border border-gray-100 flex gap-4 items-start";
+                div.className = "p-4 bg-slate-50 rounded-2xl border border-gray-100 flex gap-4 items-start advice-item";
                 div.innerHTML = `
-                    <div class="text-2xl">${a.icon}</div>
+                    <div class="text-2xl advice-icon">${a.icon}</div>
                     <div>
-                        <h4 class="font-bold text-gray-900 leading-tight mb-1">${a.title}</h4>
-                        <p class="text-xs text-gray-500 leading-relaxed">${a.desc}</p>
+                        <h4 class="font-bold text-gray-900 leading-tight mb-1 advice-title">${a.title}</h4>
+                        <p class="text-xs text-gray-500 leading-relaxed advice-desc">${a.desc}</p>
                     </div>
                 `;
                 planContainer.appendChild(div);

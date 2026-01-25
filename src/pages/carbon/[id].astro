@@ -88,6 +88,10 @@ const renderList = (text) => text.split('<br>').filter(Boolean);
                             </p>
 
                                 <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" class="scale-90" />
+
+                                <button id="downloadPDF" class="mt-4 w-full p-4 bg-white hover:bg-emerald-50 text-emerald-700 font-bold rounded-2xl transition-all border border-emerald-200 flex items-center justify-center gap-2 text-sm">
+                                    📄 Plan de Cultură (PDF)
+                                </button>
                         </div>
                     </div>
                 </div>
@@ -166,6 +170,33 @@ const renderList = (text) => text.split('<br>').filter(Boolean);
             </div>
         </section>
     </main>
+
+    <script>
+        import { generatePDF } from '../../utils/pdfGenerator';
+
+        document.getElementById('downloadPDF')?.addEventListener('click', () => {
+            const h1 = document.querySelector('h1');
+            const title = h1 ? h1.innerText : "Plan de Cultură Carbon";
+
+            const inputs = [
+                { "Eticheta": "Tip Teren", "Valoare": title },
+                { "Eticheta": "Suprafață", "Valoare": document.getElementById('suprafataInput').value + " Hectare" }
+            ];
+
+            const results = [
+                { "Eticheta": "Venit Anual Estimat", "Valoare": document.getElementById('venitDisplay').innerText + " EUR" },
+                { "Eticheta": "Impact Ecologic", "Valoare": document.getElementById('carbonDisplay').innerText + " t CO2/an" },
+                { "Eticheta": "Echivalent Verde", "Valoare": document.getElementById('masiniDisplay').innerText + " mașini eliminate/an" }
+            ];
+
+            generatePDF({
+                title: "Simulare Venituri Credite Carbon",
+                inputs,
+                results,
+                filename: "Plan-Cultura-Carbon.pdf"
+            });
+        });
+    </script>
 
     <script is:inline define:vars={{ absorbtieFactor, pretCredit }}>
         const input = document.getElementById('suprafataInput');
