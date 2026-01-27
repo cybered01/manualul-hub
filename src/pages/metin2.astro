@@ -1,0 +1,221 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = "Convertor Iconițe Breaslă Metin2 (16x12) - Manualul.ro";
+const description = "Transformă orice poză în formatul corect .BMP (16x12) pentru upload în jocul Metin2.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <div class="inline-block p-3 bg-amber-100 rounded-2xl mb-4">
+                <span class="text-4xl">⚔️</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Convertor Iconiță <span class="text-amber-600">Breaslă Metin2</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
+                Transformă orice poză în formatul corect pentru upload în joc.
+            </p>
+        </header>
+
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-white rounded-[40px] shadow-xl border border-amber-50 overflow-hidden">
+                <div class="p-8 bg-amber-600 text-white">
+                    <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
+                        <span>📥</span> Încarcă Imaginea
+                    </h2>
+                    <p class="text-amber-100 text-sm font-medium">Acceptă JPG, PNG, JPEG</p>
+                </div>
+
+                <div class="p-8 md:p-10 space-y-8">
+                    <!-- Dropzone -->
+                    <div
+                        id="dropzone"
+                        class="border-4 border-dashed border-gray-100 rounded-[32px] p-12 text-center hover:border-amber-200 hover:bg-amber-50/50 transition-all cursor-pointer group"
+                    >
+                        <input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg" class="hidden">
+                        <div class="space-y-4">
+                            <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
+                                <span class="text-3xl">🖼️</span>
+                            </div>
+                            <div>
+                                <p class="text-lg font-bold text-gray-700">Click sau Drag & Drop</p>
+                                <p class="text-sm text-gray-400">Orice imagine va fi redimensionată la 16x12px</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preview & Action -->
+                    <div id="resultArea" class="hidden space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div class="flex flex-col items-center gap-6">
+                            <div class="space-y-2 text-center">
+                                <label class="text-[10px] font-black text-amber-600 uppercase tracking-[0.2em]">Preview Iconiță (Scalat)</label>
+                                <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                                    <!-- Canvas-ul va fi 16x12 dar afișat mare -->
+                                    <canvas id="previewCanvas" width="16" height="12" class="w-32 h-24 border border-gray-300 shadow-sm" style="image-rendering: pixelated;"></canvas>
+                                </div>
+                                <p class="text-[10px] text-gray-400 font-bold uppercase italic">Rezoluție Reală: 16 x 12 pixeli</p>
+                            </div>
+
+                            <button id="downloadBtn" class="w-full md:w-auto px-8 py-4 bg-amber-600 text-white font-black rounded-2xl shadow-lg shadow-amber-200 hover:bg-amber-700 hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
+                                <span>💾</span> DESCARCĂ .BMP
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Instructions -->
+                    <div class="pt-8 border-t border-gray-50">
+                        <h3 class="text-sm font-black text-gray-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <span>📜</span> Instrucțiuni
+                        </h3>
+                        <ul class="space-y-3">
+                            {[
+                                "1. Încarcă poza ta preferată (va fi 'întinsă' la 16x12).",
+                                "2. Verifică preview-ul pixelat.",
+                                "3. Apasă pe 'Descarcă .BMP'.",
+                                "4. Copiază fișierul descărcat în folderul 'upload' din directorul jocului Metin2.",
+                                "5. În joc, deschide fereastra Breaslă -> Upload Mark."
+                            ].map(text => (
+                                <li class="flex gap-3 text-sm text-gray-600 font-medium leading-relaxed">
+                                    <span class="text-amber-500 font-black">→</span>
+                                    {text}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        const resultArea = document.getElementById('resultArea');
+        const previewCanvas = document.getElementById('previewCanvas');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const ctx = previewCanvas.getContext('2d');
+
+        let originalFileName = 'mark';
+
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-amber-300', 'bg-amber-50');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-amber-300', 'bg-amber-50');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-amber-300', 'bg-amber-50');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) handleFile(files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFile(e.target.files[0]);
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Te rugăm să încarci o imagine validă.');
+                return;
+            }
+
+            originalFileName = file.name.split('.').slice(0, -1).join('.') || 'mark';
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    // Procesare: stretch to 16x12
+                    ctx.clearRect(0, 0, 16, 12);
+                    ctx.drawImage(img, 0, 0, 16, 12);
+                    resultArea.classList.remove('hidden');
+                    resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        downloadBtn.addEventListener('click', () => {
+            const imageData = ctx.getImageData(0, 0, 16, 12);
+            const bmpBlob = create24BitBMP(imageData);
+            const url = URL.createObjectURL(bmpBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${originalFileName}_16x12.bmp`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        /**
+         * Creează un Blob reprezentând un fișier BMP pe 24 de biți.
+         * Metin2 are nevoie de BMP 24-bit fără compresie.
+         */
+        function create24BitBMP(imageData) {
+            const width = imageData.width;
+            const height = imageData.height;
+            const data = imageData.data;
+
+            // Fiecare rând trebuie să fie aliniat la 4 octeți (DWORD padding)
+            // Pentru 16px, avem 16 * 3 = 48 octeți, care este deja divizibil cu 4.
+            const rowSize = Math.floor((24 * width + 31) / 32) * 4;
+            const pixelDataSize = rowSize * height;
+            const fileSize = 54 + pixelDataSize;
+
+            const buffer = new ArrayBuffer(fileSize);
+            const view = new DataView(buffer);
+
+            // --- FILE HEADER (14 bytes) ---
+            view.setUint16(0, 0x424D, false); // "BM" (Big Endian logic for the string, but actually it's 0x42 0x4D)
+            view.setUint32(2, fileSize, true); // File size
+            view.setUint32(6, 0, true);       // Reserved
+            view.setUint32(10, 54, true);      // Offset to pixel data
+
+            // --- INFO HEADER (40 bytes) ---
+            view.setUint32(14, 40, true);      // Header size
+            view.setInt32(18, width, true);    // Width
+            view.setInt32(22, height, true);   // Height (pozitiv = bottom-up)
+            view.setUint16(26, 1, true);       // Planes
+            view.setUint16(28, 24, true);      // Bits per pixel
+            view.setUint32(30, 0, true);       // Compression (0 = BI_RGB)
+            view.setUint32(34, pixelDataSize, true); // Image size
+            view.setInt32(38, 2835, true);     // X pixels per meter (72 DPI)
+            view.setInt32(42, 2835, true);     // Y pixels per meter (72 DPI)
+            view.setUint32(46, 0, true);       // Total colors
+            view.setUint32(50, 0, true);       // Important colors
+
+            // --- PIXEL DATA ---
+            // BMP stochează rândurile de jos în sus (bottom-up)
+            // Formatul este BGR (nu RGB)
+            let offset = 54;
+            for (let y = height - 1; y >= 0; y--) {
+                for (let x = 0; x < width; x++) {
+                    const idx = (y * width + x) * 4;
+                    const r = data[idx];
+                    const g = data[idx + 1];
+                    const b = data[idx + 2];
+
+                    view.setUint8(offset++, b);
+                    view.setUint8(offset++, g);
+                    view.setUint8(offset++, r);
+                }
+                // Adăugăm padding dacă e cazul (nu e cazul pentru 16px, dar e bine de avut logică generală)
+                for (let p = 0; p < (rowSize - width * 3); p++) {
+                    view.setUint8(offset++, 0);
+                }
+            }
+
+            return new Blob([buffer], { type: 'image/bmp' });
+        }
+    </script>
+</Layout>
