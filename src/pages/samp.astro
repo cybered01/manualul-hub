@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = "SA:MP Color Embedder - Manualul.ro";
+const description = "Generează coduri de culoare pentru chat-ul San Andreas Multiplayer (SA:MP). Personalizează-ți mesajele cu ușurință.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <div class="inline-block p-3 bg-orange-100 rounded-2xl mb-4">
+                <span class="text-4xl">🎨</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                SA:MP <span class="text-orange-600">Color Embedder</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
+                Creează texte colorate pentru chat-ul și anunțurile din SA:MP.
+            </p>
+        </header>
+
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-white rounded-[40px] shadow-xl border border-orange-50 overflow-hidden">
+                <div class="p-8 bg-orange-600 text-white">
+                    <h2 class="text-xl font-bold mb-1">Editor Mesaj</h2>
+                    <p class="text-orange-100 text-sm">Introdu textul și alege culoarea dorită</p>
+                </div>
+
+                <div class="p-8 md:p-10 space-y-8">
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <label class="text-xs font-black text-gray-400 uppercase tracking-widest px-1">Mesajul Tău</label>
+                            <input
+                                type="text"
+                                id="messageInput"
+                                placeholder="Salutare tuturor!"
+                                class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none font-bold text-gray-700"
+                            />
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="flex-grow space-y-2">
+                                <label class="text-xs font-black text-gray-400 uppercase tracking-widest px-1">Alege Culoarea</label>
+                                <div class="flex gap-3">
+                                    <input
+                                        type="color"
+                                        id="colorPicker"
+                                        value="#ff0000"
+                                        class="w-16 h-14 bg-gray-50 border border-gray-100 rounded-2xl cursor-pointer p-1"
+                                    />
+                                    <input
+                                        type="text"
+                                        id="hexInput"
+                                        value="#FF0000"
+                                        class="flex-grow p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none font-mono font-bold text-gray-700"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <label class="text-xs font-black text-gray-400 uppercase tracking-widest px-1">Preview Chat (In-Game Look)</label>
+                        <div class="bg-black p-6 rounded-2xl border-4 border-gray-800 shadow-inner font-mono text-lg min-h-[80px] flex items-center">
+                            <span id="previewText" style="color: #ff0000;">Salutare tuturor!</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-6">
+                        <div class="bg-gray-900 rounded-3xl p-6 relative group">
+                            <label class="text-[10px] font-black text-orange-400 uppercase tracking-[0.2em] mb-4 block">Cod de Copiat</label>
+                            <code id="outputCode" class="text-orange-100 font-mono text-lg break-all">{"{FF0000}Salutare tuturor!"}</code>
+                            <button id="copyBtn" class="absolute top-4 right-4 p-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-all opacity-0 group-hover:opacity-100 shadow-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 border-t border-gray-50 text-center">
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">Sfat: Poți combina mai multe coduri în același mesaj pentru efecte multicolore!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline>
+        const messageInput = document.getElementById('messageInput');
+        const colorPicker = document.getElementById('colorPicker');
+        const hexInput = document.getElementById('hexInput');
+        const previewText = document.getElementById('previewText');
+        const outputCode = document.getElementById('outputCode');
+        const copyBtn = document.getElementById('copyBtn');
+
+        function updateOutput() {
+            const message = messageInput.value || "Salutare tuturor!";
+            const hex = colorPicker.value.toUpperCase();
+            const cleanHex = hex.replace('#', '');
+
+            hexInput.value = hex;
+            previewText.textContent = message;
+            previewText.style.color = hex;
+            outputCode.textContent = `{${cleanHex}}${message}`;
+        }
+
+        messageInput.addEventListener('input', updateOutput);
+        colorPicker.addEventListener('input', updateOutput);
+        hexInput.addEventListener('input', (e) => {
+            let val = e.target.value;
+            if (!val.startsWith('#')) val = '#' + val;
+            if (/^#[0-9A-F]{6}$/i.test(val)) {
+                colorPicker.value = val;
+                updateOutput();
+            }
+        });
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(outputCode.textContent).then(() => {
+                const originalSvg = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<span class="text-xs font-bold">COPIAT</span>';
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalSvg;
+                }, 2000);
+            });
+        });
+
+        // Initial update
+        updateOutput();
+    </script>
+</Layout>
