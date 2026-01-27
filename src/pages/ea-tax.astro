@@ -1,0 +1,124 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = "EA FC (FIFA) Tax Calculator - Manualul.ro";
+const description = "Calculează taxa de 5% și profitul net pentru trading în EA FC Ultimate Team. Află exact cu cât rămâi după fiecare vânzare.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <div class="inline-block p-3 bg-green-100 rounded-2xl mb-4">
+                <span class="text-4xl">⚽</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                EA FC <span class="text-green-600">Tax Calculator</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
+                Optimizează-ți profitul în Ultimate Team. Calculează taxa EA de 5% instant.
+            </p>
+        </header>
+
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-white rounded-[40px] shadow-xl border border-green-50 overflow-hidden">
+                <div class="p-8 bg-green-600 text-white text-center">
+                    <h2 class="text-xl font-bold mb-1">Calculator Profit Trading</h2>
+                    <p class="text-green-100 text-sm font-medium italic">Taxa EA Sports: 5% din prețul de vânzare</p>
+                </div>
+
+                <div class="p-8 md:p-10 space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-black text-gray-400 uppercase tracking-widest px-1">Preț Cumpărare</label>
+                            <div class="relative">
+                                <input
+                                    type="number"
+                                    id="buyPrice"
+                                    placeholder="1000"
+                                    class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none font-bold text-gray-700 pr-12"
+                                />
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">🪙</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-black text-gray-400 uppercase tracking-widest px-1">Preț Vânzare</label>
+                            <div class="relative">
+                                <input
+                                    type="number"
+                                    id="sellPrice"
+                                    placeholder="2000"
+                                    class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none font-bold text-gray-700 pr-12"
+                                />
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">🪙</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rezultate -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 text-center">
+                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Taxă EA (5%)</p>
+                            <p id="taxAmount" class="text-xl font-black text-red-500">- 0</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 text-center">
+                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Încasări Net</p>
+                            <p id="netRevenue" class="text-xl font-black text-gray-900">0</p>
+                        </div>
+                        <div id="profitCard" class="p-4 bg-gray-50 rounded-2xl border border-gray-100 text-center transition-colors">
+                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Profit / Pierdere</p>
+                            <p id="netProfit" class="text-xl font-black text-gray-900">0</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 border-t border-gray-50">
+                        <h3 class="text-sm font-black text-gray-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <span>💡</span> Strategie Trading
+                        </h3>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Pentru a face profit, trebuie să vinzi la un preț cu cel puțin <b>5.27%</b> mai mare decât prețul de cumpărare.
+                            Orice vânzare sub acest prag rezultă într-o pierdere din cauza taxei aplicate de EA pe piața de transferuri.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline>
+        const buyInput = document.getElementById('buyPrice');
+        const sellInput = document.getElementById('sellPrice');
+        const taxAmount = document.getElementById('taxAmount');
+        const netRevenue = document.getElementById('netRevenue');
+        const netProfit = document.getElementById('netProfit');
+        const profitCard = document.getElementById('profitCard');
+
+        function calculate() {
+            const buy = parseFloat(buyInput.value) || 0;
+            const sell = parseFloat(sellInput.value) || 0;
+
+            const tax = Math.floor(sell * 0.05);
+            const revenue = sell - tax;
+            const profit = revenue - buy;
+
+            taxAmount.textContent = `- ${tax.toLocaleString()}`;
+            netRevenue.textContent = revenue.toLocaleString();
+            netProfit.textContent = (profit >= 0 ? '+ ' : '') + profit.toLocaleString();
+
+            if (profit > 0) {
+                netProfit.className = 'text-xl font-black text-emerald-600';
+                profitCard.className = 'p-4 bg-emerald-50 rounded-2xl border border-emerald-100 text-center transition-colors';
+            } else if (profit < 0) {
+                netProfit.className = 'text-xl font-black text-red-600';
+                profitCard.className = 'p-4 bg-red-50 rounded-2xl border border-red-100 text-center transition-colors';
+            } else {
+                netProfit.className = 'text-xl font-black text-gray-900';
+                profitCard.className = 'p-4 bg-gray-50 rounded-2xl border border-gray-100 text-center transition-colors';
+            }
+        }
+
+        buyInput.addEventListener('input', calculate);
+        sellInput.addEventListener('input', calculate);
+
+        // Initial
+        calculate();
+    </script>
+</Layout>

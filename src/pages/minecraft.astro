@@ -1,0 +1,171 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = "Minecraft Circle Generator - Manualul.ro";
+const description = "Generează diagrame pentru cercuri și turnuri rotunde în Minecraft. Introdu diametrul și vezi exact unde să pui blocurile.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <div class="inline-block p-3 bg-green-100 rounded-2xl mb-4">
+                <span class="text-4xl">🧊</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Minecraft <span class="text-green-600">Circle Generator</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
+                Planifică-ți construcțiile rotunde cu precizie de pixel.
+            </p>
+        </header>
+
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white rounded-[40px] shadow-xl border border-green-50 overflow-hidden">
+                <div class="p-8 bg-green-600 text-white">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div>
+                            <h2 class="text-xl font-bold mb-1">Configurare Cerc</h2>
+                            <p class="text-green-100 text-sm">Alege diametrul (4 - 100 blocuri)</p>
+                        </div>
+                        <div class="flex items-center gap-4 bg-green-700/50 p-3 rounded-2xl">
+                            <label for="diameterInput" class="font-bold">Diametru:</label>
+                            <input
+                                type="number"
+                                id="diameterInput"
+                                value="20"
+                                min="4"
+                                max="100"
+                                class="w-20 bg-green-800 border-none rounded-lg px-3 py-1 text-white font-bold focus:ring-2 focus:ring-green-400 outline-none"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 md:p-10 space-y-8">
+                    <div class="space-y-4">
+                        <input
+                            type="range"
+                            id="diameterRange"
+                            min="4"
+                            max="100"
+                            value="20"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-600"
+                        />
+                        <div class="flex justify-between text-xs text-gray-400 font-bold uppercase tracking-widest">
+                            <span>4 blocuri</span>
+                            <span>100 blocuri</span>
+                        </div>
+                    </div>
+
+                    <div class="relative bg-[#1a1a1a] rounded-2xl p-4 overflow-hidden flex items-center justify-center border-8 border-gray-800 shadow-inner min-h-[400px]">
+                        <canvas id="gridCanvas" class="max-w-full max-h-[600px] border border-gray-700" style="image-rendering: pixelated;"></canvas>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Blocuri</p>
+                            <p id="totalBlocks" class="text-2xl font-black text-gray-900">0</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Rază</p>
+                            <p id="radiusVal" class="text-2xl font-black text-gray-900">0</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 border-t border-gray-50">
+                        <h3 class="text-sm font-black text-gray-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <span>📜</span> Cum se folosește
+                        </h3>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-4">
+                            Acest tool folosește un algoritm de rasterizare pentru a aproxima un cerc perfect folosind blocuri pătrate.
+                            Pixelii <span class="text-green-600 font-bold text-base">■</span> reprezintă locul unde trebuie să plasezi blocurile în Minecraft.
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex gap-3 text-sm text-gray-600 font-medium">
+                                <span class="text-green-500 font-black">→</span>
+                                Folosește slider-ul pentru a schimba mărimea.
+                            </li>
+                            <li class="flex gap-3 text-sm text-gray-600 font-medium">
+                                <span class="text-green-500 font-black">→</span>
+                                Numărul de blocuri te ajută să știi cât material trebuie să aduni.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline>
+        const diameterInput = document.getElementById('diameterInput');
+        const diameterRange = document.getElementById('diameterRange');
+        const gridCanvas = document.getElementById('gridCanvas');
+        const totalBlocksDisplay = document.getElementById('totalBlocks');
+        const radiusValDisplay = document.getElementById('radiusVal');
+        const ctx = gridCanvas.getContext('2d');
+
+        function updateGrid() {
+            const diameter = parseInt(diameterInput.value) || 4;
+            const radius = diameter / 2;
+            radiusValDisplay.textContent = radius;
+
+            gridCanvas.width = diameter;
+            gridCanvas.height = diameter;
+
+            // Scalare vizuală
+            const displaySize = Math.min(600, diameter * 20);
+            gridCanvas.style.width = `${displaySize}px`;
+            gridCanvas.style.height = `${displaySize}px`;
+
+            ctx.clearRect(0, 0, diameter, diameter);
+
+            const imageData = ctx.createImageData(diameter, diameter);
+            const data = imageData.data;
+            let totalBlocks = 0;
+
+            for (let y = 0; y < diameter; y++) {
+                for (let x = 0; x < diameter; x++) {
+                    const dx = x + 0.5 - radius;
+                    const dy = y + 0.5 - radius;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    const idx = (y * diameter + x) * 4;
+
+                    if (distance <= radius && distance > radius - 1) {
+                        // Color color: #16a34a (green-600)
+                        data[idx] = 22;
+                        data[idx+1] = 163;
+                        data[idx+2] = 74;
+                        data[idx+3] = 255;
+                        totalBlocks++;
+                    } else if (distance <= radius - 1) {
+                        // Inside: #374151 (gray-700)
+                        data[idx] = 55;
+                        data[idx+1] = 65;
+                        data[idx+2] = 81;
+                        data[idx+3] = 100; // Semi-transparent
+                    } else {
+                        // Outside
+                        data[idx+3] = 0;
+                    }
+                }
+            }
+            ctx.putImageData(imageData, 0, 0);
+            totalBlocksDisplay.textContent = totalBlocks;
+        }
+
+        diameterInput.addEventListener('input', (e) => {
+            let val = parseInt(e.target.value);
+            if (val > 100) val = 100;
+            if (val < 4) val = 4;
+            diameterRange.value = val;
+            updateGrid();
+        });
+
+        diameterRange.addEventListener('input', (e) => {
+            diameterInput.value = e.target.value;
+            updateGrid();
+        });
+
+        updateGrid();
+    </script>
+</Layout>

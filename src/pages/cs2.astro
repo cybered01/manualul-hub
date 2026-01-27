@@ -1,0 +1,170 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = "CS2 Buy Bind Generator - Manualul.ro";
+const description = "Generează bind-uri pentru cumpărare rapidă în Counter-Strike 2. Configurează-ți tastele și cumpără instant în fiecare rundă.";
+
+const keys = [
+    { label: "F1", value: "f1" }, { label: "F2", value: "f2" }, { label: "F3", value: "f3" }, { label: "F4", value: "f4" },
+    { label: "F5", value: "f5" }, { label: "F6", value: "f6" }, { label: "F7", value: "f7" }, { label: "F8", value: "f8" },
+    { label: "F9", value: "f9" }, { label: "F10", value: "f10" }, { label: "F11", value: "f11" }, { label: "F12", value: "f12" },
+    { label: "Num 0", value: "kp_ins" }, { label: "Num 1", value: "kp_end" }, { label: "Num 2", value: "kp_downarrow" },
+    { label: "Num 3", value: "kp_pgdn" }, { label: "Num 4", value: "kp_leftarrow" }, { label: "Num 5", value: "kp_5" },
+    { label: "Num 6", value: "kp_rightarrow" }, { label: "Num 7", value: "kp_home" }, { label: "Num 8", value: "kp_uparrow" },
+    { label: "Num 9", value: "kp_pgup" }, { label: "Num .", value: "kp_del" }, { label: "Num /", value: "kp_slash" },
+    { label: "Num *", value: "kp_multiply" }, { label: "Num -", value: "kp_minus" }, { label: "Num +", value: "kp_plus" },
+    { label: "Num Enter", value: "kp_enter" }
+];
+
+const weapons = [
+    { label: "Niciuna", value: "" },
+    { label: "AK-47 / M4A4", value: "ak47; buy m4a1" },
+    { label: "M4A1-S", value: "m4a1_silencer" },
+    { label: "AWP", value: "awp" },
+    { label: "Galil / Famas", value: "galilar; buy famas" },
+    { label: "MP9 / MAC-10", value: "mp9; buy mac10" },
+    { label: "Desert Eagle", value: "deagle" },
+    { label: "SSG 08 (Scout)", value: "ssg08" },
+    { label: "XM1014", value: "xm1014" }
+];
+
+const equipment = [
+    { label: "Vestă", value: "vest" },
+    { label: "Vestă + Cască", value: "vesthelm" },
+    { label: "Flashbang", value: "flashbang" },
+    { label: "Smoke", value: "smokegrenade" },
+    { label: "HE Grenade", value: "hegrenade" },
+    { label: "Molotov / Incendiary", value: "molotov; buy incgrenade" },
+    { label: "Defuse Kit", value: "defuser" }
+];
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <div class="inline-block p-3 bg-slate-100 rounded-2xl mb-4">
+                <span class="text-4xl">🔫</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                CS2 <span class="text-blue-600">Buy Bind Generator</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
+                Cumpără tot ce ai nevoie cu o singură tastă. Generat instant pentru consolă.
+            </p>
+        </header>
+
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-white rounded-[40px] shadow-xl border border-blue-50 overflow-hidden">
+                <div class="p-8 bg-blue-600 text-white">
+                    <h2 class="text-xl font-bold mb-1">Configurează Bind-ul</h2>
+                    <p class="text-blue-100 text-sm">Alege tasta și obiectele pe care vrei să le cumperi</p>
+                </div>
+
+                <div class="p-8 md:p-10 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-black text-gray-400 uppercase tracking-widest px-1">Tastă</label>
+                            <select id="keySelect" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-gray-700">
+                                {keys.map(k => <option value={k.value}>{k.label}</option>)}
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-black text-gray-400 uppercase tracking-widest px-1">Armă Primară</label>
+                            <select id="weaponSelect" class="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-gray-700">
+                                {weapons.map(w => <option value={w.value}>{w.label}</option>)}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="text-xs font-black text-gray-400 uppercase tracking-widest px-1">Echipament & Utilități (alege multiple)</label>
+                        <div class="grid grid-cols-2 gap-3" id="equipmentList">
+                            {equipment.map(e => (
+                                <label class="flex items-center gap-3 p-4 bg-gray-50 border border-gray-100 rounded-2xl cursor-pointer hover:bg-blue-50 transition-colors group">
+                                    <input type="checkbox" value={e.value} class="w-5 h-5 accent-blue-600 rounded">
+                                    <span class="text-sm font-bold text-gray-700 group-hover:text-blue-700">{e.label}</span>
+                                </label>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div class="pt-6">
+                        <div class="bg-gray-900 rounded-3xl p-6 relative group">
+                            <label class="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em] mb-4 block">Comandă Consolă</label>
+                            <code id="outputCode" class="text-blue-100 font-mono text-sm break-all leading-relaxed">bind "f1" "buy ak47; buy m4a1"</code>
+                            <button id="copyBtn" class="absolute top-4 right-4 p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all opacity-0 group-hover:opacity-100 shadow-lg" title="Copiază">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 border-t border-gray-50">
+                        <h3 class="text-sm font-black text-gray-900 uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <span>📜</span> Cum instalezi
+                        </h3>
+                        <ul class="space-y-3">
+                            <li class="flex gap-3 text-sm text-gray-600 font-medium">
+                                <span class="text-blue-500 font-black">→</span>
+                                1. Copiază codul de mai sus.
+                            </li>
+                            <li class="flex gap-3 text-sm text-gray-600 font-medium">
+                                <span class="text-blue-500 font-black">→</span>
+                                2. Deschide CS2 și apasă tasta ` (tilda) pentru a deschide consola.
+                            </li>
+                            <li class="flex gap-3 text-sm text-gray-600 font-medium">
+                                <span class="text-blue-500 font-black">→</span>
+                                3. Lipeste codul (Ctrl+V) și apasă Enter.
+                            </li>
+                            <li class="flex gap-3 text-sm text-gray-600 font-medium">
+                                <span class="text-blue-500 font-black">→</span>
+                                4. Acum tasta aleasă va cumpăra automat tot echipamentul.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline>
+        const keySelect = document.getElementById('keySelect');
+        const weaponSelect = document.getElementById('weaponSelect');
+        const equipmentList = document.getElementById('equipmentList');
+        const outputCode = document.getElementById('outputCode');
+        const copyBtn = document.getElementById('copyBtn');
+
+        function updateBind() {
+            const key = keySelect.value;
+            const weapon = weaponSelect.value;
+            const checkboxes = equipmentList.querySelectorAll('input:checked');
+
+            let commands = [];
+            if (weapon) commands.push(`buy ${weapon}`);
+
+            checkboxes.forEach(cb => {
+                commands.push(`buy ${cb.value}`);
+            });
+
+            const finalCommand = `bind "${key}" "${commands.join('; ')}"`;
+            outputCode.textContent = finalCommand;
+        }
+
+        keySelect.addEventListener('change', updateBind);
+        weaponSelect.addEventListener('change', updateBind);
+        equipmentList.addEventListener('change', updateBind);
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(outputCode.textContent).then(() => {
+                const originalSvg = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<span class="text-xs">COPIAT!</span>';
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalSvg;
+                }, 2000);
+            });
+        });
+
+        // Initial update
+        updateBind();
+    </script>
+</Layout>
