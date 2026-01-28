@@ -1,0 +1,145 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+const title = "Calculator Densitate Plante - Manualul.ro";
+const description = "Calculează necesarul de răsaduri sau semințe pentru grădina ta. Densitate optimă de plantare pentru orice suprafață.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <div class="inline-block p-3 bg-green-100 rounded-2xl mb-4">
+                <span class="text-4xl">🌱</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Densitate <span class="text-green-600">Cultură</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
+                Află exact de câte semințe sau răsaduri ai nevoie pentru a acoperi eficient terenul tău.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-[40px] shadow-xl border border-green-50 overflow-hidden">
+                    <!-- Card 1: Suprafata -->
+                    <div class="p-8 bg-green-600 text-white">
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <span>📐</span> Suprafață Teren
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="suprafata_val" class="block text-xs font-black uppercase opacity-80 tracking-wider">Valoare Suprafață</label>
+                                <input type="number" id="suprafata_val" value="50" min="0" step="1" class="w-full bg-white/10 border border-white/20 rounded-2xl p-4 text-white font-bold text-2xl outline-none focus:bg-white/20 transition-all">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="unitate" class="block text-xs font-black uppercase opacity-80 tracking-wider">Unitate</label>
+                                <select id="unitate" class="w-full bg-white/10 border border-white/20 rounded-2xl p-4 text-white font-bold text-2xl outline-none focus:bg-white/20 transition-all appearance-none">
+                                    <option value="mp" class="text-gray-900">Metri Pătrați (mp)</option>
+                                    <option value="ari" class="text-gray-900">Ari</option>
+                                    <option value="ha" class="text-gray-900">Hectare (Ha)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Distante de plantare -->
+                    <div class="p-8 md:p-10 space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="dist_rand" class="text-[10px] font-black text-green-600 uppercase tracking-[0.2em]">Distanța între rânduri (cm)</label>
+                                <div class="relative">
+                                    <input type="number" id="dist_rand" value="70" min="1" step="1" class="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-gray-900 font-bold text-2xl outline-none focus:border-green-500 transition-all">
+                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">cm</span>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="dist_planta" class="text-[10px] font-black text-green-600 uppercase tracking-[0.2em]">Distanța între plante (cm)</label>
+                                <div class="relative">
+                                    <input type="number" id="dist_planta" value="35" min="1" step="1" class="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-gray-900 font-bold text-2xl outline-none focus:border-green-500 transition-all">
+                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">cm</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 p-8 rounded-[40px] bg-green-50 border-2 border-dashed border-green-200 text-center md:text-left">
+                            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                                <div>
+                                    <p class="text-[10px] font-black uppercase text-green-400 tracking-[0.2em] mb-1">Necesar Estimat</p>
+                                    <p class="text-4xl md:text-5xl font-black text-green-700" id="rezultatDisplay">0 fire</p>
+                                    <p class="mt-2 text-sm font-bold text-green-900">Ai nevoie de aproximativ aceste semințe/fire.</p>
+                                </div>
+                                <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-gray-900 text-white p-8 rounded-[40px] shadow-xl">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <span class="text-green-400">📏</span> Exemple Distanțe
+                    </h3>
+                    <ul class="space-y-4 text-sm text-gray-300 font-medium border-b border-white/10 pb-6 mb-6">
+                        <li class="flex justify-between">
+                            <span>Roșii:</span>
+                            <span class="text-white font-bold">70 x 40 cm</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Ardei:</span>
+                            <span class="text-white font-bold">40 x 20 cm</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Porumb:</span>
+                            <span class="text-white font-bold">70 x 25 cm</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Cartofi:</span>
+                            <span class="text-white font-bold">70 x 30 cm</span>
+                        </li>
+                    </ul>
+                    <p class="text-xs text-gray-500 italic">Distanțele pot varia în funcție de soi și metoda de cultură.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline>
+        function updateCalculator() {
+            const suprafataVal = parseFloat(document.getElementById('suprafata_val').value) || 0;
+            const unitate = document.getElementById('unitate').value;
+            const distRand = parseFloat(document.getElementById('dist_rand').value) || 1;
+            const distPlanta = parseFloat(document.getElementById('dist_planta').value) || 1;
+
+            let suprafataMp = suprafataVal;
+            if (unitate === 'ari') suprafataMp = suprafataVal * 100;
+            else if (unitate === 'ha') suprafataMp = suprafataVal * 10000;
+
+            const spatiuPerPlanta = (distRand * distPlanta) / 10000; // in mp
+            const totalPlante = Math.floor(suprafataMp / spatiuPerPlanta);
+
+            const display = document.getElementById('rezultatDisplay');
+            display.innerText = totalPlante.toLocaleString() + " fire/semințe";
+
+            // WhatsApp Link
+            const btnDesktop = document.getElementById('whatsappBtn');
+            const btnMobile = document.getElementById('whatsappBtnFloating');
+
+            const mesaj = `Am calculat densitatea de plantare: am nevoie de aproximativ ${totalPlante.toLocaleString()} fire/semințe pentru terenul meu. Calculează și tu: ${window.location.href}`;
+            const finalLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnDesktop) btnDesktop.href = finalLink;
+            if (btnMobile) btnMobile.href = finalLink;
+        }
+
+        // Event Listeners
+        document.querySelectorAll('input, select').forEach(el => {
+            el.addEventListener('input', updateCalculator);
+        });
+
+        // Initial run
+        updateCalculator();
+    </script>
+</Layout>

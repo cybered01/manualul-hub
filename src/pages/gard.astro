@@ -1,0 +1,183 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+const title = "Calculator Gard și Împrejmuire - Manualul.ro";
+const description = "Calculează necesarul de materiale pentru gard: metri de plasă și numărul de stâlpi. Estimare rapidă pentru orice teren.";
+---
+
+<Layout title={title} description={description}>
+    <main class="max-w-4xl mx-auto px-4 pb-20">
+        <header class="py-12 text-center">
+            <div class="inline-block p-3 bg-orange-100 rounded-2xl mb-4">
+                <span class="text-4xl">🚧</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 mb-4 tracking-tight">
+                Calculator <span class="text-orange-700">Gard</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
+                Află câți stâlpi și câți metri de plasă îți trebuie pentru a-ți împrejmui terenul sau grădina.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-[40px] shadow-xl border border-orange-50 overflow-hidden">
+                    <!-- Card 1: Dimensiuni Teren -->
+                    <div class="p-8 bg-orange-700 text-white">
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <span>📐</span> Dimensiuni Teren
+                        </h2>
+
+                        <div class="mb-6">
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-white/10 cursor-pointer hover:bg-white/20 transition-all w-fit">
+                                <input type="checkbox" id="doar_suprafata" class="w-5 h-5 accent-orange-500">
+                                <span class="text-sm font-bold">Am doar suprafața totală (mp)</span>
+                            </label>
+                        </div>
+
+                        <div id="grid-dimensiuni" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="lungime" class="block text-xs font-black uppercase opacity-80 tracking-wider">Lungime (m)</label>
+                                <input type="number" id="lungime" value="50" min="0" step="1" class="w-full bg-white/10 border border-white/20 rounded-2xl p-4 text-white font-bold text-2xl outline-none focus:bg-white/20 transition-all">
+                            </div>
+                            <div class="space-y-2">
+                                <label for="latime" class="block text-xs font-black uppercase opacity-80 tracking-wider">Lățime (m)</label>
+                                <input type="number" id="latime" value="30" min="0" step="1" class="w-full bg-white/10 border border-white/20 rounded-2xl p-4 text-white font-bold text-2xl outline-none focus:bg-white/20 transition-all">
+                            </div>
+                        </div>
+
+                        <div id="grid-suprafata" class="hidden space-y-2">
+                            <label for="suprafata_totala" class="block text-xs font-black uppercase opacity-80 tracking-wider">Suprafață Totală (mp)</label>
+                            <input type="number" id="suprafata_totala" value="1500" min="0" step="1" class="w-full bg-white/10 border border-white/20 rounded-2xl p-4 text-white font-bold text-2xl outline-none focus:bg-white/20 transition-all">
+                            <p class="text-[10px] opacity-70 italic mt-1">* Se va presupune un teren pătrat pentru estimare.</p>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Detalii Gard -->
+                    <div class="p-8 md:p-10 space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="dist_stalpi" class="text-[10px] font-black text-orange-700 uppercase tracking-[0.2em]">Distanța între stâlpi (m)</label>
+                                <div class="relative">
+                                    <input type="number" id="dist_stalpi" value="2.5" min="0.5" step="0.1" class="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-gray-900 font-bold text-2xl outline-none focus:border-orange-500 transition-all">
+                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">m</span>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="latime_poarta" class="text-[10px] font-black text-orange-700 uppercase tracking-[0.2em]">Lățime Poartă (m)</label>
+                                <div class="relative">
+                                    <input type="number" id="latime_poarta" value="4" min="0" step="0.5" class="w-full bg-gray-50 border border-gray-200 rounded-2xl p-4 text-gray-900 font-bold text-2xl outline-none focus:border-orange-500 transition-all">
+                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">m</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 p-8 rounded-[40px] bg-orange-50 border-2 border-dashed border-orange-200">
+                            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                                <div class="space-y-4 text-center md:text-left">
+                                    <div>
+                                        <p class="text-[10px] font-black uppercase text-orange-400 tracking-[0.2em] mb-1">Necesar Plasă / Gard</p>
+                                        <p class="text-3xl md:text-4xl font-black text-orange-800" id="plasaDisplay">0 metri</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] font-black uppercase text-orange-400 tracking-[0.2em] mb-1">Necesar Stâlpi</p>
+                                        <p class="text-3xl md:text-4xl font-black text-orange-800" id="stalpiDisplay">0 bucăți</p>
+                                    </div>
+                                </div>
+                                <WhatsAppButton idDesktop="whatsappBtn" idMobile="whatsappBtnFloating" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-gray-900 text-white p-8 rounded-[40px] shadow-xl">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <span class="text-orange-400">📋</span> Listă Materiale
+                    </h3>
+                    <ul class="space-y-4 text-sm text-gray-300 font-medium">
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                            Plasă bordurată sau împletită
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                            Stâlpi metalici sau beton
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                            Sârmă de tensiune (dacă e cazul)
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                            Ciment / Beton pentru stâlpi
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                            Sistem poartă (balamale, zăvor)
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script is:inline>
+        const checkSuprafata = document.getElementById('doar_suprafata');
+        const gridDimensiuni = document.getElementById('grid-dimensiuni');
+        const gridSuprafata = document.getElementById('grid-suprafata');
+
+        checkSuprafata.addEventListener('change', () => {
+            if (checkSuprafata.checked) {
+                gridDimensiuni.classList.add('hidden');
+                gridSuprafata.classList.remove('hidden');
+            } else {
+                gridDimensiuni.classList.remove('hidden');
+                gridSuprafata.classList.add('hidden');
+            }
+            updateCalculator();
+        });
+
+        function updateCalculator() {
+            let perimetru = 0;
+
+            if (checkSuprafata.checked) {
+                const suprafata = parseFloat(document.getElementById('suprafata_totala').value) || 0;
+                perimetru = 4 * Math.sqrt(suprafata);
+            } else {
+                const lungime = parseFloat(document.getElementById('lungime').value) || 0;
+                const latime = parseFloat(document.getElementById('latime').value) || 0;
+                perimetru = 2 * (lungime + latime);
+            }
+
+            const latimePoarta = parseFloat(document.getElementById('latime_poarta').value) || 0;
+            const distStalpi = parseFloat(document.getElementById('dist_stalpi').value) || 2.5;
+
+            const plasaNecesara = Math.max(0, perimetru - latimePoarta);
+            const nrStalpi = Math.ceil(perimetru / distStalpi);
+
+            document.getElementById('plasaDisplay').innerText = Math.round(plasaNecesara).toLocaleString() + " metri liniari";
+            document.getElementById('stalpiDisplay').innerText = nrStalpi.toLocaleString() + " bucăți";
+
+            // WhatsApp Link
+            const btnDesktop = document.getElementById('whatsappBtn');
+            const btnMobile = document.getElementById('whatsappBtnFloating');
+
+            const mesaj = `Am calculat necesarul pentru gard: am nevoie de ${Math.round(plasaNecesara)} metri de plasă și ${nrStalpi} stâlpi. Calculează și tu pe Manualul.ro: ${window.location.href}`;
+            const finalLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(mesaj)}`;
+
+            if (btnDesktop) btnDesktop.href = finalLink;
+            if (btnMobile) btnMobile.href = finalLink;
+        }
+
+        // Event Listeners
+        document.querySelectorAll('input').forEach(el => {
+            el.addEventListener('input', updateCalculator);
+        });
+
+        // Initial run
+        updateCalculator();
+    </script>
+</Layout>
