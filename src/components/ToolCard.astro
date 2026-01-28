@@ -7,35 +7,61 @@ interface Props {
   tag?: string;
   colorClass?: string;
   cta: string;
+  isDark?: boolean;
+  category?: string;
 }
 
-const { title, description, href, icon, tag, colorClass = "border-b-slate-600", cta } = Astro.props;
+const {
+    title,
+    description,
+    href,
+    icon,
+    tag,
+    colorClass = "border-b-slate-600",
+    cta,
+    isDark = false,
+    category = "all"
+} = Astro.props;
 ---
 
 <a
     href={href}
     class:list={[
-        "tool-card group p-8 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col border-b-4 relative overflow-hidden",
+        "tool-card group p-8 rounded-3xl border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col border-b-4 relative overflow-hidden",
+        isDark ? "bg-gray-900 border-gray-800 text-white" : "bg-white border-gray-100",
         colorClass
     ]}
     data-title={title.toLowerCase()}
     data-description={description.toLowerCase()}
+    data-category={category}
 >
     {tag && (
         <span class="absolute top-4 right-4 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-full animate-pulse uppercase tracking-wider">
             {tag}
         </span>
     )}
-    <div class="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mb-6 font-bold text-3xl group-hover:scale-110 transition-transform duration-300">
+    <div class:list={[
+        "w-14 h-14 rounded-2xl flex items-center justify-center mb-6 font-bold text-3xl group-hover:scale-110 transition-transform duration-300",
+        isDark ? "bg-gray-800" : "bg-gray-50"
+    ]}>
         {icon}
     </div>
-    <h2 class="text-2xl font-bold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors">
+    <h2 class:list={[
+        "text-2xl font-bold mb-2 transition-colors",
+        isDark ? "text-white group-hover:text-cyan-400" : "text-gray-800 group-hover:text-blue-700"
+    ]}>
         {title}
     </h2>
-    <p class="text-gray-500 mb-6 flex-grow leading-relaxed">
+    <p class:list={[
+        "mb-6 flex-grow leading-relaxed",
+        isDark ? "text-gray-400" : "text-gray-500"
+    ]}>
         {description}
     </p>
-    <span class="text-gray-900 font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+    <span class:list={[
+        "font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform",
+        isDark ? "text-cyan-400" : "text-gray-900"
+    ]}>
         {cta} <span class="text-xl">→</span>
     </span>
 </a>
