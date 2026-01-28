@@ -4,138 +4,78 @@ import ToolCard from '../components/ToolCard.astro';
 ---
 
 <Layout 
-    title="Manualul.ro - Hub-ul tău de Calculatoare și Ghiduri 2026"
-    description="Portalul tău de referință pentru taxe PFA/SRL, granturi IMM, ajutoare sociale, simulatoare de profit și bugete de familie."
+    title="Manualul.ro - Calculează. Rezolvă. Construiește."
+    description="Singurul loc unde îți calculezi salariul, îți planifici nunta sau îți configurezi jocul preferat. Hub-ul tău de utilitare pentru viața reală și virtuală."
 >
     <main>
         <!-- Hero Section -->
-        <header class="max-w-6xl mx-auto px-4 pt-20 pb-16 text-center">
+        <header class="max-w-6xl mx-auto px-4 pt-24 pb-12 text-center">
             <h1 class="text-5xl md:text-7xl font-black text-gray-900 mb-6 tracking-tight">
-                Decizii Financiare <br class="hidden md:block"/> <span class="text-blue-700">Calculate, nu Ghicite.</span>
+                Calculează. Rezolvă. <span class="text-blue-600">Construiește.</span>
             </h1>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-12">
-                Singurul loc unde afli adevărul despre salariu, pensie, renovări și costul vieții în România.
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
+                Singurul loc unde îți calculezi salariul, îți planifici nunta sau îți configurezi jocul preferat.
             </p>
 
-            <div class="relative max-w-xl mx-auto mb-8">
+            <div class="relative max-w-2xl mx-auto mb-12">
                 <input
                     type="text"
                     id="tool-search"
-                    placeholder="Ce vrei să calculezi azi?"
-                    class="w-full px-6 py-4 rounded-2xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-lg transition-all"
+                    placeholder="Ce vrei să rezolvi azi?"
+                    class="w-full px-8 py-5 rounded-2xl border-2 border-gray-100 shadow-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-xl transition-all"
                 />
-                <div class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
             </div>
+
+            <!-- Quick Navigation Pills -->
+            <div class="flex flex-wrap justify-center gap-3 mb-8" id="filter-pills">
+                <button class="px-6 py-2 rounded-full font-bold transition-all bg-blue-600 text-white shadow-lg shadow-blue-200" data-filter="all">Toate</button>
+                <button class="px-6 py-2 rounded-full font-bold transition-all bg-white text-gray-600 border border-gray-100 hover:border-blue-200" data-filter="money">💰 Bani</button>
+                <button class="px-6 py-2 rounded-full font-bold transition-all bg-white text-gray-600 border border-gray-100 hover:border-blue-200" data-filter="casa">🏠 Casă</button>
+                <button class="px-6 py-2 rounded-full font-bold transition-all bg-white text-gray-600 border border-gray-100 hover:border-blue-200" data-filter="gaming">🎮 Gaming</button>
+                <button class="px-6 py-2 rounded-full font-bold transition-all bg-white text-gray-600 border border-gray-100 hover:border-blue-200" data-filter="agri">🚜 Agri</button>
+            </div>
         </header>
 
-        <!-- Section 1: Bani & Carieră -->
-        <section class="bg-slate-50 py-16 scroll-mt-20 border-y border-gray-100" id="money-section">
+        <!-- UNIVERSUL SERIOS -->
+        <section class="bg-white py-20 scroll-mt-20 border-t border-gray-100" id="serios-universe">
             <div class="max-w-6xl mx-auto px-4">
-                <div class="flex items-center gap-3 mb-10">
-                    <span class="text-3xl">💰</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Bani & Carieră</h2>
+                <div class="mb-12">
+                    <h2 class="text-4xl font-black text-gray-900 mb-2">UNIVERSUL SERIOS</h2>
+                    <p class="text-blue-600 font-bold uppercase tracking-widest text-sm">Bani • Casă • Muncă</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 tool-grid">
-                    <ToolCard
-                        title="Diagnosticul Financiar"
-                        description="Audit complet de sănătate financiară. Află scorul tău real și primește o 'rețetă' personalizată."
-                        href="/scor"
-                        icon="🩺"
-                        tag="NOU"
-                        colorClass="border-b-emerald-600"
-                        cta="Începe auditul"
-                    />
-                    <ToolCard
-                        title="Calculator Fiscal"
-                        description="SRL sau PFA în 2026? Introdu factura lunară și vezi unde rămâi cu mai mulți bani."
-                        href="/fiscal"
-                        icon="💼"
-                        colorClass="border-b-slate-600"
-                        cta="Compară taxele"
-                    />
                     <ToolCard
                         title="Analizator Venituri"
                         description="Calculează salariul tău real (Net + Beneficii - Costuri job). Mult peste un simplu Brut->Net."
                         href="/salariu"
                         icon="💵"
                         tag="EXPERT"
+                        category="money"
                         colorClass="border-b-blue-600"
                         cta="Analizează venitul"
                     />
                     <ToolCard
-                        title="Manualul de Criză"
-                        description="Calculator de inflație. Vezi câți bani ai pierdut din cauza devalorizării leului."
-                        href="/inflatie"
-                        icon="📉"
-                        colorClass="border-b-red-500"
-                        cta="Calculează pierderea"
+                        title="Calculator Fiscal"
+                        description="SRL sau PFA în 2026? Introdu factura lunară și vezi unde rămâi cu mai mulți bani."
+                        href="/fiscal"
+                        icon="💼"
+                        category="money"
+                        colorClass="border-b-slate-600"
+                        cta="Compară taxele"
                     />
-                    <ToolCard
-                        title="Fabrica de Bani"
-                        description="Simulator de Dobândă Compusă. Vezi cum 500 lei pe lună pot deveni o avere în timp."
-                        href="/investitii"
-                        icon="💰"
-                        colorClass="border-b-yellow-500"
-                        cta="Simulează profitul"
-                    />
-                    <ToolCard
-                        title="Simulator Pensie"
-                        description="Află ce pensie vei avea cu adevărat, ajustată la inflație (Puterea de Cumpărare)."
-                        href="/pensie"
-                        icon="👴"
-                        colorClass="border-b-blue-900"
-                        cta="Calculează viitorul"
-                    />
-                    <ToolCard
-                        title="Facultate Profit"
-                        description="Simulează în cât timp îți recuperezi banii investiți în studii."
-                        href="/facultati"
-                        icon="🎓"
-                        colorClass="border-b-indigo-500"
-                        cta="Vezi ROI-ul"
-                    />
-                    <ToolCard
-                        title="Simulator Cost Auto"
-                        description="Nu e doar benzina. Află costul real lunar al mașinii tale (TCO) până la ultimul leu."
-                        href="/auto"
-                        icon="🚗"
-                        tag="NOU"
-                        colorClass="border-b-blue-600"
-                        cta="Calculează costul"
-                    />
-                    <ToolCard
-                        title="Simulator Migrație"
-                        description="România vs. Vest. Compară costul vieții și puterea de cumpărare în 10 orașe mari."
-                        href="/migratie"
-                        icon="✈️"
-                        tag="NOU"
-                        colorClass="border-b-indigo-600"
-                        cta="Compară viața"
-                    />
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 2: Casă & Familie -->
-        <section class="bg-white py-16 scroll-mt-20" id="home-section">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="flex items-center gap-3 mb-10">
-                    <span class="text-3xl">🏠</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Casă & Familie</h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 tool-grid">
                     <ToolCard
                         title="Investitor Imobiliar"
                         description="Chirie vs. Rată la nivel de expert. Proiecții de Net Worth pe 30 de ani și costuri de oportunitate."
                         href="/chirie-rata"
                         icon="🏘️"
                         tag="EXPERT"
+                        category="casa"
                         colorClass="border-b-indigo-500"
                         cta="Simulează investiția"
                     />
@@ -145,31 +85,140 @@ import ToolCard from '../components/ToolCard.astro';
                         href="/renovare"
                         icon="🏗️"
                         tag="EXPERT"
+                        category="casa"
                         colorClass="border-b-orange-700"
                         cta="Generează devizul"
                     />
                     <ToolCard
-                        title="Cost Primul Copil"
-                        description="Calculează bugetul pentru primul an: sarcină, naștere și cheltuieli recurente."
-                        href="/copil"
-                        icon="🍼"
-                        colorClass="border-b-blue-400"
-                        cta="Calculează bugetul"
+                        title="Simulator Cost Auto"
+                        description="Nu e doar benzina. Află costul real lunar al mașinii tale (TCO) până la ultimul leu."
+                        href="/auto"
+                        icon="🚗"
+                        category="casa"
+                        colorClass="border-b-blue-600"
+                        cta="Calculează costul"
                     />
+                    <ToolCard
+                        title="Diagnosticul Financiar"
+                        description="Audit complet de sănătate financiară. Află scorul tău real și primește o 'rețetă' personalizată."
+                        href="/scor"
+                        icon="🩺"
+                        tag="NOU"
+                        category="money"
+                        colorClass="border-b-emerald-600"
+                        cta="Începe auditul"
+                    />
+                    <ToolCard
+                        title="Manualul de Criză"
+                        description="Calculator de inflație. Vezi câți bani ai pierdut din cauza devalorizării leului."
+                        href="/inflatie"
+                        icon="📉"
+                        category="money"
+                        colorClass="border-b-red-500"
+                        cta="Calculează pierderea"
+                    />
+                    <ToolCard
+                        title="Fabrica de Bani"
+                        description="Simulator de Dobândă Compusă. Vezi cum 500 lei pe lună pot deveni o avere în timp."
+                        href="/investitii"
+                        icon="💰"
+                        category="money"
+                        colorClass="border-b-yellow-500"
+                        cta="Simulează profitul"
+                    />
+                    <ToolCard
+                        title="Facultate Profit"
+                        description="Simulează în cât timp îți recuperezi banii investiți în studii."
+                        href="/facultati"
+                        icon="🎓"
+                        category="money"
+                        colorClass="border-b-indigo-500"
+                        cta="Vezi ROI-ul"
+                    />
+                    <ToolCard
+                        title="Manualul Finanțărilor"
+                        description="Granturi digitalizare, Start-up Nation și PNRR pentru firme."
+                        href="/finantari"
+                        icon="🏢"
+                        category="money"
+                        colorClass="border-b-blue-500"
+                        cta="Vezi programele"
+                    />
+                    <ToolCard
+                        title="SRL vs PFA"
+                        description="Comparație detaliată între formele de organizare juridică pentru 2026."
+                        href="/fiscal"
+                        icon="💼"
+                        category="money"
+                        colorClass="border-b-slate-600"
+                        cta="Vezi comparația"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- UNIVERSUL LIFESTYLE -->
+        <section class="bg-slate-50 py-20 scroll-mt-20 border-y border-gray-100" id="lifestyle-universe">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="mb-12">
+                    <h2 class="text-4xl font-black text-gray-900 mb-2">UNIVERSUL LIFESTYLE</h2>
+                    <p class="text-emerald-600 font-bold uppercase tracking-widest text-sm">Familie • Agricultură • Social</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 tool-grid">
                     <ToolCard
                         title="Dar de Nuntă"
                         description="Vezi cât se pune în plic în 2026 în funcție de locație și relație."
                         href="/dar"
                         icon="🎁"
                         tag="NOU"
+                        category="casa"
                         colorClass="border-b-[#D4AF37]"
                         cta="Calculează darul"
+                    />
+                    <ToolCard
+                        title="Cost Primul Copil"
+                        description="Calculează bugetul pentru primul an: sarcină, naștere și cheltuieli recurente."
+                        href="/copil"
+                        icon="🍼"
+                        category="casa"
+                        colorClass="border-b-blue-400"
+                        cta="Calculează bugetul"
+                    />
+                    <ToolCard
+                        title="Hectar Profit (Agri)"
+                        description="Transformă terenul în profit prin sechestrarea de CO2. Simulator pentru fermieri."
+                        href="/carbon"
+                        icon="🌿"
+                        category="agri"
+                        colorClass="border-b-emerald-500"
+                        cta="Simulează profitul"
+                    />
+                    <ToolCard
+                        title="Simulator Pensie"
+                        description="Află ce pensie vei avea cu adevărat, ajustată la inflație (Puterea de Cumpărare)."
+                        href="/pensie"
+                        icon="👴"
+                        category="money"
+                        colorClass="border-b-blue-900"
+                        cta="Calculează viitorul"
+                    />
+                    <ToolCard
+                        title="Simulator Migrație"
+                        description="România vs. Vest. Compară costul vieții și puterea de cumpărare în 10 orașe mari."
+                        href="/migratie"
+                        icon="✈️"
+                        tag="NOU"
+                        category="money"
+                        colorClass="border-b-indigo-600"
+                        cta="Compară viața"
                     />
                     <ToolCard
                         title="BioScan"
                         description="Află cât te costă real să mănânci sănătos. Comparație Bio vs Convențional."
                         href="/bioscan"
                         icon="🍎"
+                        category="casa"
                         colorClass="border-b-lime-500"
                         cta="Vezi costurile"
                     />
@@ -177,7 +226,8 @@ import ToolCard from '../components/ToolCard.astro';
                         title="Weekend România"
                         description="Simulator de buget: cazare, transport și masă pentru 50+ destinații."
                         href="/weekend"
-                        icon="🚗"
+                        icon="⛱️"
+                        category="casa"
                         colorClass="border-b-orange-500"
                         cta="Calculează excursia"
                     />
@@ -186,6 +236,7 @@ import ToolCard from '../components/ToolCard.astro';
                         description="Ghiduri procedurale: carduri alimente, vouchere energie și indemnizații."
                         href="/ajutoare-sociale"
                         icon="🤝"
+                        category="casa"
                         colorClass="border-b-green-500"
                         cta="Verifică drepturile"
                     />
@@ -193,51 +244,13 @@ import ToolCard from '../components/ToolCard.astro';
             </div>
         </section>
 
-        <!-- Section 3: Business & Agricultură -->
-        <section class="bg-slate-50 py-16 scroll-mt-20 border-y border-gray-100" id="business-section">
+        <!-- UNIVERSUL GAMING -->
+        <section class="bg-gray-950 py-20 scroll-mt-20" id="gaming-universe">
             <div class="max-w-6xl mx-auto px-4">
-                <div class="flex items-center gap-3 mb-10">
-                    <span class="text-3xl">🚜</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Business & Agricultură</h2>
+                <div class="mb-12">
+                    <h2 class="text-4xl font-black text-white mb-2">UNIVERSUL GAMING</h2>
+                    <p class="text-cyan-400 font-bold uppercase tracking-widest text-sm">Unelte Digitale • Jocuri</p>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 tool-grid">
-                    <ToolCard
-                        title="Hectar Profit (Agri)"
-                        description="Transformă terenul în profit prin sechestrarea de CO2."
-                        href="/carbon"
-                        icon="🌿"
-                        colorClass="border-b-emerald-500"
-                        cta="Simulează profitul"
-                    />
-                    <ToolCard
-                        title="SRL vs PFA"
-                        description="Comparație detaliată între formele de organizare juridică pentru 2026."
-                        href="/fiscal"
-                        icon="💼"
-                        colorClass="border-b-slate-600"
-                        cta="Vezi comparația"
-                    />
-                    <ToolCard
-                        title="Manualul Finanțărilor"
-                        description="Granturi digitalizare, Start-up Nation și PNRR pentru firme."
-                        href="/finantari"
-                        icon="🏢"
-                        colorClass="border-b-blue-500"
-                        cta="Vezi programele"
-                    />
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 4: Unelte Digitale & Diverse -->
-        <section class="bg-white py-16 scroll-mt-20" id="diverse-section">
-            <div class="max-w-6xl mx-auto px-4">
-                <div class="flex items-center gap-3 mb-4">
-                    <span class="text-3xl">🛠️</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Unelte Digitale & Diverse</h2>
-                </div>
-                <p class="text-gray-600 mb-10">Utilitare rapide pentru probleme specifice.</p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 tool-grid">
                     <ToolCard
@@ -246,6 +259,8 @@ import ToolCard from '../components/ToolCard.astro';
                         href="/metin2"
                         icon="🎮"
                         tag="NOU"
+                        category="gaming"
+                        isDark={true}
                         colorClass="border-b-amber-600"
                         cta="Convertește acum"
                     />
@@ -255,6 +270,8 @@ import ToolCard from '../components/ToolCard.astro';
                         href="/minecraft"
                         icon="🧊"
                         tag="NOU"
+                        category="gaming"
+                        isDark={true}
                         colorClass="border-b-green-600"
                         cta="Generează cerc"
                     />
@@ -264,17 +281,10 @@ import ToolCard from '../components/ToolCard.astro';
                         href="/cs2"
                         icon="🔫"
                         tag="NOU"
+                        category="gaming"
+                        isDark={true}
                         colorClass="border-b-blue-600"
                         cta="Creează bind"
-                    />
-                    <ToolCard
-                        title="SA:MP Color"
-                        description="Coduri de culoare HEX pentru chat-ul San Andreas Multiplayer."
-                        href="/samp"
-                        icon="🎨"
-                        tag="NOU"
-                        colorClass="border-b-orange-600"
-                        cta="Colorează textul"
                     />
                     <ToolCard
                         title="EA FC Tax"
@@ -282,8 +292,21 @@ import ToolCard from '../components/ToolCard.astro';
                         href="/ea-tax"
                         icon="⚽"
                         tag="NOU"
+                        category="gaming"
+                        isDark={true}
                         colorClass="border-b-emerald-600"
                         cta="Calculează profit"
+                    />
+                    <ToolCard
+                        title="SA:MP Color"
+                        description="Coduri de culoare HEX pentru chat-ul San Andreas Multiplayer."
+                        href="/samp"
+                        icon="🎨"
+                        tag="NOU"
+                        category="gaming"
+                        isDark={true}
+                        colorClass="border-b-orange-600"
+                        cta="Colorează textul"
                     />
                 </div>
             </div>
@@ -298,12 +321,15 @@ import ToolCard from '../components/ToolCard.astro';
 
     <script>
         const searchInput = document.getElementById('tool-search');
+        const filterPills = document.querySelectorAll('#filter-pills button');
         const cards = document.querySelectorAll('.tool-card');
         const sections = document.querySelectorAll('section');
         const noResults = document.getElementById('no-results');
 
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
+        let currentFilter = 'all';
+        let searchTerm = '';
+
+        function updateDisplay() {
             let totalVisible = 0;
 
             sections.forEach(section => {
@@ -315,8 +341,12 @@ import ToolCard from '../components/ToolCard.astro';
                 sectionCards.forEach(card => {
                     const title = card.getAttribute('data-title') || '';
                     const desc = card.getAttribute('data-description') || '';
+                    const category = card.getAttribute('data-category') || 'all';
 
-                    if (title.includes(term) || desc.includes(term)) {
+                    const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm);
+                    const matchesFilter = currentFilter === 'all' || category === currentFilter;
+
+                    if (matchesSearch && matchesFilter) {
                         card.style.display = 'flex';
                         sectionVisible++;
                         totalVisible++;
@@ -326,18 +356,39 @@ import ToolCard from '../components/ToolCard.astro';
                 });
 
                 // Hide section if no cards match
-                if (sectionVisible === 0 && term !== '') {
+                if (sectionVisible === 0) {
                     section.style.display = 'none';
                 } else {
                     section.style.display = 'block';
                 }
             });
 
-            if (totalVisible === 0 && term !== '') {
+            if (totalVisible === 0) {
                 noResults.classList.remove('hidden');
             } else {
                 noResults.classList.add('hidden');
             }
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value.toLowerCase();
+            updateDisplay();
+        });
+
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                // Update UI
+                filterPills.forEach(p => {
+                    p.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-200');
+                    p.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-100');
+                });
+                pill.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-100');
+                pill.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-200');
+
+                // Filter
+                currentFilter = pill.getAttribute('data-filter');
+                updateDisplay();
+            });
         });
     </script>
 </Layout>
