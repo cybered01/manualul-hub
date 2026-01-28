@@ -1,0 +1,263 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Calculator Rambursare Anticipată | Manualul.ro"
+  description="Află câți bani și câți ani economisești dacă plătești anticipat creditul. Simulator cu reducerea perioadei."
+>
+  <main class="bg-slate-50 min-h-screen py-12">
+    <div class="max-w-4xl mx-auto px-4">
+      
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 mb-4 text-4xl">
+          📉
+        </div>
+        <h1 class="text-3xl md:text-5xl font-black text-gray-900 mb-4">
+          Rambursare Anticipată
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Vezi puterea plăților suplimentare. Scapă de bancă mai repede.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <div class="lg:col-span-5 bg-white p-6 md:p-8 rounded-3xl shadow-lg h-fit border border-gray-100">
+          <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+            Datele Creditului
+          </h3>
+
+          <div class="space-y-6">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Sold Rămas (Lei)</label>
+              <div class="relative">
+                <input type="number" id="sold" value="250000" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition font-bold text-gray-900 text-lg" placeholder="ex: 250000">
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">RON</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Dobândă Anuală (%)</label>
+              <div class="relative">
+                <input type="number" id="dobanda" value="8.5" step="0.1" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition font-bold text-gray-900 text-lg">
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">%</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Perioadă Rămasă</label>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="relative">
+                  <input type="number" id="ani" value="25" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition font-bold text-gray-900 text-lg">
+                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium text-xs">ANI</span>
+                </div>
+                <div class="relative">
+                  <input type="number" id="luni-extra" value="0" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition font-bold text-gray-900 text-lg">
+                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium text-xs">LUNI</span>
+                </div>
+              </div>
+            </div>
+
+            <hr class="border-gray-100 my-4">
+
+            <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+              <label class="block text-sm font-bold text-emerald-800 mb-2">Plată Extra Lunară</label>
+              <div class="relative">
+                <input type="number" id="extra" value="500" class="w-full px-4 py-3 rounded-xl border border-emerald-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition font-black text-emerald-700 text-xl shadow-sm">
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-emerald-500 font-bold">RON</span>
+              </div>
+              <input type="range" id="extra-range" min="0" max="5000" step="50" value="500" class="w-full mt-4 accent-emerald-600 h-2 bg-emerald-200 rounded-lg appearance-none cursor-pointer">
+              <p class="text-xs text-emerald-600 mt-2 text-center">Trage de slider pentru a simula</p>
+            </div>
+
+            <button id="calculeaza-btn" class="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-95 text-lg hidden md:block">
+              Recalculează Scenariul
+            </button>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 space-y-6">
+          
+          <div class="bg-gradient-to-br from-emerald-600 to-green-700 text-white p-8 rounded-3xl shadow-xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+            
+            <div class="relative z-10">
+              <h3 class="text-emerald-100 font-medium text-lg mb-1">Economie Totală din Dobânzi</h3>
+              <div class="text-4xl md:text-6xl font-black mb-2 tracking-tight">
+                <span id="economie-totala">0</span> <span class="text-2xl md:text-3xl font-bold opacity-80">RON</span>
+              </div>
+              <p class="text-emerald-100 opacity-90">Bani pe care nu îi mai dai băncii!</p>
+            </div>
+          </div>
+
+          <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <h3 class="text-gray-500 font-bold uppercase tracking-wider text-xs mb-2">Timp Câștigat (Libertate)</h3>
+              <div class="text-3xl font-black text-gray-900">
+                <span id="ani-castigati" class="text-emerald-600">0</span> ani și 
+                <span id="luni-castigate" class="text-emerald-600">0</span> luni
+              </div>
+              <p class="text-gray-500 text-sm mt-1">Scapi de credit mai devreme.</p>
+            </div>
+            <div class="text-right">
+              <h3 class="text-gray-500 font-bold uppercase tracking-wider text-xs mb-2">Noua Dată Finală</h3>
+              <div id="data-noua" class="text-2xl font-bold text-gray-800 bg-gray-100 px-4 py-2 rounded-lg">
+                -
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <p class="text-gray-500 text-xs font-bold uppercase mb-1">Total Dobândă Veche</p>
+              <p id="dobanda-veche" class="text-xl font-bold text-red-500">-</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 bg-emerald-50/50">
+              <p class="text-emerald-600 text-xs font-bold uppercase mb-1">Total Dobândă Nouă</p>
+              <p id="dobanda-noua" class="text-xl font-bold text-emerald-600">-</p>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h4 class="font-bold text-gray-900 mb-4">Scurtarea Perioadei</h4>
+            <div class="relative h-8 bg-gray-100 rounded-full overflow-hidden">
+              <div class="absolute top-0 left-0 h-full w-full bg-gray-200"></div>
+              <div id="progress-bar" class="absolute top-0 left-0 h-full bg-emerald-500 transition-all duration-1000 ease-out flex items-center justify-end pr-3 text-white text-xs font-bold" style="width: 0%">
+                Nou
+              </div>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500 mt-2 font-medium">
+              <span>Astăzi</span>
+              <span id="text-progres-ani">Scadență Veche</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mt-12 bg-blue-50 p-6 rounded-2xl border border-blue-100 text-blue-900 text-sm leading-relaxed max-w-4xl mx-auto">
+        <strong>💡 Sfat Manualul.ro:</strong> Rambursarea anticipată cu "reducerea perioadei" este aproape întotdeauna mai avantajoasă decât "reducerea ratei". 
+        Când mergi la bancă să depui cererea, specifică clar: <em>"Doresc păstrarea valorii ratei lunare și reducerea perioadei de creditare."</em>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Elemente DOM
+    const elSold = document.getElementById('sold') as HTMLInputElement;
+    const elDobanda = document.getElementById('dobanda') as HTMLInputElement;
+    const elAni = document.getElementById('ani') as HTMLInputElement;
+    const elLuniExtra = document.getElementById('luni-extra') as HTMLInputElement;
+    const elExtra = document.getElementById('extra') as HTMLInputElement;
+    const elExtraRange = document.getElementById('extra-range') as HTMLInputElement;
+    
+    // Output
+    const outEconomie = document.getElementById('economie-totala');
+    const outAniCastigati = document.getElementById('ani-castigati');
+    const outLuniCastigate = document.getElementById('luni-castigate');
+    const outDataNoua = document.getElementById('data-noua');
+    const outDobandaVeche = document.getElementById('dobanda-veche');
+    const outDobandaNoua = document.getElementById('dobanda-noua');
+    const outProgres = document.getElementById('progress-bar');
+    const outTextProgres = document.getElementById('text-progres-ani');
+
+    // Sync Slider
+    elExtra.addEventListener('input', () => {
+      elExtraRange.value = elExtra.value;
+      calculeaza();
+    });
+    elExtraRange.addEventListener('input', () => {
+      elExtra.value = elExtraRange.value;
+      calculeaza();
+    });
+
+    // Listeners
+    [elSold, elDobanda, elAni, elLuniExtra].forEach(el => {
+      el?.addEventListener('input', calculeaza);
+    });
+
+    function formatRON(num) {
+      return new Intl.NumberFormat('ro-RO', { style: 'currency', currency: 'RON', maximumFractionDigits: 0 }).format(num);
+    }
+
+    function calculeaza() {
+      // Inputs
+      const soldInitial = parseFloat(elSold.value) || 0;
+      const dobandaAnuala = parseFloat(elDobanda.value) || 0;
+      const ani = parseFloat(elAni.value) || 0;
+      const luniExtraInput = parseFloat(elLuniExtra.value) || 0;
+      const plataExtra = parseFloat(elExtra.value) || 0;
+
+      // Logic
+      const luniTotale = (ani * 12) + luniExtraInput;
+      const rataLunaraDobanda = (dobandaAnuala / 100) / 12;
+
+      if (soldInitial <= 0 || luniTotale <= 0) return;
+
+      // 1. Calcul Scenariu STANDARD (Fara plati extra)
+      // Formula PMT: P * r * (1+r)^n / ((1+r)^n - 1)
+      const pmtStandard = (soldInitial * rataLunaraDobanda * Math.pow(1 + rataLunaraDobanda, luniTotale)) / (Math.pow(1 + rataLunaraDobanda, luniTotale) - 1);
+      
+      const totalPlataStandard = pmtStandard * luniTotale;
+      const totalDobandaStandard = totalPlataStandard - soldInitial;
+
+      // 2. Calcul Scenariu NOU (Iterativ luna de luna)
+      let soldCurent = soldInitial;
+      let luniNoi = 0;
+      let totalDobandaNoua = 0;
+
+      while (soldCurent > 0 && luniNoi < 1000) { // Safety break 1000 months
+        luniNoi++;
+        
+        // Dobanda pe luna curenta
+        const dobandaLuna = soldCurent * rataLunaraDobanda;
+        totalDobandaNoua += dobandaLuna;
+
+        // Principalul platit din rata normala
+        let principalDinRata = pmtStandard - dobandaLuna;
+        
+        // Total Principal redus in aceasta luna (Rata normala + Extra)
+        let reducereSold = principalDinRata + plataExtra;
+
+        soldCurent -= reducereSold;
+
+        if (soldCurent < 0) soldCurent = 0; // S-a inchis
+      }
+
+      // 3. Rezultate
+      const economie = totalDobandaStandard - totalDobandaNoua;
+      const luniSalvate = luniTotale - luniNoi;
+      const aniSalvati = Math.floor(luniSalvate / 12);
+      const luniRestSalvate = Math.round(luniSalvate % 12);
+
+      // Data Finala
+      const today = new Date();
+      today.setMonth(today.getMonth() + luniNoi);
+      const optionsDate = { month: 'long', year: 'numeric' };
+      const dataFinalaStr = today.toLocaleDateString('ro-RO', optionsDate);
+
+      // Update UI
+      if(outEconomie) outEconomie.innerText = new Intl.NumberFormat('ro-RO').format(Math.round(economie));
+      if(outAniCastigati) outAniCastigati.innerText = aniSalvati.toString();
+      if(outLuniCastigate) outLuniCastigate.innerText = luniRestSalvate.toString();
+      if(outDataNoua) outDataNoua.innerText = dataFinalaStr;
+      
+      if(outDobandaVeche) outDobandaVeche.innerText = formatRON(totalDobandaStandard);
+      if(outDobandaNoua) outDobandaNoua.innerText = formatRON(totalDobandaNoua);
+
+      // Bara Progres
+      if(outProgres) {
+        const procentTimp = (luniNoi / luniTotale) * 100;
+        outProgres.style.width = `${procentTimp}%`;
+        outProgres.innerText = `${luniNoi} Luni`;
+      }
+      if(outTextProgres) outTextProgres.innerText = `Inițial: ${luniTotale} luni`;
+    }
+
+    // Init
+    calculeaza();
+  </script>
+</Layout>
