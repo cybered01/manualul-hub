@@ -1,0 +1,390 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+    title="Generator de Frecvențe & Speaker Cleaner"
+    description="Generează sunete pure pentru testarea auzului, a boxelor sau pentru eliminarea apei din difuzorul telefonului (Water Eject)."
+>
+    <main class="bg-gray-950 min-h-screen text-white py-12 px-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header & Warning -->
+            <div class="mb-12 text-center">
+                <h1 class="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                    Generator de Frecvențe
+                </h1>
+                <p class="text-gray-400 text-lg mb-6">Testare audio profesională și întreținere difuzoare.</p>
+
+                <div class="bg-red-900/20 border border-red-500/50 rounded-2xl p-4 text-red-200 text-sm inline-block">
+                    <span class="font-bold">⚠️ Atenție:</span> La volum maxim, frecvențele extreme pot deteriora boxele sau auzul. Folosiți cu precauție.
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Control Panel -->
+                <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8 shadow-2xl">
+                    <!-- Digital Display -->
+                    <div class="text-center mb-8">
+                        <div id="freq-display" class="text-7xl md:text-8xl font-mono font-bold text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">
+                            440<span class="text-2xl ml-2 text-gray-600">Hz</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider -->
+                    <div class="mb-10">
+                        <input
+                            type="range"
+                            id="freq-slider"
+                            min="20"
+                            max="20000"
+                            step="1"
+                            value="440"
+                            class="w-full h-3 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                        />
+                        <div class="flex justify-between text-xs text-gray-500 mt-2 font-mono">
+                            <span>20 Hz</span>
+                            <span>20.000 Hz</span>
+                        </div>
+                    </div>
+
+                    <!-- Fine Tuning -->
+                    <div class="flex flex-wrap justify-center gap-2 mb-8">
+                        <button data-adj="-10" class="adj-btn px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-xl font-mono text-sm transition-colors border border-gray-700">-10</button>
+                        <button data-adj="-1" class="adj-btn px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-xl font-mono text-sm transition-colors border border-gray-700">-1</button>
+                        <button data-adj="1" class="adj-btn px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-xl font-mono text-sm transition-colors border border-gray-700">+1</button>
+                        <button data-adj="10" class="adj-btn px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-xl font-mono text-sm transition-colors border border-gray-700">+10</button>
+                    </div>
+
+                    <!-- Waveform Selector -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-10">
+                        <button data-wave="sine" class="wave-btn active p-3 bg-gray-800 rounded-xl border border-gray-700 text-xs font-bold uppercase tracking-wider transition-all hover:border-cyan-500/50">Sine</button>
+                        <button data-wave="square" class="wave-btn p-3 bg-gray-800 rounded-xl border border-gray-700 text-xs font-bold uppercase tracking-wider transition-all hover:border-cyan-500/50">Square</button>
+                        <button data-wave="sawtooth" class="wave-btn p-3 bg-gray-800 rounded-xl border border-gray-700 text-xs font-bold uppercase tracking-wider transition-all hover:border-cyan-500/50">Saw</button>
+                        <button data-wave="triangle" class="wave-btn p-3 bg-gray-800 rounded-xl border border-gray-700 text-xs font-bold uppercase tracking-wider transition-all hover:border-cyan-500/50">Tri</button>
+                    </div>
+
+                    <!-- Volume Control -->
+                    <div class="mb-10 flex items-center gap-4">
+                        <span class="text-gray-400">🔈</span>
+                        <input
+                            type="range"
+                            id="volume-slider"
+                            min="0"
+                            max="1"
+                            step="0.01"
+                            value="0.5"
+                            class="flex-grow h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-gray-400"
+                        />
+                        <span class="text-gray-400">🔊</span>
+                    </div>
+
+                    <!-- Play/Stop Button -->
+                    <button id="play-btn" class="w-full py-6 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-2xl uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(16,185,129,0.2)] active:scale-95">
+                        PLAY
+                    </button>
+                </div>
+
+                <!-- Special Tools & Visualizer -->
+                <div class="flex flex-col gap-8">
+                    <!-- Oscilloscope -->
+                    <div class="bg-gray-900 border border-gray-800 rounded-3xl p-6 h-64 relative overflow-hidden">
+                        <div class="absolute top-4 left-6 text-xs font-mono text-gray-500 uppercase tracking-widest">Oscilloscope</div>
+                        <canvas id="visualizer" class="w-full h-full"></canvas>
+                    </div>
+
+                    <!-- Water Eject -->
+                    <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
+                        <div class="relative z-10">
+                            <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
+                                <span class="text-2xl">💧</span> Eliminare Apă (SOS)
+                            </h2>
+                            <p class="text-gray-400 text-sm mb-6">
+                                Folosește vibrații mecanice de joasă frecvență (165Hz) pentru a expulza apa din difuzoare.
+                            </p>
+                            <button id="water-eject-btn" class="w-full py-5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-lg uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] active:scale-95 flex items-center justify-center gap-3">
+                                <span>Activează Modul Eject</span>
+                            </button>
+                        </div>
+                        <div class="absolute -right-10 -bottom-10 text-9xl opacity-5 group-hover:scale-110 transition-transform duration-500">💧</div>
+                    </div>
+
+                    <!-- Info Card -->
+                    <div class="bg-blue-900/10 border border-blue-800/30 rounded-3xl p-6">
+                        <h3 class="font-bold text-blue-400 mb-2">Cum funcționează?</h3>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li>• <b class="text-gray-300">20Hz - 250Hz:</b> Bas profund, bun pentru subwoofere.</li>
+                            <li>• <b class="text-gray-300">165Hz:</b> Frecvența optimă pentru "Water Eject".</li>
+                            <li>• <b class="text-gray-300">2kHz - 5kHz:</b> Sensibilitate maximă a urechii.</li>
+                            <li>• <b class="text-gray-300">>15kHz:</b> Testare auz (frecvențe înalte).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <style>
+        .wave-btn.active {
+            background-color: rgb(21 94 117);
+            border-color: rgb(34 211 238);
+            color: white;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.2);
+        }
+
+        /* Custom Slider Styling for Webkit */
+        input[type='range']::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid #06b6d4;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        input[type='range']::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 4px solid #06b6d4;
+        }
+    </style>
+
+    <script>
+        let audioCtx;
+        let oscillator;
+        let gainNode;
+        let analyser;
+        let isPlaying = false;
+        let currentFreq = 440;
+        let currentWaveform = 'sine';
+
+        const freqDisplay = document.getElementById('freq-display');
+        const freqSlider = document.getElementById('freq-slider');
+        const playBtn = document.getElementById('play-btn');
+        const volumeSlider = document.getElementById('volume-slider');
+        const adjBtns = document.querySelectorAll('.adj-btn');
+        const waveBtns = document.querySelectorAll('.wave-btn');
+        const waterEjectBtn = document.getElementById('water-eject-btn');
+        const canvas = document.getElementById('visualizer');
+        const canvasCtx = canvas.getContext('2d');
+        let waterEjectInterval;
+        let isWaterEjecting = false;
+        let animationId;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                gainNode = audioCtx.createGain();
+                analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 2048;
+                gainNode.connect(analyser);
+                analyser.connect(audioCtx.destination);
+                gainNode.gain.value = volumeSlider.value;
+            }
+        }
+
+        function updateFrequency(val) {
+            currentFreq = Math.max(20, Math.min(20000, parseInt(val)));
+            freqSlider.value = currentFreq;
+            freqDisplay.innerHTML = `${currentFreq}<span class="text-2xl ml-2 text-gray-600">Hz</span>`;
+
+            if (oscillator) {
+                oscillator.frequency.setTargetAtTime(currentFreq, audioCtx.currentTime, 0.01);
+            }
+        }
+
+        function draw() {
+            animationId = requestAnimationFrame(draw);
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            analyser.getByteTimeDomainData(dataArray);
+
+            canvasCtx.fillStyle = 'rgb(17, 24, 39)'; // bg-gray-900
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+            canvasCtx.lineWidth = 3;
+            canvasCtx.strokeStyle = 'rgb(34, 211, 238)'; // text-cyan-400
+            canvasCtx.beginPath();
+
+            const sliceWidth = canvas.width * 1.0 / bufferLength;
+            let x = 0;
+
+            for (let i = 0; i < bufferLength; i++) {
+                const v = dataArray[i] / 128.0;
+                const y = v * canvas.height / 2;
+
+                if (i === 0) {
+                    canvasCtx.moveTo(x, y);
+                } else {
+                    canvasCtx.lineTo(x, y);
+                }
+
+                x += sliceWidth;
+            }
+
+            canvasCtx.lineTo(canvas.width, canvas.height / 2);
+            canvasCtx.stroke();
+        }
+
+        function startOscillator() {
+            if (isWaterEjecting) stopWaterEject();
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            oscillator = audioCtx.createOscillator();
+            oscillator.type = currentWaveform;
+            oscillator.frequency.setValueAtTime(currentFreq, audioCtx.currentTime);
+            oscillator.connect(gainNode);
+            oscillator.start();
+
+            isPlaying = true;
+            playBtn.textContent = 'STOP';
+            playBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500');
+            playBtn.classList.add('bg-red-600', 'hover:bg-red-500');
+
+            // Resize canvas to match display size
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            draw();
+        }
+
+        function stopOscillator() {
+            if (oscillator) {
+                oscillator.stop();
+                oscillator.disconnect();
+                oscillator = null;
+            }
+            isPlaying = false;
+            playBtn.textContent = 'PLAY';
+            playBtn.classList.remove('bg-red-600', 'hover:bg-red-500');
+            playBtn.classList.add('bg-emerald-600', 'hover:bg-emerald-500');
+            cancelAnimationFrame(animationId);
+
+            // Clear canvas
+            if (canvasCtx) {
+                canvasCtx.fillStyle = 'rgb(17, 24, 39)';
+                canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+                canvasCtx.beginPath();
+                canvasCtx.moveTo(0, canvas.height / 2);
+                canvasCtx.lineTo(canvas.width, canvas.height / 2);
+                canvasCtx.stroke();
+            }
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                stopOscillator();
+            } else {
+                startOscillator();
+            }
+        });
+
+        freqSlider.addEventListener('input', (e) => {
+            updateFrequency(e.target.value);
+        });
+
+        volumeSlider.addEventListener('input', (e) => {
+            if (gainNode) {
+                gainNode.gain.setTargetAtTime(e.target.value, audioCtx.currentTime, 0.01);
+            }
+        });
+
+        adjBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const adj = parseInt(btn.getAttribute('data-adj'));
+                updateFrequency(currentFreq + adj);
+            });
+        });
+
+        waveBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentWaveform = btn.getAttribute('data-wave');
+                waveBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                if (oscillator) {
+                    oscillator.type = currentWaveform;
+                }
+            });
+        });
+
+        function startWaterEject() {
+            if (isPlaying) stopOscillator();
+
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(165, audioCtx.currentTime);
+            oscillator.connect(gainNode);
+            oscillator.start();
+
+            isWaterEjecting = true;
+            waterEjectBtn.innerHTML = '<span>Oprește Modul Eject</span>';
+            waterEjectBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500');
+            waterEjectBtn.classList.add('bg-red-600', 'hover:bg-red-500');
+
+            // Pulsing logic
+            let state = true;
+            waterEjectInterval = setInterval(() => {
+                state = !state;
+                gainNode.gain.setTargetAtTime(state ? volumeSlider.value : 0, audioCtx.currentTime, 0.05);
+            }, 100);
+
+            // Start visualizer
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            draw();
+        }
+
+        function stopWaterEject() {
+            clearInterval(waterEjectInterval);
+            if (oscillator) {
+                oscillator.stop();
+                oscillator.disconnect();
+                oscillator = null;
+            }
+            isWaterEjecting = false;
+            waterEjectBtn.innerHTML = '<span>Activează Modul Eject</span>';
+            waterEjectBtn.classList.remove('bg-red-600', 'hover:bg-red-500');
+            waterEjectBtn.classList.add('bg-blue-600', 'hover:bg-blue-500');
+            gainNode.gain.setTargetAtTime(volumeSlider.value, audioCtx.currentTime, 0.05);
+            cancelAnimationFrame(animationId);
+
+            // Clear canvas
+            if (canvasCtx) {
+                canvasCtx.fillStyle = 'rgb(17, 24, 39)';
+                canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+                canvasCtx.beginPath();
+                canvasCtx.moveTo(0, canvas.height / 2);
+                canvasCtx.lineTo(canvas.width, canvas.height / 2);
+                canvasCtx.stroke();
+            }
+        }
+
+        waterEjectBtn.addEventListener('click', () => {
+            if (isWaterEjecting) {
+                stopWaterEject();
+            } else {
+                startWaterEject();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (isPlaying || isWaterEjecting) {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+            }
+        });
+    </script>
+</Layout>
